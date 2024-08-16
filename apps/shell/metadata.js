@@ -17,7 +17,7 @@ export const ShellApp = {
   controls: {
     minimize: false,
     maximize: false,
-    close: false,
+    close: true,
   },
   files: {
     js: "/apps/shell/shell.js",

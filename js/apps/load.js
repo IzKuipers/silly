@@ -17,12 +17,11 @@ export async function loadApp(data = {}) {
   );
 
   try {
-    const { Open, Close } = await import(data.files.js);
+    const { default: process } = await import(data.files.js);
 
-    if (!Open || !Close)
-      throw new Error(`Tried to load an app with at least one missing method`);
+    if (!process) throw new Error(`Tried to load an app without an AppProcess`);
 
-    AppStore[data.id] = { data, methods: { Open, Close } };
+    AppStore[data.id] = { data, process };
   } catch {
     throw new Error(`Failed to import "${data.files.js}" for ${data.id}`);
   }

@@ -1,3 +1,11 @@
-export async function Open() {}
+import { AppProcess } from "../../js/apps/process.js";
 
-export async function Close() {}
+export default class ShellProcess extends AppProcess {
+  constructor(handler, pid, parentPid, app) {
+    super(handler, pid, parentPid, app);
+  }
+
+  start() {}
+
+  stop() {}
+}
