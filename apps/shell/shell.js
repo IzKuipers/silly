@@ -1,3 +1,4 @@
+import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
 import { Store } from "../../js/store.js";
 import { UserData } from "../../js/user/data.js";
@@ -20,7 +21,8 @@ export default class ShellProcess extends AppProcess {
   startActiveAppsPopulator() {
     const activeApps = this.getElement("#activeApps");
 
-    if (!activeApps) throw new Error("Failed to find #activeApps div");
+    if (!activeApps)
+      throw new AppRuntimeError("Failed to find #activeApps div");
 
     const populate = (v = this.handler.store.get()) => {
       activeApps.innerHTML = "";
@@ -49,7 +51,7 @@ export default class ShellProcess extends AppProcess {
     const startMenu = this.getElement("#startMenu");
 
     if (!usernameField || !shutdownButton || !startButton || !startMenu)
-      throw new Error("Missing start menu elements");
+      throw new AppRuntimeError("Missing start menu elements");
 
     usernameField.innerText = userData.username || "Stranger";
 

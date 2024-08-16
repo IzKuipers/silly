@@ -1,4 +1,5 @@
 import { loadState, States } from "../../js/init.js";
+import { Log } from "../../js/logging.js";
 import { Sleep } from "../../js/sleep.js";
 import { UserData } from "../../js/user/data.js";
 import { DefaultUserData } from "../../js/user/store.js";
@@ -9,6 +10,8 @@ export default async function render() {
 
   try {
     userData = JSON.parse(fs.readFile("user.txt"));
+
+    Log(`Login`, "Loaded User Data");
   } catch {
     userData = DefaultUserData;
     fs.createFile("user.txt", JSON.stringify(DefaultUserData));
