@@ -5,7 +5,7 @@ import { loadState, States } from "./state/load.js";
 export * from "./state/load.js";
 
 export function Init() {
-  Log("Init", "*** SILLY GOOF ***");
+  Log("Init", "*** STARTING INEPTA ***");
 
   handleGlobalErrors();
 

@@ -1,0 +1,28 @@
+@import url("./window/titlebar.css");
+
+div.window {
+  position: fixed;
+}
+
+div.window:not(.core) {
+  background-color: var(--bg);
+  border: var(--border);
+  color: var(--fg);
+}
+
+div.window:not(.core) div.body {
+  padding: 15px;
+  height: calc(100% - 20px);
+}
+
+div.window.core {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  top: 0;
+  left: 0;
+}
+
+div.window.core div.body {
+  height: 100%;
+}

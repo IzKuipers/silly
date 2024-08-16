@@ -14,40 +14,59 @@
   --start: 0%;
   --end: 0%;
   width: 250px;
-  height: 10px;
-  background-color: #111;
-  transition: all 0.3s;
+  height: 24px;
+  min-height: 24px;
+  background-color: #000;
   position: relative;
   overflow: hidden;
+  border: #fff 2px solid;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.boot-screen div.progress-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 4px);
+  height: 100%;
+  border-left: #000 2px solid;
+  border-right: #000 2px solid;
+  z-index: 100;
 }
 
 .boot-screen div.progress-bar::after {
   content: "";
   position: absolute;
-  top: 0;
-  height: 100%;
-  background-color: #fff;
+  top: 2px;
+  left: 100px;
+  width: 60px;
+  height: 16px;
+  background: linear-gradient(
+    to right,
+    #86be6c 0px,
+    #86be6c 10px,
+    #000 9px,
+    #000 13px
+  );
+  background-repeat: repeat-x;
+  background-size: 12px 18px;
   animation: bar 2s linear infinite;
-  /* transition: left 0.3s; */
-  border-radius: inherit;
+  z-index: 50;
 }
 
 @keyframes bar {
   0% {
-    width: 100px;
-    left: -120px;
+    left: -80px;
   }
   10% {
-    width: 100px;
-    left: -120px;
+    left: -80px;
   }
   90% {
-    width: 100px;
-    left: calc(100% + 100px);
+    left: calc(100% + 80px);
   }
-
   100% {
-    width: 100px;
-    left: calc(100% + 100px);
+    left: calc(100% + 80px);
   }
 }

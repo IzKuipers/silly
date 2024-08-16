@@ -1,8 +1,9 @@
 import { AppRenderer } from "../apps/renderer.js";
 import { Log } from "../logging.js";
+import { Store } from "../store.js";
 
 export class ProcessHandler {
-  store = new Map([]);
+  store = Store(new Map([]));
   renderer;
 
   constructor() {
@@ -25,7 +26,11 @@ export class ProcessHandler {
 
     if (proc.start) await proc.start();
 
-    this.store.set(pid, proc);
+    const store = this.store.get();
+
+    store.set(pid, proc);
+
+    this.store.set(store);
 
     if (this.renderer) this.renderer.sync();
 
@@ -35,7 +40,7 @@ export class ProcessHandler {
   async kill(pid) {
     Log("ProcessHandler.kill", `Attempting to kill ${pid}`);
 
-    const proc = this.store.get(pid);
+    const proc = this.store.get().get(pid);
 
     if (!proc) return "err_noExist";
     if (proc._criticalProcess) return "err_criticalProcess";
@@ -68,7 +73,7 @@ export class ProcessHandler {
 
     if (!this.isPid(pPid)) return result;
 
-    for (const [pid, proc] of this.store) {
+    for (const [pid, proc] of this.store.get()) {
       if (proc.parentPid != pPid) continue;
 
       result.set(pid, proc);
@@ -78,7 +83,7 @@ export class ProcessHandler {
   }
 
   getProcess(pid) {
-    const proc = this.store.get(pid);
+    const proc = this.store.get().get(pid);
 
     if (!proc) return undefined;
 
@@ -88,12 +93,12 @@ export class ProcessHandler {
   getPid() {
     const pid = Math.floor(Math.random() * 1e4);
 
-    if (this.store.get(pid)) return this.getPid(); // Avoid duplicates
+    if (this.store.get().get(pid)) return this.getPid(); // Avoid duplicates
 
     return pid;
   }
 
   isPid(pid) {
-    return this.store.has(pid) && !this.store.get(pid)._disposed;
+    return this.store.get().has(pid) && !this.store.get().get(pid)._disposed;
   }
 }

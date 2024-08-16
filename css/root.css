@@ -1,0 +1,7 @@
+:root #stateLoader[data-theme="dark"] *,
+:root #stateLoader * {
+  --bg: #222;
+  --fg: #ccc;
+  --border-clr: #666;
+  --border: var(--border-clr) 1px solid;
+}

@@ -1,0 +1,43 @@
+div.window.shell {
+  background-image: url("/assets/bg/storm.png");
+  background-position: center;
+  background-size: cover;
+}
+
+div.window.shell div.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 31px;
+  background-color: #000d;
+  backdrop-filter: blur(10px);
+  border-top: var(--border-clr) 1px solid;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+div.window.shell div.system-area {
+  margin-left: auto;
+  padding: 0 10px;
+}
+
+div.window.shell div.taskbar button#startButton {
+  /* width: 20px; */
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #86be6c38;
+  padding: 0 5px;
+  padding-right: 10px;
+}
+
+div.window.shell div.taskbar button#startButton img {
+  width: 20px;
+  height: 20px;
+}

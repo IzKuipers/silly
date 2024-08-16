@@ -1,7 +1,10 @@
 import { Log } from "../logging.js";
+import { Sleep } from "../sleep.js";
 import { StateProps } from "./store.js";
 
 export * from "./store.js";
+
+let previousState = "";
 
 export async function loadState(
   { html, css, js, name, identifier } = {},
@@ -18,16 +21,28 @@ export async function loadState(
 
   Log(`loadState`, `${identifier}: Attempting to read HTML`);
 
+  htmlLoader.classList.add("hidden");
+
+  await Sleep(400);
+
   try {
     const htmlContents = await (await fetch(html)).text();
 
     htmlLoader.innerHTML = htmlContents;
-    htmlLoader.className = `fullscreen ${identifier}`;
   } catch {
     throw new Error(`${identifier}: Failed to load state HTML`);
   }
 
+  if (previousState) htmlLoader.classList.remove(previousState);
+
+  htmlLoader.classList.add(`fullscreen`, identifier);
   cssLoader.href = css;
+
+  await Sleep(500);
+
+  htmlLoader.classList.remove("hidden");
+
+  previousState = identifier;
 
   try {
     const { default: render } = await import(js);

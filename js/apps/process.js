@@ -10,8 +10,8 @@ export class AppProcess extends Process {
   }
 
   getElement(querySelector) {
-    document.querySelector(
-      `.window[data-pid="${this._pid}"][data-id="${this.app.id}"] > div.body ${querySelector}`
+    return document.querySelector(
+      `div.window[data-pid="${this._pid}"] > div.body ${querySelector}`
     );
   }
 
