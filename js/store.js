@@ -22,5 +22,11 @@ export function Store(value) {
     update();
   }
 
-  return { get, set, update, clear };
+  function subscribe(cb) {
+    _subs.push(cb);
+
+    cb(_value);
+  }
+
+  return { get, set, update, clear, subscribe };
 }

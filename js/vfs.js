@@ -1,3 +1,5 @@
+import { Log, LogType } from "./logging.js";
+
 export class VirtualFileSystem {
   constructor() {
     this.root = "/";
@@ -47,7 +49,11 @@ export class VirtualFileSystem {
     let currentDir = this.traverse("/" + dirs.join("/"));
 
     if (currentDir.files.includes(fileName)) {
-      throw new Error(`File ${fileName} already exists.`);
+      Log(
+        `VFS.createFile`,
+        `${fileName} already exists, overwriting.`,
+        LogType.warning
+      );
     }
 
     let base64Content, type;
@@ -136,6 +142,26 @@ export class VirtualFileSystem {
 
     delete currentDir.dirs[dirName];
     this.saveFS();
+  }
+
+  isFile(path) {
+    try {
+      this.readFile(path);
+
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  isDir(path) {
+    try {
+      this.listDirectory(path);
+
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   reset() {
