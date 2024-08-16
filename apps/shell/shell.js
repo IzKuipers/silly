@@ -1,7 +1,11 @@
 import { AppProcess } from "../../js/apps/process.js";
+import { Store } from "../../js/store.js";
 import { UserData } from "../../js/user/data.js";
 
 export default class ShellProcess extends AppProcess {
+  startOpened = Store(false);
+  startPopulated = false;
+
   constructor(handler, pid, parentPid, app) {
     super(handler, pid, parentPid, app);
   }
@@ -47,10 +51,24 @@ export default class ShellProcess extends AppProcess {
     const userData = UserData.get();
     const usernameField = this.getElement("#startMenu #username");
     const shutdownButton = this.getElement("#startMenu #shutdown");
+    const startButton = this.getElement("#startButton");
+    const startMenu = this.getElement("#startMenu");
 
-    if (!usernameField || !shutdownButton)
+    if (!usernameField || !shutdownButton || !startButton || !startMenu)
       throw new Error("Missing start menu elements");
 
     usernameField.innerText = userData.username || "Stranger";
+
+    startButton.addEventListener("click", () => {
+      this.startOpened.set(!this.startOpened.get());
+    });
+
+    this.startOpened.subscribe((v) => {
+      startMenu.classList.remove("opened");
+      if (v) startMenu.classList.add("opened");
+
+      startButton.classList.remove("opened");
+      if (v) startButton.classList.add("opened");
+    });
   }
 }
