@@ -1,8 +1,7 @@
 import { getStateProps, States } from "../../js/init.js";
 import { LogStore } from "../../js/logging.js";
-import { loadStateCode } from "../../js/state/exec.js";
 
-loadStateCode(function render() {
+export default async function render() {
   const crashText = document.getElementById("crashText");
 
   if (!crashText) return;
@@ -23,4 +22,4 @@ loadStateCode(function render() {
   setTimeout(() => {
     crashText.innerText += `\n\n${LogStore.reverse().join("\n")}`;
   });
-}, States.crash);
+}

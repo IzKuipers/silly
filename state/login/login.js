@@ -1,10 +1,10 @@
-import { States } from "../../js/init.js";
-import { loadStateCode } from "../../js/state/exec.js";
+import { loadState, States } from "../../js/init.js";
+import { Sleep } from "../../js/sleep.js";
 import { UserData } from "../../js/user/data.js";
 import { DefaultUserData } from "../../js/user/store.js";
 import fs from "../../js/vfs.js";
 
-loadStateCode(async function () {
+export default async function render() {
   let userData = {};
 
   try {
@@ -19,4 +19,8 @@ loadStateCode(async function () {
   const nameElement = document.querySelector(".login #username");
 
   nameElement.innerText = userData.username || "Stranger";
-}, States.login);
+
+  await Sleep(1000);
+
+  loadState(States.desktop);
+}

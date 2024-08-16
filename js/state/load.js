@@ -1,6 +1,5 @@
 import { Log } from "../logging.js";
-import { StateCodeExecution, StateProps } from "./store.js";
-import { Sleep } from "../sleep.js";
+import { StateProps } from "./store.js";
 
 export * from "./store.js";
 
@@ -14,8 +13,6 @@ export async function loadState(
   Log(`loadState`, `Loading state ${name} (${identifier})`);
 
   const { htmlLoader, cssLoader } = getStateLoaders();
-
-  await import(js);
 
   StateProps[identifier] = props || {};
 
@@ -33,13 +30,13 @@ export async function loadState(
   cssLoader.href = css;
 
   try {
-    const execution = StateCodeExecution[identifier];
+    const { default: render } = await import(js);
 
-    if (!execution) return;
+    if (!render) return;
 
     Log(`loadState`, `${identifier}: Starting code execution`);
 
-    await execution();
+    await render();
   } catch (e) {
     throw new Error(`${identifier}: ${e}`);
   }

@@ -23,7 +23,6 @@ export const States = {
 };
 
 export const StateProps = {};
-export const StateCodeExecution = {};
 
 export function getStateProps(state) {
   const identifier = state.identifier;
