@@ -13,6 +13,13 @@ export const States = {
     name: "Aw, snap!",
     identifier: "crash-screen",
   },
+  login: {
+    js: "/state/login/login.js",
+    css: "/state/login/login.css",
+    html: "/state/login/login.html",
+    name: "Login",
+    identifier: "login",
+  },
 };
 
 export const StateProps = {};

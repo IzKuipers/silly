@@ -13,16 +13,10 @@ export async function loadState(
 
   Log(`loadState`, `Loading state ${name} (${identifier})`);
 
-  const { htmlLoader, cssLoader, jsLoader } = getStateLoaders();
-  const CodeExecution = document.createElement("script");
+  const { htmlLoader, cssLoader } = getStateLoaders();
 
-  CodeExecution.type = "module";
-  CodeExecution.async = true;
-  CodeExecution.src = js;
+  await import(js);
 
-  jsLoader.append(CodeExecution);
-
-  cssLoader.href = css;
   StateProps[identifier] = props || {};
 
   Log(`loadState`, `${identifier}: Attempting to read HTML`);
@@ -36,7 +30,7 @@ export async function loadState(
     throw new Error(`${identifier}: Failed to load state HTML`);
   }
 
-  await Sleep(100);
+  cssLoader.href = css;
 
   try {
     const execution = StateCodeExecution[identifier];
@@ -53,11 +47,10 @@ export async function loadState(
 
 export function getStateLoaders() {
   const cssLoader = document.getElementById("stateCSSLoader");
-  const jsLoader = document.getElementById("stateJSLoader");
   const htmlLoader = document.getElementById("stateLoader");
 
-  if (!cssLoader || !jsLoader || !htmlLoader)
+  if (!cssLoader || !htmlLoader)
     throw new Error("Missing elements of state handling.");
 
-  return { htmlLoader, cssLoader, jsLoader };
+  return { htmlLoader, cssLoader };
 }
