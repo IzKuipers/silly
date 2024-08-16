@@ -1,0 +1,67 @@
+div#startMenu {
+  position: absolute;
+  bottom: 31px;
+  left: 0;
+  width: 380px;
+  height: 490px;
+  background-color: var(--shell-bg);
+  backdrop-filter: blur(10px);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+}
+
+div#startMenu div.top {
+  height: 66px;
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 25px;
+}
+
+div#startMenu div.top #username {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+div#startMenu div.middle {
+  display: flex;
+  align-items: center;
+  height: calc(100% - 66px - 41px);
+}
+
+div#startMenu div.bottom {
+  height: 41px;
+  border-top: var(--border);
+}
+
+div#startMenu div.middle > div {
+  width: 50%;
+  height: 100%;
+  background-color: #f0f;
+  background-color: var(--bg);
+}
+
+div#startMenu div.middle div.right {
+  border-left: var(--border);
+}
+
+div#startMenu div.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding: 0 15px;
+}
+
+div#startMenu div.bottom button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+div#startMenu div.bottom button img {
+  height: 24px;
+}

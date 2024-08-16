@@ -1,4 +1,5 @@
 import { AppProcess } from "../../js/apps/process.js";
+import { UserData } from "../../js/user/data.js";
 
 export default class ShellProcess extends AppProcess {
   constructor(handler, pid, parentPid, app) {
@@ -7,6 +8,7 @@ export default class ShellProcess extends AppProcess {
 
   render() {
     this.startActiveAppsPopulator();
+    this.populateStartMenu();
   }
 
   stop() {}
@@ -16,7 +18,7 @@ export default class ShellProcess extends AppProcess {
 
     console.log("Asdfasdf");
 
-    if (!activeApps) throw Error("Failed to find #activeApps div");
+    if (!activeApps) throw new Error("Failed to find #activeApps div");
 
     const populate = (v = this.handler.store.get()) => {
       console.log("asdf");
@@ -39,5 +41,16 @@ export default class ShellProcess extends AppProcess {
     };
 
     this.handler.store.subscribe(populate);
+  }
+
+  populateStartMenu() {
+    const userData = UserData.get();
+    const usernameField = this.getElement("#startMenu #username");
+    const shutdownButton = this.getElement("#startMenu #shutdown");
+
+    if (!usernameField || !shutdownButton)
+      throw new Error("Missing start menu elements");
+
+    usernameField.innerText = userData.username || "Stranger";
   }
 }

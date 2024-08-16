@@ -1,7 +1,11 @@
 :root #stateLoader[data-theme="dark"] *,
 :root #stateLoader * {
   --bg: #222;
+  --shell-bg: #222e;
   --fg: #ccc;
-  --border-clr: #666;
+  --border-clr: #444;
   --border: var(--border-clr) 1px solid;
+  --start-button-bg: #86be6c38;
+  --start-button-hover-bg: #86be6c66;
+  --start-button-active-bg: #59754c38;
 }
