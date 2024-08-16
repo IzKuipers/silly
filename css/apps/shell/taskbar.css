@@ -29,8 +29,8 @@ div.window.shell div.taskbar button#startButton {
   background-color: var(--start-button-bg);
   padding: 0 5px;
   padding-right: 10px;
-  border-top-right-radius: 9px 17px;
-  border-bottom-right-radius: 9px 17px;
+  border-top-right-radius: 10px 17px;
+  border-bottom-right-radius: 10px 17px;
 }
 
 div.window.shell div.taskbar button#startButton:hover {
