@@ -19,9 +19,9 @@
   background-color: #000;
   position: relative;
   overflow: hidden;
-  border: #aaa 2px solid;
+  border: #444 2px solid;
   padding: 2px;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .boot-screen div.progress-bar::before {

@@ -20,19 +20,13 @@ export default class ShellProcess extends AppProcess {
   startActiveAppsPopulator() {
     const activeApps = this.getElement("#activeApps");
 
-    console.log("Asdfasdf");
-
     if (!activeApps) throw new Error("Failed to find #activeApps div");
 
     const populate = (v = this.handler.store.get()) => {
-      console.log("asdf");
-
       activeApps.innerHTML = "";
 
       for (const [pid, proc] of [...v]) {
         if (!proc.app || proc.app.data.core || proc._disposed) continue;
-
-        console.warn(proc);
 
         const button = document.createElement("button");
 

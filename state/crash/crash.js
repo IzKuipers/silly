@@ -10,8 +10,6 @@ export default async function render() {
 
   const str = `**** UNCAUGHT EXCEPTION ****\n\nAn error has occured, and code execution has been halted.\nDetails of the error can be found below:\n\n`;
 
-  console.log(reason);
-
   crashText.innerText = str;
   crashText.innerText += reason.error
     ? reason.error.stack

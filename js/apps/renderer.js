@@ -11,8 +11,6 @@ export class AppRenderer extends Process {
 
     const targetDiv = document.getElementById(target);
 
-    console.log(target);
-
     if (!targetDiv)
       throw new Error(
         "Tried to create an app renderer on a non existent element"
@@ -50,8 +48,6 @@ export class AppRenderer extends Process {
   syncDisposed() {
     for (const pid of this.currentState) {
       const process = this.handler.getProcess(pid);
-
-      console.log(process);
 
       if (process) continue;
 
@@ -143,7 +139,7 @@ export class AppRenderer extends Process {
       close.className = "close";
 
       close.addEventListener("click", async () => {
-        console.log(await this.handler.kill(process._pid));
+        await this.handler.kill(process._pid);
       });
 
       controls.append(close);
