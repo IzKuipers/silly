@@ -37,7 +37,8 @@ div.window.shell div.taskbar button#startButton:hover {
   background-color: var(--start-button-hover-bg);
 }
 
-div.window.shell div.taskbar button#startButton:active {
+div.window.shell div.taskbar button#startButton:active,
+div.window.shell div.taskbar button#startButton.opened {
   background-color: var(--start-button-active-bg);
 }
 
