@@ -64,14 +64,6 @@ export class AppRenderer extends Process {
     const { app } = process;
     const { data } = app;
 
-    try {
-      const html = await (await fetch(data.files.html)).text();
-
-      body.innerHTML = html;
-    } catch {
-      throw new Error(`Failed to get HTML of ${data.id}`);
-    }
-
     styling.rel = "stylesheet";
     styling.href = data.files.css;
     styling.id = `$${process._pid}`;
@@ -79,6 +71,14 @@ export class AppRenderer extends Process {
     window.append(styling);
 
     await Sleep(100);
+
+    try {
+      const html = await (await fetch(data.files.html)).text();
+
+      body.innerHTML = html;
+    } catch {
+      throw new Error(`Failed to get HTML of ${data.id}`);
+    }
 
     body.className = "body";
 

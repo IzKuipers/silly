@@ -8,7 +8,7 @@ export default async function render() {
 
   const { reason } = getStateProps(States.crash);
 
-  const str = `**** UNCAUGHT EXCEPTION ****\n\nAn error has occured, and code execution has been halted.\nDetails of the error can be found below:\n\n`;
+  const str = `**** INEPTA EXCEPTION ****\n\nAn error has occured, and Inepta has been halted.\nDetails of the error can be found below.\n\nIf this keeps happening, try unloading any sideloaded applications.\n\n`;
 
   crashText.innerText = str;
   crashText.innerText += reason.error
@@ -17,7 +17,7 @@ export default async function render() {
 
   crashText.innerText = crashText.innerText.replaceAll(location.href, "/");
 
-  setTimeout(() => {
+  setTimeout(async () => {
     crashText.innerText += `\n\n${LogStore.reverse().join("\n")}`;
   });
 }

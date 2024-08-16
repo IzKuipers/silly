@@ -1,5 +1,6 @@
 import { Log } from "../logging.js";
 import { Sleep } from "../sleep.js";
+import { StateError } from "./error.js";
 import { StateProps } from "./store.js";
 
 export * from "./store.js";
@@ -11,15 +12,13 @@ export async function loadState(
   props = {}
 ) {
   if (!html || !css || !js || !name || !identifier)
-    throw new Error("Attempted state load invocation without valid metadata");
-
-  Log(`loadState`, `Loading state ${name} (${identifier})`);
+    throw new StateError(
+      "Attempted state load invocation without valid metadata"
+    );
 
   const { htmlLoader, cssLoader } = getStateLoaders();
 
   StateProps[identifier] = props || {};
-
-  Log(`loadState`, `${identifier}: Attempting to read HTML`);
 
   htmlLoader.classList.add("hidden");
 
@@ -30,7 +29,7 @@ export async function loadState(
 
     htmlLoader.innerHTML = htmlContents;
   } catch {
-    throw new Error(`${identifier}: Failed to load state HTML`);
+    throw new StateError(`${identifier}: Failed to load state HTML`);
   }
 
   if (previousState) htmlLoader.classList.remove(previousState);
@@ -47,13 +46,12 @@ export async function loadState(
   try {
     const { default: render } = await import(js);
 
-    if (!render) return;
+    if (!render) throw new StateError(`${identifier}: No render function`);
 
-    Log(`loadState`, `${identifier}: Starting code execution`);
-
+    Log(`loadState`, `-> Now entering ${name}`);
     await render();
   } catch (e) {
-    throw new Error(`${identifier}: ${e}`);
+    throw new StateError(`${identifier}: ${e}`);
   }
 }
 
@@ -62,7 +60,7 @@ export function getStateLoaders() {
   const htmlLoader = document.getElementById("stateLoader");
 
   if (!cssLoader || !htmlLoader)
-    throw new Error("Missing elements of state handling.");
+    throw new StateError("Missing elements of state handling.");
 
   return { htmlLoader, cssLoader };
 }

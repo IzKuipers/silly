@@ -34,6 +34,7 @@ export const REQUIRED_PATHS = [
 
 export function appDataComplete(data) {
   data = { ...data };
+
   for (const key of REQUIRED_PATHS) {
     const value = getJsonHierarchy(data, key);
 

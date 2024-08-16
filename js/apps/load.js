@@ -1,14 +1,15 @@
 import { Log } from "../logging.js";
+import { AppLoadError } from "./error.js";
 import { appDataComplete } from "./sanitise.js";
 import { AppStore } from "./store.js";
 
 export async function loadApp(data = {}) {
   if (!appDataComplete(data)) {
-    throw new Error("Tried to load an app with invalid data!");
+    throw new AppLoadError("Tried to load an app with invalid data!");
   }
 
   if (isLoaded(data.id)) {
-    throw new Error(`Can't load two apps of the same ID!`);
+    throw new AppLoadError(`Can't load two apps of the same ID!`);
   }
 
   Log(
@@ -19,11 +20,14 @@ export async function loadApp(data = {}) {
   try {
     const { default: process } = await import(data.files.js);
 
-    if (!process) throw new Error(`Tried to load an app without an AppProcess`);
+    if (!process)
+      throw new AppLoadError(`Tried to load an app without an AppProcess`);
 
     AppStore[data.id] = { data, process };
   } catch {
-    throw new Error(`Failed to import "${data.files.js}" for ${data.id}`);
+    throw new AppLoadError(
+      `Failed to import "${data.files.js}" for ${data.id}`
+    );
   }
 }
 

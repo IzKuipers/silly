@@ -1,5 +1,4 @@
 import { Store } from "../store.js";
-import fs from "../vfs.js";
 import { DefaultUserData } from "./store.js";
 
 export const UserData = Store(DefaultUserData);
@@ -7,5 +6,5 @@ export const UserData = Store(DefaultUserData);
 UserData.subscribe((v) => {
   if (!v) return;
 
-  fs.createFile("user.txt", JSON.stringify(v));
+  // fs.createFile("user.txt", JSON.stringify(v));
 });
