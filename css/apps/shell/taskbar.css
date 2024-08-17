@@ -1,5 +1,5 @@
 div.window.shell div.taskbar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -10,6 +10,14 @@ div.window.shell div.taskbar {
   display: flex;
   align-items: center;
   gap: 5px;
+  z-index: 100000000000000000;
+}
+
+div.window.shell div.taskbar #activeApps button {
+  height: 30px;
+  padding: 0 10px;
+  border: none;
+  background-color: var(--bg);
 }
 
 div.window.shell div.system-area {

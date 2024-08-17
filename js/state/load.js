@@ -29,7 +29,7 @@ export async function loadState(
 
     htmlLoader.innerHTML = htmlContents;
   } catch {
-    throw new StateError(`${identifier}: Failed to load state HTML`);
+    throw new StateError(`${identifier}: Could not find required file ${html}`);
   }
 
   if (previousState) htmlLoader.classList.remove(previousState);

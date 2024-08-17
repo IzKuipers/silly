@@ -1,5 +1,4 @@
 import { loadBuiltinApps } from "./apps/builtin.js";
-import { spawnApp } from "./apps/spawn.js";
 import { ProcessHandler } from "./process/handler.js";
 import { StateError } from "./state/error.js";
 import { UserData } from "./user/data.js";
@@ -16,8 +15,6 @@ export default async function render() {
 
   await Stack._init("appRenderer");
   await loadBuiltinApps();
-
-  spawnApp("shell");
 
   UserData.subscribe((v) => {
     if (!v) return;

@@ -1,6 +1,6 @@
-export const ShellApp = {
+export const WallpaperApp = {
   metadata: {
-    name: "Shell",
+    name: "Wallpaper",
     version: "1.0.0",
     author: "Izaak Kuipers",
   },
@@ -20,11 +20,11 @@ export const ShellApp = {
     close: true,
   },
   files: {
-    js: "/apps/shell/shell.js",
-    css: "/css/apps/shell.css",
-    html: "/apps/shell/shell.html",
+    js: "/apps/wallpaper/wallpaper.js",
+    css: "/css/apps/wallpaper.css",
+    html: "/apps/wallpaper/wallpaper.html",
   },
   autoRun: true,
   core: true,
-  id: "shell",
+  id: "wallpaper",
 };

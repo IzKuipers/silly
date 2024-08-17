@@ -40,7 +40,8 @@ export class ProcessHandler {
   async kill(pid) {
     Log("ProcessHandler.kill", `Attempting to kill ${pid}`);
 
-    const proc = this.store.get().get(pid);
+    const store = this.store.get();
+    const proc = store.get(pid);
 
     if (!proc) return "err_noExist";
     if (proc._criticalProcess) return "err_criticalProcess";
@@ -50,6 +51,9 @@ export class ProcessHandler {
     await this._killSubProcesses(pid);
 
     proc._disposed = true;
+
+    store.set(pid, proc);
+    this.store.set(store);
 
     this.renderer.sync();
 

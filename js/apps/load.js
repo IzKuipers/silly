@@ -23,7 +23,11 @@ export async function loadApp(data = {}) {
     if (!process)
       throw new AppLoadError(`Tried to load an app without an AppProcess`);
 
-    AppStore[data.id] = { data, process };
+    const store = AppStore.get();
+
+    store[data.id] = { data, process };
+
+    AppStore.set(store);
   } catch {
     throw new AppLoadError(
       `Failed to import "${data.files.js}" for ${data.id}`
@@ -33,5 +37,5 @@ export async function loadApp(data = {}) {
 
 // May be subject to disabling and such in the future
 export function isLoaded(id) {
-  return !!AppStore[id];
+  return !!AppStore.get()[id];
 }

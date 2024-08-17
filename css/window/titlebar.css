@@ -1,8 +1,49 @@
 div.window div.titlebar {
   width: 100%;
-  height: 20px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5px;
+  padding: 0 3px;
+  border-bottom: var(--border);
+  font-size: 13px;
+  background-color: var(--accent-dark);
+}
+
+div.window div.titlebar div.controls {
+  height: 21px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+div.window div.titlebar div.controls button {
+  width: 21px;
+  height: 21px;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--accent-dark);
+  border-radius: 2.5px;
+}
+
+div.window div.titlebar div.controls button:hover {
+  background-color: var(--accent);
+}
+
+div.window div.titlebar div.controls button:active {
+  backdrop-filter: var(--accent-darker);
+}
+
+div.window div.titlebar button.minimize {
+  background-image: url("/assets/controls/minimize.svg");
+}
+
+div.window div.titlebar button.maximize {
+  background-image: url("/assets/controls/maximize.svg");
+}
+div.window div.titlebar button.close {
+  background-image: url("/assets/controls/close.svg");
 }

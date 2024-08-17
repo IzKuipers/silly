@@ -1,6 +1,7 @@
 import { Log } from "../logging.js";
 import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";
+import { Draggable } from "../neodrag.js";
 
 export class AppRenderer extends Process {
   currentState = [];
@@ -102,6 +103,12 @@ export class AppRenderer extends Process {
 
     this.target.append(window);
 
+    new Draggable(window, {
+      bounds: { top: 0, left: 0, right: 0, bottom: 0 },
+      handle: titlebar,
+      cancel: `.controls`,
+    });
+
     await process.render();
   }
 
@@ -111,13 +118,14 @@ export class AppRenderer extends Process {
     const title = document.createElement("div");
     const controls = document.createElement("div");
 
+    controls.className = "controls";
+
     const { app } = process;
     const { data } = app;
 
     if (data.controls.minimize) {
       const minimize = document.createElement("button");
 
-      minimize.innerText = "mi";
       minimize.className = "minimize";
 
       controls.append(minimize);
@@ -126,7 +134,6 @@ export class AppRenderer extends Process {
     if (data.controls.maximize) {
       const maximize = document.createElement("button");
 
-      maximize.innerText = "ma";
       maximize.className = "maximize";
 
       controls.append(maximize);
@@ -135,7 +142,6 @@ export class AppRenderer extends Process {
     if (data.controls.close) {
       const close = document.createElement("button");
 
-      close.innerText = "cl";
       close.className = "close";
 
       close.addEventListener("click", async () => {

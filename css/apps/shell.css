@@ -2,7 +2,17 @@
 @import url("./shell/startmenu.css");
 
 div.window.shell {
-  background-image: url("/assets/bg/storm.png");
-  background-position: center;
-  background-size: cover;
+  z-index: 1000000000000000000;
+  background-color: transparent;
+  pointer-events: none;
 }
+
+div.window.shell > div.body * {
+  pointer-events: initial;
+}
+/* 
+div.window.shell div.body {
+  position: fixed;
+  z-index: 1000000000000000000000000000000000000;
+}
+ */

@@ -8,6 +8,9 @@ div.window:not(.core) {
   background-color: var(--bg);
   border: var(--border);
   color: var(--fg);
+  overflow: hidden;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 div.window:not(.core) div.body {

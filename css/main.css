@@ -20,6 +20,7 @@ body {
   margin: 0;
   font-size: inherit;
   font-family: inherit;
+  user-select: none;
 }
 
 .fullscreen {

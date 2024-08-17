@@ -1,5 +1,5 @@
 div#startMenu {
-  position: absolute;
+  position: fixed;
   bottom: 31px;
   left: 0;
   width: 380px;
@@ -10,6 +10,9 @@ div#startMenu {
   border-top-right-radius: 10px;
   overflow: hidden;
   display: none;
+  z-index: 100000000000000000;
+  border: var(--border);
+  border-bottom: none;
 }
 
 div#startMenu.opened {

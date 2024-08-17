@@ -3,7 +3,7 @@ import { AppLoadError } from "./error.js";
 import { AppStore } from "./store.js";
 
 export async function spawnApp(id, parent = undefined, ...args) {
-  const app = AppStore[id];
+  const app = AppStore.get()[id];
 
   if (!app || !Stack) throw new AppLoadError(`No such app ${id} or no stack`);
 

@@ -1,19 +1,40 @@
 import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
+import { spawnApp } from "../../js/apps/spawn.js";
+import { AppStore } from "../../js/apps/store.js";
 import { Store } from "../../js/store.js";
 import { UserData } from "../../js/user/data.js";
 
 export default class ShellProcess extends AppProcess {
   startOpened = Store(false);
   startPopulated = false;
+  userData;
+  usernameField;
+  shutdownButton;
+  startButton;
+  startMenu;
+  appList;
 
   constructor(handler, pid, parentPid, app) {
     super(handler, pid, parentPid, app);
   }
 
   render() {
+    this.userData = UserData.get();
+    this.usernameField = this.getElement("#startMenu #username", true);
+    this.shutdownButton = this.getElement("#startMenu #shutdown", true);
+    this.startButton = this.getElement("#startButton", true);
+    this.startMenu = this.getElement("#startMenu", true);
+    this.appList = this.getElement("#appList", true);
+
     this.startActiveAppsPopulator();
-    this.populateStartMenu();
+    this.initializeStartMenu();
+
+    AppStore.subscribe((v) => {
+      if (!v) return;
+
+      this.populateAppList();
+    });
   }
 
   stop() {}
@@ -43,28 +64,41 @@ export default class ShellProcess extends AppProcess {
     this.handler.store.subscribe(populate);
   }
 
-  populateStartMenu() {
-    const userData = UserData.get();
-    const usernameField = this.getElement("#startMenu #username");
-    const shutdownButton = this.getElement("#startMenu #shutdown");
-    const startButton = this.getElement("#startButton");
-    const startMenu = this.getElement("#startMenu");
+  populateAppList() {
+    const appList = this.appList;
+    const apps = AppStore.get();
 
-    if (!usernameField || !shutdownButton || !startButton || !startMenu)
-      throw new AppRuntimeError("Missing start menu elements");
+    this.appList.innerHTML = "";
 
-    usernameField.innerText = userData.username || "Stranger";
+    for (const [id, app] of Object.entries(apps)) {
+      if (!app || !app.data || app.data.hidden || app.data.core) continue;
 
-    startButton.addEventListener("click", () => {
+      const button = document.createElement("button");
+
+      button.innerText = app.data.metadata.name;
+
+      button.addEventListener("click", () => {
+        this.startOpened.set(false);
+        spawnApp(id);
+      });
+
+      appList.append(button);
+    }
+  }
+
+  initializeStartMenu() {
+    this.usernameField.innerText = this.userData.username || "Stranger";
+
+    this.startButton.addEventListener("click", () => {
       this.startOpened.set(!this.startOpened.get());
     });
 
     this.startOpened.subscribe((v) => {
-      startMenu.classList.remove("opened");
-      if (v) startMenu.classList.add("opened");
+      this.startMenu.classList.remove("opened");
+      if (v) this.startMenu.classList.add("opened");
 
-      startButton.classList.remove("opened");
-      if (v) startButton.classList.add("opened");
+      this.startButton.classList.remove("opened");
+      if (v) this.startButton.classList.add("opened");
     });
   }
 }
