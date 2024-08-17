@@ -46,8 +46,29 @@ div#startMenu div.bottom {
 div#startMenu div.middle > div {
   width: 50%;
   height: 100%;
-  background-color: #f0f;
   background-color: var(--bg);
+  padding: 5px;
+}
+
+div#startMenu div.middle div.left {
+  overflow-y: auto;
+}
+
+div#startMenu div.middle button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+}
+
+div#startMenu div.middle button:hover {
+  background-color: var(--button-bg);
+}
+
+div#startMenu div.middle button:active {
+  background-color: var(--button-active-bg);
 }
 
 div#startMenu div.middle div.right {

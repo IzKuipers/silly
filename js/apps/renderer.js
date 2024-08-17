@@ -69,17 +69,11 @@ export class AppRenderer extends Process {
     styling.href = data.files.css;
     styling.id = `$${process._pid}`;
 
-    window.append(styling);
+    document.body.append(styling);
 
     await Sleep(100);
 
-    try {
-      const html = await (await fetch(data.files.html)).text();
-
-      body.innerHTML = html;
-    } catch {
-      throw new Error(`Failed to get HTML of ${data.id}`);
-    }
+    await this._windowHtml(body, data);
 
     body.className = "body";
 
@@ -89,6 +83,15 @@ export class AppRenderer extends Process {
     window.append(titlebar, body);
     window.classList.add(data.id);
 
+    this._windowClasses(window, data);
+    this._windowEvents(window, titlebar, data);
+
+    this.target.append(window);
+
+    await process.render();
+  }
+
+  _windowClasses(window, data) {
     if (data.core) window.classList.add("core");
     else {
       window.style.maxWidth = `${data.maxSize.w}px`;
@@ -97,19 +100,39 @@ export class AppRenderer extends Process {
       window.style.minHeight = `${data.minSize.h}px`;
       window.style.width = `${data.size.w}px`;
       window.style.height = `${data.size.h}px`;
-      window.style.top = `${data.position.y}px`;
-      window.style.left = `${data.position.x}px`;
+      if (data.position.centered) {
+        window.style.top = `${
+          (document.body.offsetHeight - data.size.h) / 2
+        }px`;
+        window.style.left = `${
+          (document.body.offsetWidth - data.size.w) / 2
+        }px`;
+      } else {
+        window.style.top = `${data.position.y}px`;
+        window.style.left = `${data.position.x}px`;
+      }
+
+      if (data.state.resizable) window.classList.add("resizable");
     }
+  }
 
-    this.target.append(window);
+  _windowEvents(window, titlebar, data) {
+    if (!data.core)
+      new Draggable(window, {
+        bounds: { top: 0, left: 0, right: 0, bottom: 0 },
+        handle: titlebar,
+        cancel: `.controls`,
+      });
+  }
 
-    new Draggable(window, {
-      bounds: { top: 0, left: 0, right: 0, bottom: 0 },
-      handle: titlebar,
-      cancel: `.controls`,
-    });
+  async _windowHtml(body, data) {
+    try {
+      const html = await (await fetch(data.files.html)).text();
 
-    await process.render();
+      body.innerHTML = html;
+    } catch {
+      throw new Error(`Failed to get HTML of ${data.id}`);
+    }
   }
 
   _renderTitlebar(process) {
@@ -164,9 +187,9 @@ export class AppRenderer extends Process {
     if (!pid) return;
 
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+    const styling = document.body.querySelector(`link[id="$${pid}"`);
 
-    if (!window) return;
-
-    window.remove();
+    if (window) window.remove();
+    if (styling) styling.remove();
   }
 }

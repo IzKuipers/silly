@@ -4,10 +4,10 @@ export const WelcomeApp = {
     version: "1.0.0",
     author: "Izaak Kuipers",
   },
-  size: { w: 350, h: 250 },
-  minSize: { w: 350, h: 250 },
-  maxSize: { w: 400, h: 300 },
-  position: { x: 100, y: 100 },
+  size: { w: 500, h: 450 },
+  minSize: { w: 500, h: 450 },
+  maxSize: { w: 600, h: 550 },
+  position: { x: 100, y: 100, centered: true },
   state: {
     resizable: true,
     minimized: false,
@@ -24,6 +24,8 @@ export const WelcomeApp = {
     css: "/css/apps/welcome.css",
     html: "/apps/welcome/welcome.html",
   },
+  autoRun: true,
+  hidden: true,
   core: false,
   id: "welcomeApp",
 };

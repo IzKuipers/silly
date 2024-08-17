@@ -21,6 +21,7 @@ body {
   font-size: inherit;
   font-family: inherit;
   user-select: none;
+  outline: none !important;
 }
 
 .fullscreen {

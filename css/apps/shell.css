@@ -10,9 +10,3 @@ div.window.shell {
 div.window.shell > div.body * {
   pointer-events: initial;
 }
-/* 
-div.window.shell div.body {
-  position: fixed;
-  z-index: 1000000000000000000000000000000000000;
-}
- */

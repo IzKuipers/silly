@@ -12,8 +12,8 @@ export class Process {
     this.handler = handler;
   }
 
-  killSelf() {
-    this.handler.kill(_pid);
+  async killSelf() {
+    await this.handler.kill(this._pid);
   }
 
   async stop() {

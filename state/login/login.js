@@ -14,7 +14,7 @@ export default async function render() {
     Log(`Login`, "Loaded User Data");
   } catch {
     userData = DefaultUserData;
-    fs.createFile("user.txt", JSON.stringify(DefaultUserData));
+    fs.writeFile("user.txt", JSON.stringify(DefaultUserData));
   }
 
   UserData.set(userData);

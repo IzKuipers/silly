@@ -9,7 +9,9 @@ export function Init() {
 
   handleGlobalErrors();
 
-  loadState(States.boot);
+  const params = new URLSearchParams(location.search);
+
+  loadState(States[params.get("state") || "boot"]);
 }
 
 Init();

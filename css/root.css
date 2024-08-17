@@ -5,6 +5,7 @@
   --fg: #ccc;
   --border-clr: #666;
   --border: var(--border-clr) 1px solid;
+  --border-accent: var(--accent) 1px solid;
   --start-button-bg: #86be6c38;
   --start-button-hover-bg: #86be6c66;
   --start-button-active-bg: #59754c38;
@@ -12,4 +13,7 @@
   --accent-dark: #779c66;
   --accent-darker: #67805c;
   --accent-light: #a9e090;
+  --button-bg: #333;
+  --button-hover-bg: #444;
+  --button-active-bg: #111;
 }

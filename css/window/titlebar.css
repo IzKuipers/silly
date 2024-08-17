@@ -4,8 +4,8 @@ div.window div.titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 3px;
-  border-bottom: var(--border);
+  padding: 0 4px;
+  border-bottom: var(--border-accent);
   font-size: 13px;
   background-color: var(--accent-dark);
 }
@@ -14,7 +14,7 @@ div.window div.titlebar div.controls {
   height: 21px;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 div.window div.titlebar div.controls button {

@@ -24,7 +24,11 @@ export class ProcessHandler {
 
     Log("ProcessHandler.spawn", `Spawning new process with ID ${pid}`);
 
-    if (proc.start) await proc.start();
+    if (proc.start) {
+      const result = await proc.start();
+
+      if (result === false) return;
+    }
 
     const store = this.store.get();
 

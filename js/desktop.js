@@ -1,7 +1,7 @@
 import { loadBuiltinApps } from "./apps/builtin.js";
 import { ProcessHandler } from "./process/handler.js";
 import { StateError } from "./state/error.js";
-import { UserData } from "./user/data.js";
+import { startUserDataSync, UserData } from "./user/data.js";
 
 export let Stack;
 
@@ -10,6 +10,8 @@ export default async function render() {
 
   if (!stateLoader)
     throw new StateError("Desktop render invocation outside StateLoader!");
+
+  startUserDataSync();
 
   Stack = new ProcessHandler();
 
