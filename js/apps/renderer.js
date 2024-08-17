@@ -4,6 +4,8 @@ import { Draggable } from "../neodrag.js";
 import { Store } from "../store.js";
 import { AppRendererError } from "./error.js";
 import { Log } from "../logging.js";
+import { MessageBox } from "../desktop/message.js";
+import { MessageIcons } from "../images/msgbox.js";
 
 export class AppRenderer extends Process {
   currentState = [];
@@ -98,7 +100,24 @@ export class AppRenderer extends Process {
       this.focusPid(process._pid);
     } catch (e) {
       // TODO: Make this a proper dialog, please
-      console.error(`Code execution of ${process._pid} failed! ${e}`);
+
+      const lines = [
+        `<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`,
+        `If you were in the middle of something, the information you were working on might be lost. The below error might reveal the reason for the crash:`,
+        `<pre>${e.stack.replaceAll(location.href, "")}</pre>`,
+      ];
+
+      MessageBox({
+        title: `An error occured!`,
+        message: lines.join("<br><br>"),
+        buttons: [
+          {
+            caption: "Okay",
+            action() {},
+          },
+        ],
+        icon: MessageIcons.critical,
+      });
 
       await Sleep(0);
       await this.handler.kill(process._pid);
@@ -121,6 +140,7 @@ export class AppRenderer extends Process {
 
         window.style.top = `${y}px`;
         window.style.left = `${x}px`;
+        window.style.transform = `translate3d(0px, 0px, 0px)`;
       } else if (`${data.position.x}` && `${data.position.y}`) {
         window.style.top = `${data.position.y}px`;
         window.style.left = `${data.position.x}px`;
@@ -130,6 +150,17 @@ export class AppRenderer extends Process {
 
       if (data.state.resizable) window.classList.add("resizable");
     }
+  }
+
+  centerWindow(pid) {
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+
+    if (!window) return;
+    const x = (document.body.offsetWidth - window.offsetWidth) / 2;
+    const y = (document.body.offsetHeight - window.offsetHeight) / 2;
+
+    window.style.top = `${y}px`;
+    window.style.left = `${x}px`;
   }
 
   _windowEvents(pid, window, titlebar, data) {

@@ -24,3 +24,14 @@ div.window:not(.core) > div.body input {
   background-color: var(--button-active-bg);
   border: var(--button-bg) 1px solid;
 }
+
+code {
+  font-family: "Source Code Pro";
+  white-space: pre;
+}
+
+pre {
+  font-family: "Source Code Pro";
+  white-space: pre;
+  font-size: 12px;
+}

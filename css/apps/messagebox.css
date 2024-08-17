@@ -1,0 +1,26 @@
+div.window.msgBox div.body div.top {
+  display: flex;
+  align-items: start;
+  gap: 20px;
+}
+
+div.window.msgBox div.body div.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+div.window.msgBox div.body div.bottom img {
+  height: 48px;
+}
+
+div.window.msgBox div.body div.top h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+div.window.msgBox div.body div.top p {
+  margin: 0;
+}
