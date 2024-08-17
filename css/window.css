@@ -7,13 +7,17 @@ div.window {
 
 div.window:not(.core) {
   background-color: var(--bg);
-  background-color: var(--accent-dark);
-
-  border: var(--border-accent);
+  background-color: var(--accent-darker);
+  border: var(--border-accent-dark);
   color: var(--fg);
   overflow: hidden;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+}
+
+div.window:not(.core).focused {
+  border: var(--border-accent);
+  background-color: var(--accent-dark);
 }
 
 div.window:not(.core) div.body {

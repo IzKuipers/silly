@@ -14,8 +14,6 @@ export const REQUIRED_PATHS = [
   "maxSize.w",
   "maxSize.h",
   "position",
-  "position.x",
-  "position.y",
   "state",
   "state.resizable",
   "state.minimized",

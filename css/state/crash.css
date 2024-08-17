@@ -2,4 +2,18 @@
   background-color: rgb(19, 48, 75);
   font-family: "Source Code Pro";
   white-space: pre;
+  opacity: 0;
+  animation: crash-show 0s linear forwards;
+  animation-delay: 1s;
+  transition: none !important;
+}
+
+@keyframes crash-show {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

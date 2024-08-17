@@ -29,6 +29,13 @@ export class VirtualFileSystem {
     return currentDir;
   }
 
+  join(...paths) {
+    return paths
+      .map((path) => path.split("/").filter(Boolean))
+      .flat()
+      .join("/");
+  }
+
   byteArrayToBase64(byteArray) {
     return btoa(String.fromCharCode(...byteArray));
   }
@@ -161,5 +168,6 @@ export class VirtualFileSystem {
 }
 
 const fs = new VirtualFileSystem();
+window._fs = fs;
 
 export default fs;

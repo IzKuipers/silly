@@ -5,9 +5,9 @@ div.window div.titlebar {
   align-items: center;
   justify-content: space-between;
   padding: 0 4px;
-  border-bottom: var(--border-accent);
-  font-size: 13px;
-  background-color: var(--accent-dark);
+  border-bottom: inherit;
+  text-shadow: 1px 1px 0 #000;
+  background-color: transparent;
 }
 
 div.window div.titlebar div.controls {
@@ -25,7 +25,7 @@ div.window div.titlebar div.controls button {
   border: none;
   background-size: cover;
   background-position: center;
-  background-color: var(--accent-dark);
+  background-color: transparent;
   border-radius: 2.5px;
 }
 

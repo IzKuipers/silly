@@ -13,3 +13,11 @@ export class AppRuntimeError extends Error {
     super(message);
   }
 }
+
+export class AppRendererError extends Error {
+  name = "AppRendererError";
+
+  constructor(message) {
+    super(message);
+  }
+}

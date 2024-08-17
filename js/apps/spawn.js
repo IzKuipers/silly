@@ -3,9 +3,20 @@ import { AppLoadError } from "./error.js";
 import { AppStore } from "./store.js";
 
 export async function spawnApp(id, parent = undefined, ...args) {
-  const app = AppStore.get()[id];
+  const app = { ...AppStore.get()[id] };
 
-  if (!app || !Stack) throw new AppLoadError(`No such app ${id} or no stack`);
+  if (!Stack) throw new AppLoadError(`Tried to spawn an app without a handler`);
 
-  await Stack.spawn(app.process, parent, app, ...args);
+  if (!app) {
+    // TODO: proper UI for this too
+    console.error(`No such app ${id}`);
+
+    return false;
+  }
+
+  console.trace();
+
+  app.data = JSON.parse(JSON.stringify(app.data));
+
+  return (await Stack.spawn(app.process, parent, app, ...args)) === "success";
 }

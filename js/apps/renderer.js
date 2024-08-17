@@ -1,11 +1,15 @@
-import { Log } from "../logging.js";
 import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";
 import { Draggable } from "../neodrag.js";
+import { Store } from "../store.js";
+import { AppRendererError } from "./error.js";
+import { Log } from "../logging.js";
 
 export class AppRenderer extends Process {
   currentState = [];
   target;
+  maxZIndex = 1e6;
+  focusedPid = Store(-1);
 
   constructor(handler, pid, parentPid, target) {
     super(handler, pid, parentPid);
@@ -13,7 +17,7 @@ export class AppRenderer extends Process {
     const targetDiv = document.getElementById(target);
 
     if (!targetDiv)
-      throw new Error(
+      throw new AppRendererError(
         "Tried to create an app renderer on a non existent element"
       );
 
@@ -84,11 +88,21 @@ export class AppRenderer extends Process {
     window.classList.add(data.id);
 
     this._windowClasses(window, data);
-    this._windowEvents(window, titlebar, data);
+    this._windowEvents(process._pid, window, titlebar, data);
 
     this.target.append(window);
 
-    await process.render();
+    try {
+      await process.render();
+
+      this.focusPid(process._pid);
+    } catch (e) {
+      // TODO: Make this a proper dialog, please
+      console.error(`Code execution of ${process._pid} failed! ${e}`);
+
+      await Sleep(0);
+      await this.handler.kill(process._pid);
+    }
   }
 
   _windowClasses(window, data) {
@@ -100,29 +114,54 @@ export class AppRenderer extends Process {
       window.style.minHeight = `${data.minSize.h}px`;
       window.style.width = `${data.size.w}px`;
       window.style.height = `${data.size.h}px`;
+
       if (data.position.centered) {
-        window.style.top = `${
-          (document.body.offsetHeight - data.size.h) / 2
-        }px`;
-        window.style.left = `${
-          (document.body.offsetWidth - data.size.w) / 2
-        }px`;
-      } else {
+        const x = (document.body.offsetWidth - data.size.w) / 2;
+        const y = (document.body.offsetHeight - data.size.h) / 2;
+
+        window.style.top = `${y}px`;
+        window.style.left = `${x}px`;
+      } else if (`${data.position.x}` && `${data.position.y}`) {
         window.style.top = `${data.position.y}px`;
         window.style.left = `${data.position.x}px`;
+      } else {
+        throw new Error(`Attempted to create a window without valid position`);
       }
 
       if (data.state.resizable) window.classList.add("resizable");
     }
   }
 
-  _windowEvents(window, titlebar, data) {
-    if (!data.core)
-      new Draggable(window, {
-        bounds: { top: 0, left: 0, right: 0, bottom: 0 },
-        handle: titlebar,
-        cancel: `.controls`,
-      });
+  _windowEvents(pid, window, titlebar, data) {
+    if (data.core) return; // Core applications don't need any fancy things
+
+    new Draggable(window, {
+      bounds: { top: 0, left: 0, right: 0 },
+      handle: titlebar,
+      cancel: `.controls`,
+    });
+
+    window.addEventListener("mousedown", () => {
+      this.focusPid(pid);
+    });
+
+    this.focusedPid.subscribe((v) => {
+      window.classList.remove("focused");
+
+      if (v === pid) window.classList.add("focused");
+    });
+  }
+
+  focusPid(pid) {
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+
+    if (!window) return;
+
+    this.maxZIndex++;
+
+    window.style.zIndex = this.maxZIndex;
+
+    this.focusedPid.set(pid);
   }
 
   async _windowHtml(body, data) {
@@ -131,12 +170,13 @@ export class AppRenderer extends Process {
 
       body.innerHTML = html;
     } catch {
-      throw new Error(`Failed to get HTML of ${data.id}`);
+      throw new AppRendererError(`Failed to get HTML of ${data.id}`);
     }
   }
 
   _renderTitlebar(process) {
-    if (process.app.data.core) return "";
+    if (process.app.data.core) return ""; // Again, core apps don't need a titlebar
+
     const titlebar = document.createElement("div");
     const title = document.createElement("div");
     const controls = document.createElement("div");
@@ -146,6 +186,7 @@ export class AppRenderer extends Process {
     const { app } = process;
     const { data } = app;
 
+    // TODO: Window minimizing
     if (data.controls.minimize) {
       const minimize = document.createElement("button");
 
@@ -154,6 +195,7 @@ export class AppRenderer extends Process {
       controls.append(minimize);
     }
 
+    // TODO: Window maximizing
     if (data.controls.maximize) {
       const maximize = document.createElement("button");
 
@@ -166,13 +208,14 @@ export class AppRenderer extends Process {
       const close = document.createElement("button");
 
       close.className = "close";
-
       close.addEventListener("click", async () => {
         await this.handler.kill(process._pid);
       });
 
       controls.append(close);
     }
+
+    // TODO: app icons and window specific icons; inject into titlebar here.
 
     title.innerText = `[${process._pid}] ${data.metadata.name} (${data.metadata.version})`;
     title.className = "window-title";

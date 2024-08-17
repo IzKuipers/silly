@@ -9,7 +9,8 @@ let previousState = "";
 
 export async function loadState(
   { html, css, js, name, identifier } = {},
-  props = {}
+  props = {},
+  instant = false
 ) {
   if (!html || !css || !js || !name || !identifier)
     throw new StateError(
@@ -20,9 +21,11 @@ export async function loadState(
 
   StateProps[identifier] = props || {};
 
-  htmlLoader.classList.add("hidden");
+  if (!instant) {
+    htmlLoader.classList.add("hidden");
 
-  await Sleep(400);
+    await Sleep(400);
+  }
 
   try {
     const htmlContents = await (await fetch(html)).text();
@@ -37,9 +40,11 @@ export async function loadState(
   htmlLoader.classList.add(`fullscreen`, identifier);
   cssLoader.href = css;
 
-  await Sleep(500);
+  if (!instant) {
+    await Sleep(500);
 
-  htmlLoader.classList.remove("hidden");
+    htmlLoader.classList.remove("hidden");
+  }
 
   previousState = identifier;
 
@@ -51,7 +56,7 @@ export async function loadState(
     Log(`loadState`, `-> Now entering ${name}`);
     await render();
   } catch (e) {
-    throw new StateError(`${identifier}: ${e}`);
+    throw new StateError(`${identifier}: ${e.stack}`);
   }
 }
 

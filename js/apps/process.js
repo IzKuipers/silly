@@ -8,6 +8,7 @@ export class AppProcess extends Process {
     super(handler, pid, parentPid, app);
 
     this.app = app;
+    this.app.data = JSON.parse(JSON.stringify({ ...app.data }));
   }
 
   getElement(querySelector, error = false) {

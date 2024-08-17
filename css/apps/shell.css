@@ -2,7 +2,7 @@
 @import url("./shell/startmenu.css");
 
 div.window.shell {
-  z-index: 1000000000000000000;
+  z-index: 1000000000000000000 !important;
   background-color: transparent;
   pointer-events: none;
 }

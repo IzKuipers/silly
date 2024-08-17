@@ -7,7 +7,6 @@ export default async function render() {
   if (!crashText) return;
 
   const { reason } = getStateProps(States.crash);
-
   const str = `**** INEPTA EXCEPTION ****\n\nAn error has occured, and Inepta has been halted.\nDetails of the error can be found below.\n\nIf this keeps happening, try unloading any sideloaded applications.\n\n`;
 
   crashText.innerText = str;
