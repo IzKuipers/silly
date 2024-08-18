@@ -20,13 +20,23 @@ div.window:not(.core).focused {
   background-color: var(--accent-dark);
 }
 
+div.window:not(.core).maximized {
+  transform: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: calc(100% - 31px) !important;
+  border: none !important;
+  resize: none !important;
+}
+
 div.window:not(.core) div.body {
   padding: 15px;
   height: calc(100% - 30px);
   background-color: var(--bg);
 }
 
-div.window:not(.core).resizable {
+div.window:not(.core):not(.maximized).resizable {
   resize: both !important;
 }
 

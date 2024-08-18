@@ -222,6 +222,9 @@ export class AppRenderer extends Process {
       const minimize = document.createElement("button");
 
       minimize.className = "minimize";
+      minimize.addEventListener("click", () =>
+        this.toggleMinimize(process._pid)
+      );
 
       controls.append(minimize);
     }
@@ -231,6 +234,9 @@ export class AppRenderer extends Process {
       const maximize = document.createElement("button");
 
       maximize.className = "maximize";
+      maximize.addEventListener("click", () =>
+        this.toggleMaximize(process._pid)
+      );
 
       controls.append(maximize);
     }
@@ -265,5 +271,21 @@ export class AppRenderer extends Process {
 
     if (window) window.remove();
     if (styling) styling.remove();
+  }
+
+  toggleMaximize(pid) {
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+
+    if (!window) return;
+
+    window.classList.toggle("maximized");
+  }
+
+  toggleMinimize(pid) {
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+
+    if (!window) return;
+
+    window.classList.toggle("minimized");
   }
 }
