@@ -1,6 +1,7 @@
 import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import fs from "../../js/vfs.js";
+import { strftime } from "../../js/desktop/date.js";
 
 export default class FileManProcess extends AppProcess {
   path = "/";
@@ -14,6 +15,7 @@ export default class FileManProcess extends AppProcess {
 
   render() {
     this.populate();
+    console.log(this);
   }
 
   populate() {
@@ -53,15 +55,36 @@ export default class FileManProcess extends AppProcess {
     const elements = [];
 
     for (const file of files) {
-      const button = document.createElement("button");
+      const row = document.createElement("tr");
 
-      button.innerText = `${file}/`;
-      button.className = "item file";
-      button.addEventListener("click", () => {
-        console.log(fs.readFile(fs.join(this.path, file)));
+      const nameFiled = document.createElement("td");
+      const dateModifiedField = document.createElement("td");
+      const dateCreatedField = document.createElement("td");
+      const sizeField = document.createElement("td");
+
+      nameFiled.className = "name";
+      dateModifiedField.className = "modified";
+      dateCreatedField.className = "created";
+      sizeField.className = "size";
+
+      nameFiled.innerText = file.name;
+      dateModifiedField.innerText = strftime(
+        "%d-%m-%Y %H:%M",
+        new Date(file.dateModified)
+      );
+      dateCreatedField.innerText = strftime(
+        "%d-%m-%Y %H:%M",
+        new Date(file.dateCreated)
+      );
+      sizeField.innerText = `${file.size} bytes`;
+
+      row.append(nameFiled, dateModifiedField, dateCreatedField, sizeField);
+      row.className = "item";
+      row.addEventListener("click", () => {
+        console.log(fs.readFile(fs.join(this.path, file.name)));
       });
 
-      elements.push(button);
+      elements.push(row);
     }
 
     return elements;

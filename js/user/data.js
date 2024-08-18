@@ -6,6 +6,6 @@ export const UserData = Store(DefaultUserData);
 
 export function startUserDataSync() {
   UserData.subscribe((v) => {
-    fs.writeFile("user.txt", JSON.stringify(v));
+    fs.writeFile("user.txt", JSON.stringify(v, null, 2));
   });
 }

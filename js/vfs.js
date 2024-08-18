@@ -53,22 +53,38 @@ export class VirtualFileSystem {
     const fileName = dirs.pop();
     let currentDir = this.traverse("/" + dirs.join("/"));
 
-    let base64Content, type;
+    if (currentDir.files.some((file) => file.name === fileName)) {
+      return this.updateFile(path, content);
+    }
+
+    let base64Content, type, size;
 
     if (content instanceof Uint8Array) {
       base64Content = this.byteArrayToBase64(content);
       type = "binary";
+      size = content.length;
     } else if (typeof content === "string") {
       base64Content = btoa(content);
       type = "text";
+      size = content.length;
     } else {
       throw new Error(
         "Unsupported content type. Must be either a string or Uint8Array."
       );
     }
 
-    if (!currentDir.files.includes(fileName)) currentDir.files.push(fileName);
-    currentDir[fileName] = { content: base64Content, type: type };
+    const dateNow = new Date().toISOString();
+
+    const fileData = {
+      name: fileName,
+      content: base64Content,
+      type: type,
+      size: size,
+      dateCreated: dateNow,
+      dateModified: dateNow,
+    };
+
+    currentDir.files.push(fileData);
     this.saveFS();
   }
 
@@ -77,32 +93,66 @@ export class VirtualFileSystem {
     const fileName = dirs.pop();
     let currentDir = this.traverse("/" + dirs.join("/"));
 
-    if (!currentDir.files.includes(fileName)) {
+    const file = currentDir.files.find((file) => file.name === fileName);
+    if (!file) {
       throw new Error(`File ${fileName} does not exist.`);
     }
 
-    const fileData = currentDir[fileName];
-
-    if (fileData.type === "text") {
-      return atob(fileData.content);
-    } else if (fileData.type === "binary") {
-      return this.base64ToByteArray(fileData.content);
+    if (file.type === "text") {
+      return atob(file.content);
+    } else if (file.type === "binary") {
+      return this.base64ToByteArray(file.content);
     } else {
       throw new Error("Unknown file type.");
     }
   }
 
-  deleteFile(path) {
+  updateFile(path, newContent) {
     const dirs = path.split("/").filter(Boolean);
     const fileName = dirs.pop();
     let currentDir = this.traverse("/" + dirs.join("/"));
 
-    if (!currentDir.files.includes(fileName)) {
+    const file = currentDir.files.find((file) => file.name === fileName);
+
+    if (!file) {
       throw new Error(`File ${fileName} does not exist.`);
     }
 
-    currentDir.files = currentDir.files.filter((file) => file !== fileName);
-    delete currentDir[fileName];
+    if (newContent instanceof Uint8Array) {
+      file.content = this.byteArrayToBase64(newContent);
+      file.size = newContent.length;
+      file.type = "binary";
+    } else if (typeof newContent === "string") {
+      file.content = btoa(newContent);
+      file.size = newContent.length;
+      file.type = "text";
+    } else {
+      throw new Error(
+        "Unsupported content type. Must be either a string or Uint8Array."
+      );
+    }
+
+    file.dateModified = new Date().toISOString();
+
+    this.saveFS();
+  }
+
+  deleteFile(path) {
+    const dirs = path.split("/").filter(Boolean);
+    const fileName = dirs.pop();
+
+    let currentDir = this.traverse("/" + dirs.join("/"));
+
+    const fileIndex = currentDir.files.findIndex(
+      (file) => file.name === fileName
+    );
+
+    if (fileIndex === -1) {
+      throw new Error(`File ${fileName} does not exist.`);
+    }
+
+    currentDir.files.splice(fileIndex, 1);
+
     this.saveFS();
   }
 
@@ -112,7 +162,12 @@ export class VirtualFileSystem {
 
     dirs.forEach((dir) => {
       if (!currentDir.dirs[dir]) {
-        currentDir.dirs[dir] = { dirs: {}, files: [] };
+        currentDir.dirs[dir] = {
+          dirs: {},
+          files: [],
+          dateCreated: new Date().toISOString(),
+          dateModified: new Date().toISOString(),
+        };
       }
       currentDir = currentDir.dirs[dir];
     });
@@ -123,8 +178,17 @@ export class VirtualFileSystem {
   readDirectory(path) {
     let currentDir = this.traverse(path);
     return {
-      dirs: Object.keys(currentDir.dirs),
-      files: currentDir.files,
+      dirs: Object.entries(currentDir.dirs).map(([name, dir]) => ({
+        name,
+        dateCreated: dir.dateCreated,
+        dateModified: dir.dateModified,
+      })),
+      files: currentDir.files.map((file) => ({
+        name: file.name,
+        size: file.size,
+        dateCreated: file.dateCreated,
+        dateModified: file.dateModified,
+      })),
     };
   }
 
