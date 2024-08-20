@@ -28,6 +28,13 @@ div.window:not(.core).maximized {
   height: calc(100% - 31px) !important;
   border: none !important;
   resize: none !important;
+  max-height: unset !important;
+  max-width: unset !important;
+  border-radius: 0 !important;
+}
+
+div.window:not(.core).minimized {
+  display: none;
 }
 
 div.window:not(.core) div.body {

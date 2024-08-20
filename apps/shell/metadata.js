@@ -3,6 +3,7 @@ export const ShellApp = {
     name: "Shell",
     version: "1.0.0",
     author: "Izaak Kuipers",
+    icon: "/assets/inepta.png",
   },
   size: { w: NaN, h: NaN },
   minSize: { w: NaN, h: NaN },

@@ -29,7 +29,7 @@ div.window.shell div.taskbar #activeApps button:active {
 }
 
 div.window.shell div.taskbar #activeApps button.focused {
-  background-color: var(--button-hover-bg);
+  background-color: var(--button-bg);
 }
 
 div.window.shell div.system-area {

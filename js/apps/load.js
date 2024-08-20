@@ -28,9 +28,9 @@ export async function loadApp(data = {}) {
     store[data.id] = { data, process };
 
     AppStore.set(store);
-  } catch {
+  } catch (e) {
     throw new AppLoadError(
-      `Failed to import "${data.files.js}" for ${data.id}`
+      `Failed to import "${data.files.js}" for ${data.id}: ${e.message}`
     );
   }
 }

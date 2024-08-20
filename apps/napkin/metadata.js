@@ -1,14 +1,14 @@
-export const FileManApp = {
+export const NapkinApp = {
   metadata: {
-    name: "File Manager",
+    name: "Napkin",
     version: "1.0.0",
     author: "Izaak Kuipers",
-    icon: "/assets/fs/folder.png",
+    icon: "/assets/silly.png",
   },
-  size: { w: 800, h: 550 },
+  size: { w: 400, h: 250 },
   minSize: { w: 300, h: 250 },
   maxSize: { w: 1400, h: 1000 },
-  position: { x: 100, y: 100, centered: true },
+  position: { x: 150, y: 150 },
   state: {
     resizable: true,
     minimized: false,
@@ -21,10 +21,10 @@ export const FileManApp = {
     close: true,
   },
   files: {
-    js: "/apps/fileman/fileman.js",
-    css: "/css/apps/fileman.css",
-    html: "/apps/fileman/fileman.html",
+    js: "/apps/napkin/napkin.js",
+    css: "/css/apps/napkin.css",
+    html: "/apps/napkin/napkin.html",
   },
   core: false,
-  id: "fileMan",
+  id: "napkinText",
 };

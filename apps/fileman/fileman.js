@@ -81,7 +81,7 @@ export default class FileManProcess extends AppProcess {
       row.append(nameFiled, dateModifiedField, dateCreatedField, sizeField);
       row.className = "item";
       row.addEventListener("click", () => {
-        console.log(fs.readFile(fs.join(this.path, file.name)));
+        spawnApp("napkinText", undefined, fs.join(this.path, file.name));
       });
 
       elements.push(row);

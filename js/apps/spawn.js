@@ -14,8 +14,6 @@ export async function spawnApp(id, parent = undefined, ...args) {
     return false;
   }
 
-  console.trace();
-
   app.data = JSON.parse(JSON.stringify(app.data));
 
   return (await Stack.spawn(app.process, parent, app, ...args)) === "success";

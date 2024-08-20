@@ -184,12 +184,14 @@ export class AppRenderer extends Process {
   }
 
   focusPid(pid) {
+    const currentFocus = this.focusedPid.get();
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
 
-    if (!window) return;
+    this.unMinimize(pid);
+
+    if (!window || currentFocus === pid) return;
 
     this.maxZIndex++;
-
     window.style.zIndex = this.maxZIndex;
 
     this.focusedPid.set(pid);
@@ -210,6 +212,8 @@ export class AppRenderer extends Process {
 
     const titlebar = document.createElement("div");
     const title = document.createElement("div");
+    const titleIcon = document.createElement("img");
+    const titleCaption = document.createElement("span");
     const controls = document.createElement("div");
 
     controls.className = "controls";
@@ -217,11 +221,11 @@ export class AppRenderer extends Process {
     const { app } = process;
     const { data } = app;
 
-    // TODO: Window minimizing
     if (data.controls.minimize) {
       const minimize = document.createElement("button");
 
-      minimize.className = "minimize";
+      minimize.className = "minimize material-icons-round";
+      minimize.innerText = "minimize";
       minimize.addEventListener("click", () =>
         this.toggleMinimize(process._pid)
       );
@@ -229,11 +233,11 @@ export class AppRenderer extends Process {
       controls.append(minimize);
     }
 
-    // TODO: Window maximizing
     if (data.controls.maximize) {
       const maximize = document.createElement("button");
 
-      maximize.className = "maximize";
+      maximize.className = "maximize material-icons-round";
+      maximize.innerText = "crop_square";
       maximize.addEventListener("click", () =>
         this.toggleMaximize(process._pid)
       );
@@ -244,7 +248,8 @@ export class AppRenderer extends Process {
     if (data.controls.close) {
       const close = document.createElement("button");
 
-      close.className = "close";
+      close.className = "close material-icons-round";
+      close.innerText = "close";
       close.addEventListener("click", async () => {
         await this.handler.kill(process._pid);
       });
@@ -254,8 +259,11 @@ export class AppRenderer extends Process {
 
     // TODO: app icons and window specific icons; inject into titlebar here.
 
-    title.innerText = `[${process._pid}] ${data.metadata.name} (${data.metadata.version})`;
+    titleCaption.innerText = `[${process._pid}] ${data.metadata.name} (${data.metadata.version})`;
+    titleIcon.src = data.metadata.icon || "/assets/silly.png";
+
     title.className = "window-title";
+    title.append(titleIcon, titleCaption);
 
     titlebar.className = "titlebar";
     titlebar.append(title, controls);
@@ -279,6 +287,14 @@ export class AppRenderer extends Process {
     if (!window) return;
 
     window.classList.toggle("maximized");
+  }
+
+  unMinimize(pid) {
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+
+    if (!window) return;
+
+    window.classList.remove("minimized");
   }
 
   toggleMinimize(pid) {

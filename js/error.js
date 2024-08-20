@@ -6,8 +6,6 @@ export function handleGlobalErrors() {
 
     Crash(e);
 
-    console.trace();
-
     return true;
   }
 

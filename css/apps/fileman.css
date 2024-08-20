@@ -29,7 +29,7 @@ div.window.fileMan div.body div.sidebar {
 
 div.window.fileMan div.body div.sidebar details {
   overflow: hidden;
-  border: var(--button-bg) 2px solid;
+  border: var(--button-hover-bg) 1px solid;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   display: block;
@@ -41,16 +41,42 @@ div.window.fileMan div.body div.sidebar details:not([open]) {
 
 div.window.fileMan div.body div.sidebar details summary {
   height: 26px;
-  padding: 0 5px;
+  padding: 0 12px;
   font-weight: 600;
   line-height: 26px;
-  background-color: var(--button-bg);
+  background-color: var(--button-hover-bg);
   display: block;
 }
 
 div.window.fileMan div.body div.sidebar details div {
-  background-color: var(--bg);
-  padding: 8px;
+  background-color: var(--button-bg);
+  padding: 12px;
+}
+
+div.window.fileMan div.body div.sidebar details div button.task {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  height: fit-content;
+  margin-bottom: 8px;
+}
+
+div.window.fileMan div.body div.sidebar details div button.task span {
+  color: var(--accent);
+}
+
+div.window.fileMan div.body div.sidebar details div button.task:hover span {
+  text-decoration: underline;
+}
+
+div.window.fileMan div.body div.sidebar details div button.task:last-child {
+  margin-bottom: 0;
+}
+
+div.window.fileMan div.body div.sidebar details div button.task img {
+  height: 16px;
 }
 
 div.window.fileMan div.body div.content {
@@ -67,13 +93,13 @@ div.window.fileMan div.body div.content table {
 }
 
 div.window.fileMan div.body div.content table tr {
-  height: 24px;
-  line-height: 24px;
+  height: 20px;
+  line-height: 20px;
   white-space: nowrap;
 }
 
 div.window.fileMan div.body div.content table td {
-  height: 24px;
+  height: 20px;
   padding: 0 6px;
 }
 

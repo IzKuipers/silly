@@ -10,16 +10,27 @@ div.window div.titlebar {
   background-color: transparent;
 }
 
+div.window div.titlebar div.window-title img {
+  width: 16px;
+  height: 16px;
+}
+
+div.window div.titlebar div.window-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 div.window div.titlebar div.controls {
-  height: 21px;
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-top: 1px;
 }
 
 div.window div.titlebar div.controls button {
-  width: 21px;
-  height: 21px;
+  width: 20px;
+  height: 20px;
   background-color: transparent;
   padding: 0;
   border: none;
@@ -27,6 +38,11 @@ div.window div.titlebar div.controls button {
   background-position: center;
   background-color: transparent;
   border-radius: 2.5px;
+  border: 1px currentColor solid;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 div.window div.titlebar div.controls button:hover {
@@ -37,13 +53,10 @@ div.window div.titlebar div.controls button:active {
   backdrop-filter: var(--accent-darker);
 }
 
-div.window div.titlebar button.minimize {
-  background-image: url("/assets/controls/minimize.svg");
+div.window div.titlebar div.controls button.close {
+  background-color: tomato;
 }
 
-div.window div.titlebar button.maximize {
-  background-image: url("/assets/controls/maximize.svg");
-}
-div.window div.titlebar button.close {
-  background-image: url("/assets/controls/close.svg");
+div.window div.titlebar div.controls button.close:hover {
+  background-color: rgb(255, 134, 113);
 }

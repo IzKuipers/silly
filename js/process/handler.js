@@ -1,4 +1,5 @@
 import { AppRenderer } from "../apps/renderer.js";
+import { CRASHING } from "../crash.js";
 import { Log } from "../logging.js";
 import { Store } from "../store.js";
 
@@ -19,6 +20,8 @@ export class ProcessHandler {
    * @param {any[]} args
    */
   async spawn(process, parentPid = undefined, ...args) {
+    if (CRASHING) return;
+
     const pid = this.getPid();
     const proc = new process(this, pid, parentPid, ...args);
 
