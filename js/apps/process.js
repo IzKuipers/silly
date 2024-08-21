@@ -1,7 +1,9 @@
 import { Process } from "../process/instance.js";
+import { Sleep } from "../sleep.js";
 import { AppRuntimeError } from "./error.js";
 
 export class AppProcess extends Process {
+  crashReason = "";
   app;
 
   constructor(handler, pid, parentPid, app) {
@@ -23,6 +25,34 @@ export class AppProcess extends Process {
     }
 
     return element;
+  }
+
+  async CrashDetection() {
+    while (true) {
+      if (this.crashReason) {
+        throw new AppRuntimeError(this.crashReason);
+      }
+
+      await Sleep(1);
+    }
+  }
+
+  safeCallback(callback) {
+    return (...args) => {
+      try {
+        callback(...args);
+      } catch (e) {
+        console.log(e);
+        this.crashReason = e.stack;
+      }
+    };
+  }
+
+  addEventListener(element, event, callback) {
+    element.addEventListener(
+      event,
+      this.safeCallback((e) => callback(e))
+    );
   }
 
   render() {}

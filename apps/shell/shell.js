@@ -39,9 +39,11 @@ export default class ShellProcess extends AppProcess {
       this.populateAppList();
     });
 
-    this.handler.renderer.focusedPid.subscribe((v) => {
-      this.updateActiveAppsFocus(v);
-    });
+    this.handler.renderer.focusedPid.subscribe((v) =>
+      this.safeCallback(() => {
+        this.updateActiveAppsFocus(v);
+      })
+    );
   }
 
   stop() {}
@@ -52,7 +54,7 @@ export default class ShellProcess extends AppProcess {
     if (!activeApps)
       throw new AppRuntimeError("Failed to find #activeApps div");
 
-    const populate = (v = this.handler.store.get()) => {
+    const populate = this.safeCallback((v = this.handler.store.get()) => {
       activeApps.innerHTML = "";
 
       for (const [pid, proc] of [...v]) {
@@ -64,13 +66,17 @@ export default class ShellProcess extends AppProcess {
         button.className = `${proc.app.data.id} opened-app`;
         button.innerText = proc.app.data.metadata.name;
 
-        button.addEventListener("click", () => {
-          this.handler.renderer.focusPid(pid);
-        });
+        button.addEventListener(
+          "click",
+          this.safeCallback(() => {
+            this.handler.renderer.focusPid(pid);
+            throw new Error("blah blah ");
+          })
+        );
 
         activeApps.append(button);
       }
-    };
+    });
 
     this.handler.store.subscribe(populate);
   }
@@ -102,33 +108,43 @@ export default class ShellProcess extends AppProcess {
 
       button.innerText = app.data.metadata.name;
 
-      button.addEventListener("click", () => {
-        this.startOpened.set(false);
-        spawnApp(id);
-      });
+      button.addEventListener(
+        "click",
+        this.safeCallback(() => {
+          this.startOpened.set(false);
+          spawnApp(id);
+        })
+      );
 
       appList.append(button);
     }
   }
 
   initializeStartMenu() {
-    UserData.subscribe((v) => {
-      if (!v) return (this.usernameField.innerText = "Stranger");
+    UserData.subscribe(
+      this.safeCallback((v) => {
+        if (!v) return (this.usernameField.innerText = "Stranger");
 
-      this.usernameField.innerText = v.username || "Stranger";
-    });
+        this.usernameField.innerText = v.username || "Stranger";
+      })
+    );
 
-    this.startButton.addEventListener("click", () => {
-      this.startOpened.set(!this.startOpened.get());
-    });
+    this.startButton.addEventListener(
+      "click",
+      this.safeCallback(() => {
+        this.startOpened.set(!this.startOpened.get());
+      })
+    );
 
-    this.startOpened.subscribe((v) => {
-      this.startMenu.classList.remove("opened");
-      if (v) this.startMenu.classList.add("opened");
+    this.startOpened.subscribe(
+      this.safeCallback((v) => {
+        this.startMenu.classList.remove("opened");
+        if (v) this.startMenu.classList.add("opened");
 
-      this.startButton.classList.remove("opened");
-      if (v) this.startButton.classList.add("opened");
-    });
+        this.startButton.classList.remove("opened");
+        if (v) this.startButton.classList.add("opened");
+      })
+    );
   }
 
   startClock() {
@@ -136,9 +152,9 @@ export default class ShellProcess extends AppProcess {
 
     if (!clock) throw new AppRuntimeError(`Silly me, there's no clock!`);
 
-    const tick = () => {
+    const tick = this.safeCallback(() => {
       clock.innerText = strftime("%l:%M %p");
-    };
+    });
     setInterval(tick, 500);
     tick();
   }
@@ -147,16 +163,19 @@ export default class ShellProcess extends AppProcess {
     const startMenu = this.getElement("#startMenu", true);
     const startButton = this.getElement("#startButton", true);
 
-    document.addEventListener("click", (e) => {
-      e.stopPropagation();
-      e.stopImmediatePropagation();
+    document.addEventListener(
+      "click",
+      this.safeCallback((e) => {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
 
-      if (
-        !e.composedPath().includes(startMenu) &&
-        !e.composedPath().includes(startButton)
-      ) {
-        this.startOpened.set(false);
-      }
-    });
+        if (
+          !e.composedPath().includes(startMenu) &&
+          !e.composedPath().includes(startButton)
+        ) {
+          this.startOpened.set(false);
+        }
+      })
+    );
   }
 }
