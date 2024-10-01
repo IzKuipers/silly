@@ -70,7 +70,6 @@ export default class ShellProcess extends AppProcess {
           "click",
           this.safeCallback(() => {
             this.handler.renderer.focusPid(pid);
-            throw new Error("blah blah ");
           })
         );
 
