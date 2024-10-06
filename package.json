@@ -10,6 +10,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@electron/remote": "^2.1.2",
     "electron": "^32.1.2",
     "express": "^4.21.0",
     "tcp-port-used": "^1.0.2"
