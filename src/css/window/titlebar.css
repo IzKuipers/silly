@@ -43,20 +43,7 @@ div.window div.titlebar div.controls button {
   align-items: center;
   justify-content: center;
 }
-/* 
+
 div.window div.titlebar div.controls button:hover {
-  background-color: var(--button-hover-bg);
+  color: var(--accent-light);
 }
-
-div.window div.titlebar div.controls button:active {
-  backdrop-filter: var(--button-active-bg);
-}
-
-div.window.focused div.titlebar div.controls button.close {
-  background-color: tomato;
-}
-
-div.window.focused div.titlebar div.controls button.close:hover {
-  background-color: rgb(255, 134, 113);
-}
- */

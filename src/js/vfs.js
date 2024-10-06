@@ -1,237 +1,118 @@
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+
 export class VirtualFileSystem {
   constructor() {
-    this.root = "/";
-    this.fs = this.loadFS() || { dirs: {}, files: [] };
-
-    this.saveFS();
-  }
-
-  saveFS() {
-    localStorage.setItem("virtualFS", JSON.stringify(this.fs));
-  }
-
-  loadFS() {
-    const data = localStorage.getItem("virtualFS");
-    return data ? JSON.parse(data) : null;
-  }
-
-  traverse(path) {
-    const dirs = path.split("/").filter(Boolean);
-    let currentDir = this.fs;
-
-    for (let dir of dirs) {
-      if (!currentDir.dirs[dir]) {
-        throw new Error(`Directory ${dir} does not exist.`);
-      }
-      currentDir = currentDir.dirs[dir];
+    this.root = this.getAppDataPath();
+    if (!fs.existsSync(this.root)) {
+      fs.mkdirSync(this.root, { recursive: true });
     }
+  }
 
-    return currentDir;
+  getAppDataPath() {
+    const platform = os.platform();
+    return platform === "win32"
+      ? path.join(process.env.LOCALAPPDATA, "inepta")
+      : path.join(os.homedir(), ".local", "inepta");
+  }
+
+  ensureDirSync(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  }
+
+  traverse(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isDirectory()) {
+      throw new Error(`Directory ${pathStr} does not exist.`);
+    }
+    return fullPath;
   }
 
   join(...paths) {
-    return paths
-      .map((path) => path.split("/").filter(Boolean))
-      .flat()
-      .join("/");
+    return path.join(...paths);
   }
 
-  byteArrayToBase64(byteArray) {
-    return btoa(String.fromCharCode(...byteArray));
+  writeFile(pathStr, content) {
+    const fullPath = path.join(this.root, pathStr);
+    const dirPath = path.dirname(fullPath);
+    this.ensureDirSync(dirPath);
+
+    const data = Buffer.isBuffer(content) ? content : Buffer.from(content);
+    fs.writeFileSync(fullPath, data);
   }
 
-  base64ToByteArray(base64) {
-    return new Uint8Array(
-      atob(base64)
-        .split("")
-        .map((char) => char.charCodeAt(0))
-    );
-  }
-
-  writeFile(path, content) {
-    const dirs = path.split("/").filter(Boolean);
-    const fileName = dirs.pop();
-    let currentDir = this.traverse("/" + dirs.join("/"));
-
-    if (currentDir.files.some((file) => file.name === fileName)) {
-      return this.updateFile(path, content);
+  readFile(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) {
+      throw new Error(`File ${pathStr} does not exist.`);
     }
-
-    let base64Content, type, size;
-
-    if (content instanceof Uint8Array) {
-      base64Content = this.byteArrayToBase64(content);
-      type = "binary";
-      size = content.length;
-    } else if (typeof content === "string") {
-      base64Content = btoa(content);
-      type = "text";
-      size = content.length;
-    } else {
-      throw new Error(
-        "Unsupported content type. Must be either a string or Uint8Array."
-      );
-    }
-
-    const dateNow = new Date().toISOString();
-
-    const fileData = {
-      name: fileName,
-      content: base64Content,
-      type: type,
-      size: size,
-      dateCreated: dateNow,
-      dateModified: dateNow,
-    };
-
-    currentDir.files.push(fileData);
-    this.saveFS();
+    return fs.readFileSync(fullPath);
   }
 
-  readFile(path) {
-    const dirs = path.split("/").filter(Boolean);
-    const fileName = dirs.pop();
-    let currentDir = this.traverse("/" + dirs.join("/"));
-
-    const file = currentDir.files.find((file) => file.name === fileName);
-    if (!file) {
-      throw new Error(`File ${fileName} does not exist.`);
+  deleteFile(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    if (!fs.existsSync(fullPath)) {
+      throw new Error(`File ${pathStr} does not exist.`);
     }
-
-    if (file.type === "text") {
-      return atob(file.content);
-    } else if (file.type === "binary") {
-      return this.base64ToByteArray(file.content);
-    } else {
-      throw new Error("Unknown file type.");
-    }
+    fs.unlinkSync(fullPath);
   }
 
-  updateFile(path, newContent) {
-    const dirs = path.split("/").filter(Boolean);
-    const fileName = dirs.pop();
-    let currentDir = this.traverse("/" + dirs.join("/"));
-
-    const file = currentDir.files.find((file) => file.name === fileName);
-
-    if (!file) {
-      throw new Error(`File ${fileName} does not exist.`);
-    }
-
-    if (newContent instanceof Uint8Array) {
-      file.content = this.byteArrayToBase64(newContent);
-      file.size = newContent.length;
-      file.type = "binary";
-    } else if (typeof newContent === "string") {
-      file.content = btoa(newContent);
-      file.size = newContent.length;
-      file.type = "text";
-    } else {
-      throw new Error(
-        "Unsupported content type. Must be either a string or Uint8Array."
-      );
-    }
-
-    file.dateModified = new Date().toISOString();
-
-    this.saveFS();
+  createDirectory(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    this.ensureDirSync(fullPath);
   }
 
-  deleteFile(path) {
-    const dirs = path.split("/").filter(Boolean);
-    const fileName = dirs.pop();
+  readDirectory(pathStr) {
+    const fullPath = this.traverse(pathStr);
+    const dirEntries = fs.readdirSync(fullPath, { withFileTypes: true });
 
-    let currentDir = this.traverse("/" + dirs.join("/"));
-
-    const fileIndex = currentDir.files.findIndex(
-      (file) => file.name === fileName
-    );
-
-    if (fileIndex === -1) {
-      throw new Error(`File ${fileName} does not exist.`);
-    }
-
-    currentDir.files.splice(fileIndex, 1);
-
-    this.saveFS();
-  }
-
-  createDirectory(path) {
-    const dirs = path.split("/").filter(Boolean);
-    let currentDir = this.fs;
-
-    dirs.forEach((dir) => {
-      if (!currentDir.dirs[dir]) {
-        currentDir.dirs[dir] = {
-          dirs: {},
-          files: [],
-          dateCreated: new Date().toISOString(),
-          dateModified: new Date().toISOString(),
-        };
-      }
-      currentDir = currentDir.dirs[dir];
-    });
-
-    this.saveFS();
-  }
-
-  readDirectory(path) {
-    let currentDir = this.traverse(path);
     return {
-      dirs: Object.entries(currentDir.dirs).map(([name, dir]) => ({
-        name,
-        dateCreated: dir.dateCreated,
-        dateModified: dir.dateModified,
-      })),
-      files: currentDir.files.map((file) => ({
-        name: file.name,
-        size: file.size,
-        dateCreated: file.dateCreated,
-        dateModified: file.dateModified,
-      })),
+      dirs: dirEntries
+        .filter((entry) => entry.isDirectory())
+        .map((dir) => ({
+          name: dir.name,
+          dateCreated: fs.statSync(path.join(fullPath, dir.name)).birthtime,
+          dateModified: fs.statSync(path.join(fullPath, dir.name)).mtime,
+        })),
+      files: dirEntries
+        .filter((entry) => entry.isFile())
+        .map((file) => ({
+          name: file.name,
+          size: fs.statSync(path.join(fullPath, file.name)).size,
+          dateCreated: fs.statSync(path.join(fullPath, file.name)).birthtime,
+          dateModified: fs.statSync(path.join(fullPath, file.name)).mtime,
+        })),
     };
   }
 
-  deleteDirectory(path) {
-    const dirs = path.split("/").filter(Boolean);
-    const dirName = dirs.pop();
-    let currentDir = this.traverse("/" + dirs.join("/"));
-
-    if (!currentDir.dirs[dirName]) {
-      throw new Error(`Directory ${dirName} does not exist.`);
+  deleteDirectory(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isDirectory()) {
+      throw new Error(`Directory ${pathStr} does not exist.`);
     }
-
-    delete currentDir.dirs[dirName];
-    this.saveFS();
+    fs.rmdirSync(fullPath, { recursive: true });
   }
 
-  isFile(path) {
-    try {
-      this.readFile(path);
-
-      return true;
-    } catch {
-      return false;
-    }
+  isFile(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    return fs.existsSync(fullPath) && fs.statSync(fullPath).isFile();
   }
 
-  isDir(path) {
-    try {
-      this.readDirectory(path);
-
-      return true;
-    } catch {
-      return false;
-    }
+  isDir(pathStr) {
+    const fullPath = path.join(this.root, pathStr);
+    return fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory();
   }
 
   reset() {
-    this.fs = { dirs: {}, files: [] };
-    this.saveFS();
+    if (fs.existsSync(this.root)) {
+      fs.rmdirSync(this.root, { recursive: true });
+    }
+    fs.mkdirSync(this.root, { recursive: true });
   }
 }
 
-const fs = new VirtualFileSystem();
-window._fs = fs;
-
-export default fs;
+const fsInstance = new VirtualFileSystem();
+export default fsInstance;

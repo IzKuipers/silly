@@ -1,5 +1,4 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
-import { join } from "path";
 
 let window;
 
@@ -12,6 +11,10 @@ app.on("ready", () => {
     center: true,
     backgroundColor: "#000",
     title: "Inepta",
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   });
 
   window.removeMenu();
