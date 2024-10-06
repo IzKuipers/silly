@@ -20,9 +20,9 @@ export const MsgBoxApp = {
     close: true,
   },
   files: {
-    js: "/apps/messagebox/messagebox.js",
-    css: "/css/apps/messagebox.css",
-    html: "/apps/messagebox/messagebox.html",
+    js: "../../apps/messagebox/messagebox.js",
+    css: "./css/apps/messagebox.css",
+    html: "./apps/messagebox/messagebox.html",
   },
   hidden: true,
   core: false,

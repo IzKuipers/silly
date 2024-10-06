@@ -14,7 +14,7 @@ export default async function render() {
     ? reason.error.stack
     : reason.reason.stack;
 
-  crashText.innerText = crashText.innerText.replaceAll(location.href, "/");
+  crashText.innerText = crashText.innerText.replaceAll(location.href, "./");
 
   setTimeout(async () => {
     crashText.innerText += `\n\n${LogStore.reverse().join("\n")}`;

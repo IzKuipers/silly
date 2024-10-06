@@ -172,7 +172,6 @@ export class AppRenderer extends Process {
     });
 
     window.addEventListener("mousedown", () => {
-      console.log("window" + pid + " mousedown");
       this.focusPid(pid);
     });
 
@@ -185,14 +184,11 @@ export class AppRenderer extends Process {
 
   focusPid(pid) {
     const currentFocus = this.focusedPid.get();
-    console.log(currentFocus, pid);
     const window = document.querySelector(`div.window[data-pid="${pid}"]`);
 
     this.unMinimize(pid);
 
-    if (!window) return console.log(`No such window ${pid}`);
-
-    if (currentFocus === pid) return;
+    if (!window || currentFocus === pid) return;
 
     this.maxZIndex++;
     window.style.zIndex = this.maxZIndex;
@@ -263,7 +259,7 @@ export class AppRenderer extends Process {
     // TODO: app icons and window specific icons; inject into titlebar here.
 
     titleCaption.innerText = `[${process._pid}] ${data.metadata.name} (${data.metadata.version})`;
-    titleIcon.src = data.metadata.icon || "/assets/silly.png";
+    titleIcon.src = data.metadata.icon || "./assets/silly.png";
 
     title.className = "window-title";
     title.append(titleIcon, titleCaption);

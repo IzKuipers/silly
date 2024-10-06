@@ -4,12 +4,12 @@ import fs from "../../js/vfs.js";
 import { strftime } from "../../js/desktop/date.js";
 
 export default class FileManProcess extends AppProcess {
-  path = "/";
+  path = "./";
 
   constructor(handler, pid, parentPid, app, path) {
     super(handler, pid, parentPid, app);
 
-    this.path = path || "/";
+    this.path = path || "./";
     app.data.metadata.name = this.path;
   }
 
@@ -33,7 +33,7 @@ export default class FileManProcess extends AppProcess {
       const icon = document.createElement("img");
       const caption = document.createElement("span");
 
-      icon.src = "/assets/fs/folder.png";
+      icon.src = "./assets/fs/folder.png";
       icon.className = "icon";
 
       caption.innerText = `${dir}`;

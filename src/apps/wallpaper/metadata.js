@@ -20,9 +20,9 @@ export const WallpaperApp = {
     close: true,
   },
   files: {
-    js: "/apps/wallpaper/wallpaper.js",
-    css: "/css/apps/wallpaper.css",
-    html: "/apps/wallpaper/wallpaper.html",
+    js: "../../apps/wallpaper/wallpaper.js",
+    css: "./css/apps/wallpaper.css",
+    html: "./apps/wallpaper/wallpaper.html",
   },
   autoRun: true,
   core: true,

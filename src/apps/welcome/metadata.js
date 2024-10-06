@@ -20,9 +20,9 @@ export const WelcomeApp = {
     close: true,
   },
   files: {
-    js: "/apps/welcome/welcome.js",
-    css: "/css/apps/welcome.css",
-    html: "/apps/welcome/welcome.html",
+    js: "../../apps/welcome/welcome.js",
+    css: "./css/apps/welcome.css",
+    html: "./apps/welcome/welcome.html",
   },
   autoRun: true,
   hidden: true,
