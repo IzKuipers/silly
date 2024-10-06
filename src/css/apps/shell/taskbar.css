@@ -45,6 +45,10 @@ div.window.shell div.taskbar #activeApps button.focused {
   background-color: var(--button-bg);
 }
 
+div.window.shell div.taskbar #activeApps button.closing {
+  display: none;
+}
+
 div.window.shell div.system-area {
   margin-left: auto;
   padding: 0 15px;

@@ -28,6 +28,25 @@ export class AppProcess extends Process {
     return element;
   }
 
+  async closeWindow() {
+    const elements = [
+      ...document.querySelectorAll(`div.window[data-pid="${this._pid}"]`),
+      ...document.querySelectorAll(
+        `button.opened-app[data-pid="${this._pid}"]`
+      ),
+    ];
+
+    if (!elements.length) return this.killSelf();
+
+    for (const element of elements) {
+      element.classList.add("closing");
+    }
+
+    await Sleep(300);
+
+    this.killSelf();
+  }
+
   async CrashDetection() {
     while (true) {
       if (this.crashReason) {

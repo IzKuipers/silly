@@ -2,7 +2,7 @@ div.window:not(.core) > div.body button {
   border: none;
   background-color: var(--button-bg);
   padding: 0 10px;
-  border-radius: 2px;
+  border-radius: 4px;
   height: 30px;
 }
 

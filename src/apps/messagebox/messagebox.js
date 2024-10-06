@@ -30,7 +30,7 @@ export default class MsgBoxProcess extends AppProcess {
       buttonElement.innerText = button.caption || "?";
       buttonElement.addEventListener("click", async () => {
         await button.action();
-        await this.killSelf();
+        await this.closeWindow();
       });
 
       buttonsDiv.append(buttonElement);

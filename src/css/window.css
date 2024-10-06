@@ -3,7 +3,6 @@
 
 div.window {
   position: fixed;
-  box-shadow: 0 5px 20px 5px #0008;
 }
 
 div.window:not(.core) {
@@ -12,6 +11,15 @@ div.window:not(.core) {
   color: var(--fg);
   overflow: hidden;
   border-radius: 10px;
+  animation: show 250ms forwards;
+  box-shadow: 0 5px 20px 5px #0008;
+  scale: 0.95;
+  opacity: 0;
+}
+
+div.window:not(.core).closing {
+  animation: hide 250ms forwards;
+  pointer-events: none;
 }
 
 div.window:not(.core).focused {
@@ -55,4 +63,28 @@ div.window.core {
 
 div.window.core div.body {
   height: 100%;
+}
+
+@keyframes show {
+  0% {
+    scale: 0.95;
+    opacity: 0;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes hide {
+  0% {
+    scale: 1;
+    opacity: 1;
+  }
+
+  100% {
+    scale: 0.95;
+    opacity: 0;
+  }
 }

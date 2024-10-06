@@ -22,7 +22,7 @@
   --bg: #fff;
   --shell-bg: #fffb;
   --fg: #222;
-  --border-clr: #666;
+  --border-clr: #bbb;
   --border: var(--border-clr) 1px solid;
   --border-accent: var(--accent) 1px solid;
   --border-accent-dark: var(--accent-darker) 1px solid;

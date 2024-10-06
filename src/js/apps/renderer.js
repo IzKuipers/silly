@@ -250,7 +250,7 @@ export class AppRenderer extends Process {
       close.className = "close material-icons-round";
       close.innerText = "close";
       close.addEventListener("click", async () => {
-        await this.handler.kill(process._pid);
+        process.closeWindow();
       });
 
       controls.append(close);
@@ -259,7 +259,7 @@ export class AppRenderer extends Process {
     // TODO: app icons and window specific icons; inject into titlebar here.
 
     titleCaption.innerText = `[${process._pid}] ${data.metadata.name} (${data.metadata.version})`;
-    titleIcon.src = data.metadata.icon || "./assets/silly.png";
+    titleIcon.src = data.metadata.icon || "./assets/application.svg";
 
     title.className = "window-title";
     title.append(titleIcon, titleCaption);
