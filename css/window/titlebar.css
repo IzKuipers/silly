@@ -4,10 +4,13 @@ div.window div.titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 4px;
-  border-bottom: inherit;
+  padding: 0 7px;
   text-shadow: 1px 1px 0 #000;
   background-color: transparent;
+}
+
+div.window:not(.focused) div.titlebar {
+  opacity: 0.5;
 }
 
 div.window div.titlebar div.window-title img {
@@ -29,34 +32,31 @@ div.window div.titlebar div.controls {
 }
 
 div.window div.titlebar div.controls button {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background-color: transparent;
   padding: 0;
   border: none;
-  background-size: cover;
-  background-position: center;
   background-color: transparent;
-  border-radius: 2.5px;
-  border: 1px currentColor solid;
   font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
+/* 
 div.window div.titlebar div.controls button:hover {
-  background-color: var(--accent);
+  background-color: var(--button-hover-bg);
 }
 
 div.window div.titlebar div.controls button:active {
-  backdrop-filter: var(--accent-darker);
+  backdrop-filter: var(--button-active-bg);
 }
 
-div.window div.titlebar div.controls button.close {
+div.window.focused div.titlebar div.controls button.close {
   background-color: tomato;
 }
 
-div.window div.titlebar div.controls button.close:hover {
+div.window.focused div.titlebar div.controls button.close:hover {
   background-color: rgb(255, 134, 113);
 }
+ */

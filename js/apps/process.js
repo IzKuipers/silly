@@ -1,3 +1,4 @@
+import { Log, LogType } from "../logging.js";
 import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";
 import { AppRuntimeError } from "./error.js";
@@ -42,7 +43,12 @@ export class AppProcess extends Process {
       try {
         callback(...args);
       } catch (e) {
-        console.log(e);
+        Log(
+          `AppProcess::'${this._pid}'.safeCallback`,
+          e.message,
+          LogType.error
+        );
+
         this.crashReason = e.stack;
       }
     };

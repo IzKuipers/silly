@@ -3,21 +3,19 @@
 
 div.window {
   position: fixed;
+  box-shadow: 0 5px 20px 5px #0008;
 }
 
 div.window:not(.core) {
   background-color: var(--bg);
-  background-color: var(--accent-darker);
-  border: var(--border-accent-dark);
+  border: var(--border);
   color: var(--fg);
   overflow: hidden;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-radius: 10px;
 }
 
 div.window:not(.core).focused {
   border: var(--border-accent);
-  background-color: var(--accent-dark);
 }
 
 div.window:not(.core).maximized {
@@ -39,7 +37,7 @@ div.window:not(.core).minimized {
 
 div.window:not(.core) div.body {
   padding: 15px;
-  height: calc(100% - 30px);
+  height: calc(100% - 44px);
   background-color: var(--bg);
 }
 

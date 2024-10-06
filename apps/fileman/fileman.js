@@ -15,7 +15,6 @@ export default class FileManProcess extends AppProcess {
 
   render() {
     this.populate();
-    console.log(this);
   }
 
   populate() {

@@ -172,6 +172,7 @@ export class AppRenderer extends Process {
     });
 
     window.addEventListener("mousedown", () => {
+      console.log("window" + pid + " mousedown");
       this.focusPid(pid);
     });
 
@@ -184,11 +185,14 @@ export class AppRenderer extends Process {
 
   focusPid(pid) {
     const currentFocus = this.focusedPid.get();
-    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+    console.log(currentFocus, pid);
+    const window = document.querySelector(`div.window[data-pid="${pid}"]`);
 
     this.unMinimize(pid);
 
-    if (!window || currentFocus === pid) return;
+    if (!window) return console.log(`No such window ${pid}`);
+
+    if (currentFocus === pid) return;
 
     this.maxZIndex++;
     window.style.zIndex = this.maxZIndex;

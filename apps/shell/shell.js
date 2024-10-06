@@ -39,8 +39,8 @@ export default class ShellProcess extends AppProcess {
       this.populateAppList();
     });
 
-    this.handler.renderer.focusedPid.subscribe((v) =>
-      this.safeCallback(() => {
+    this.handler.renderer.focusedPid.subscribe(
+      this.safeCallback((v) => {
         this.updateActiveAppsFocus(v);
       })
     );
