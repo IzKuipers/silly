@@ -1,5 +1,5 @@
-import { AppRuntimeError } from "../../src/js/apps/error.js";
-import { AppProcess } from "../../src/js/apps/process.js";
+import { AppRuntimeError } from "../../js/apps/error.js";
+import { AppProcess } from "../../js/apps/process.js";
 
 export default class WallpaperProcess extends AppProcess {
   constructor(handler, pid, parentPid, app) {

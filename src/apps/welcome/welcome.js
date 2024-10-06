@@ -1,5 +1,5 @@
-import { AppProcess } from "../../src/js/apps/process.js";
-import { UserData } from "../../src/js/user/data.js";
+import { AppProcess } from "../../js/apps/process.js";
+import { UserData } from "../../js/user/data.js";
 
 export default class WelcomeAppProcess extends AppProcess {
   constructor(handler, pid, parentPid, app) {

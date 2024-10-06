@@ -1,10 +1,10 @@
-import { AppRuntimeError } from "../../src/js/apps/error.js";
-import { AppProcess } from "../../src/js/apps/process.js";
-import { spawnApp } from "../../src/js/apps/spawn.js";
-import { AppStore } from "../../src/js/apps/store.js";
-import { strftime } from "../../src/js/desktop/date.js";
-import { Store } from "../../src/js/store.js";
-import { UserData } from "../../src/js/user/data.js";
+import { AppRuntimeError } from "../../js/apps/error.js";
+import { AppProcess } from "../../js/apps/process.js";
+import { spawnApp } from "../../js/apps/spawn.js";
+import { AppStore } from "../../js/apps/store.js";
+import { strftime } from "../../js/desktop/date.js";
+import { Store } from "../../js/store.js";
+import { UserData } from "../../js/user/data.js";
 
 export default class ShellProcess extends AppProcess {
   startOpened = Store(false);
