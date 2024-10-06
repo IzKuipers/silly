@@ -6,6 +6,7 @@ div.window div.titlebar {
   justify-content: space-between;
   padding: 0 7px;
   background-color: transparent;
+  position: relative;
 }
 
 div.window:not(.focused) div.titlebar {
@@ -18,9 +19,16 @@ div.window div.titlebar div.window-title img {
 }
 
 div.window div.titlebar div.window-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: inherit;
   display: flex;
   align-items: center;
   gap: 5px;
+  justify-content: center;
+  pointer-events: none;
 }
 
 div.window div.titlebar div.controls {
@@ -30,6 +38,7 @@ div.window div.titlebar div.controls {
   margin-top: 1px;
 }
 
+div.window div.titlebar button.close,
 div.window div.titlebar div.controls button {
   width: 16px;
   height: 16px;
@@ -43,6 +52,7 @@ div.window div.titlebar div.controls button {
   justify-content: center;
 }
 
+div.window div.titlebar button.close:hover,
 div.window div.titlebar div.controls button:hover {
   color: var(--accent-light);
 }

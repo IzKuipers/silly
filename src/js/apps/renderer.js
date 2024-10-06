@@ -64,6 +64,8 @@ export class AppRenderer extends Process {
   }
 
   async render(process) {
+    if (process._disposed) return;
+
     const window = document.createElement("div");
     const titlebar = this._renderTitlebar(process);
     const body = document.createElement("div");
@@ -100,23 +102,27 @@ export class AppRenderer extends Process {
       this.focusPid(process._pid);
       await process.CrashDetection();
     } catch (e) {
-      const lines = [
-        `<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`,
-        `If you were in the middle of something, the information you were working on might be lost. The below error might reveal the reason for the crash:`,
-        `<pre>${htmlspecialchars(e.stack.replaceAll(location.href, ""))}</pre>`,
-      ];
+      if (!process._disposed) {
+        const lines = [
+          `<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`,
+          `If you were in the middle of something, the information you were working on might be lost. The below error might reveal the reason for the crash:`,
+          `<pre>${htmlspecialchars(
+            e.stack.replaceAll(location.href, "")
+          )}</pre>`,
+        ];
 
-      MessageBox({
-        title: `An error occured!`,
-        message: lines.join("<br><br>"),
-        buttons: [
-          {
-            caption: "Okay",
-            action() {},
-          },
-        ],
-        icon: MessageIcons.critical,
-      });
+        MessageBox({
+          title: `An error occured!`,
+          message: lines.join("<br><br>"),
+          buttons: [
+            {
+              caption: "Okay",
+              action() {},
+            },
+          ],
+          icon: MessageIcons.critical,
+        });
+      }
 
       await Sleep(0);
       await this.handler.kill(process._pid);
@@ -169,6 +175,8 @@ export class AppRenderer extends Process {
       bounds: { top: 0, left: 0, right: 0 },
       handle: titlebar,
       cancel: `.controls`,
+      legacyTranslate: false,
+      gpuAcceleration: false,
     });
 
     window.addEventListener("mousedown", () => {
@@ -223,8 +231,8 @@ export class AppRenderer extends Process {
     if (data.controls.minimize) {
       const minimize = document.createElement("button");
 
-      minimize.className = "minimize material-icons-round";
-      minimize.innerText = "minimize";
+      minimize.className = "minimize material-symbols-outlined";
+      minimize.innerText = "keyboard_arrow_down";
       minimize.addEventListener("click", () =>
         this.toggleMinimize(process._pid)
       );
@@ -235,8 +243,8 @@ export class AppRenderer extends Process {
     if (data.controls.maximize) {
       const maximize = document.createElement("button");
 
-      maximize.className = "maximize material-icons-round";
-      maximize.innerText = "crop_square";
+      maximize.className = "maximize material-symbols-outlined";
+      maximize.innerText = "keyboard_arrow_up";
       maximize.addEventListener("click", () =>
         this.toggleMaximize(process._pid)
       );
@@ -247,18 +255,18 @@ export class AppRenderer extends Process {
     if (data.controls.close) {
       const close = document.createElement("button");
 
-      close.className = "close material-icons-round";
+      close.className = "close material-symbols-outlined";
       close.innerText = "close";
       close.addEventListener("click", async () => {
         process.closeWindow();
       });
 
-      controls.append(close);
+      titlebar.append(close);
     }
 
     // TODO: app icons and window specific icons; inject into titlebar here.
 
-    titleCaption.innerText = `[${process._pid}] ${data.metadata.name} (${data.metadata.version})`;
+    titleCaption.innerText = `${data.metadata.name}`;
     titleIcon.src = data.metadata.icon || "./assets/application.svg";
 
     title.className = "window-title";
@@ -286,6 +294,12 @@ export class AppRenderer extends Process {
     if (!window) return;
 
     window.classList.toggle("maximized");
+
+    const process = this.handler.getProcess(+pid);
+
+    if (!process || !process.app) return;
+
+    process.app.data.state.maximized = window.classList.contains("maximized");
   }
 
   unMinimize(pid) {
@@ -294,6 +308,13 @@ export class AppRenderer extends Process {
     if (!window) return;
 
     window.classList.remove("minimized");
+
+    const process = this.handler.getProcess(+pid);
+
+    if (!process || !process.app)
+      return console.log("unMaximize failed: no app data for " + pid);
+
+    process.app.data.state.minimized = false;
   }
 
   toggleMinimize(pid) {
@@ -302,5 +323,12 @@ export class AppRenderer extends Process {
     if (!window) return;
 
     window.classList.toggle("minimized");
+
+    const process = this.handler.getProcess(+pid);
+
+    if (!process || !process.app)
+      return console.log("toggleMaximize failed: no app data for " + pid);
+
+    process.app.data.state.minimized = window.classList.contains("minimized");
   }
 }

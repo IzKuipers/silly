@@ -15,6 +15,7 @@ div.window:not(.core) {
   box-shadow: 0 5px 20px 5px #0008;
   scale: 0.95;
   opacity: 0;
+  transform-origin: center center !important;
 }
 
 div.window:not(.core).closing {
@@ -40,7 +41,9 @@ div.window:not(.core).maximized {
 }
 
 div.window:not(.core).minimized {
-  display: none;
+  pointer-events: none;
+  animation: minimize 250ms forwards;
+  scale: 1;
 }
 
 div.window:not(.core) div.body {
@@ -69,11 +72,13 @@ div.window.core div.body {
   0% {
     scale: 0.95;
     opacity: 0;
+    margin-top: 20px;
   }
 
   100% {
     scale: 1;
     opacity: 1;
+    margin-top: 0;
   }
 }
 
@@ -86,5 +91,19 @@ div.window.core div.body {
   100% {
     scale: 0.95;
     opacity: 0;
+  }
+}
+
+@keyframes minimize {
+  0% {
+    margin-top: 0;
+    opacity: 1;
+    scale: 1;
+  }
+
+  100% {
+    margin-top: 20px;
+    opacity: 0;
+    scale: 0.9;
   }
 }

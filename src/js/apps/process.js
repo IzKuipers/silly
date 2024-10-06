@@ -60,6 +60,8 @@ export class AppProcess extends Process {
   safeCallback(callback) {
     return (...args) => {
       try {
+        if (this._disposed) return;
+
         callback(...args);
       } catch (e) {
         Log(

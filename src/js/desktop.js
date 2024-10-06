@@ -1,4 +1,6 @@
+import ShellProcess from "../apps/shell/shell.js";
 import { loadBuiltinApps } from "./apps/builtin.js";
+import { spawnApp } from "./apps/spawn.js";
 import { ProcessHandler } from "./process/handler.js";
 import { Sleep } from "./sleep.js";
 import { StateError } from "./state/error.js";
@@ -43,4 +45,7 @@ export default async function render() {
       window.rcss();
     }
   });
+
+  window.stack = Stack;
+  window.spawnApp = spawnApp;
 }

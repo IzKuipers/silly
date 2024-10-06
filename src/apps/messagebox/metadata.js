@@ -4,7 +4,7 @@ export const MsgBoxApp = {
     version: "1.0.0",
     author: "Izaak Kuipers",
   },
-  size: { w: 700, h: NaN },
+  size: { w: NaN, h: NaN },
   minSize: { w: 100, h: 50 },
   maxSize: { w: 1000, h: 700 },
   position: { centered: true },
@@ -15,8 +15,8 @@ export const MsgBoxApp = {
     fullscreen: false,
   },
   controls: {
-    minimize: false,
-    maximize: false,
+    minimize: true,
+    maximize: true,
     close: true,
   },
   files: {

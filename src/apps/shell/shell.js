@@ -80,7 +80,7 @@ export default class ShellProcess extends AppProcess {
     this.handler.store.subscribe(populate);
   }
 
-  updateActiveAppsFocus(focusedPid) {
+  updateActiveAppsFocus(focusedPid = this.handler.renderer.focusedPid.get()) {
     const activeApps = this.getElement("#activeApps");
 
     if (!activeApps)
@@ -89,8 +89,14 @@ export default class ShellProcess extends AppProcess {
     for (const button of activeApps.children) {
       const pid = button.getAttribute("data-pid");
 
-      button.classList.remove("focused");
+      button.classList.remove("focused", "minimized");
       if (parseInt(pid) === focusedPid) button.classList.add("focused");
+
+      const process = this.handler.getProcess(+pid);
+
+      if (process && process.app && process.app.data.state.minimized) {
+        button.classList.add("minimized");
+      }
     }
   }
 
