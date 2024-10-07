@@ -102,6 +102,6 @@ div.window.progMan div.row div.segment.empty {
   opacity: 0.5;
 }
 
-div.window.progMan div.indent > div.row div.segment.name {
-  padding-left: 20px;
+div.window.progMan div.indent {
+  padding-left: 10px;
 }

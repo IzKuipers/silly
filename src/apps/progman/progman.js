@@ -12,6 +12,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   render() {
+    const killButton = this.getElement("#killButton", true);
+
     this.content = this.getElement("div#content", true);
 
     this.handler.store.subscribe(
@@ -19,6 +21,10 @@ export default class ProgManProcess extends AppProcess {
         this.update(v);
       })
     );
+
+    this.selectedPid.subscribe((v) => {
+      killButton.disabled = v === -1;
+    });
 
     this.toolbarActions();
   }

@@ -1,5 +1,6 @@
 import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
+import { spawnApp } from "../../js/apps/spawn.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
 
@@ -14,6 +15,7 @@ export default class DebugToolProcess extends AppProcess {
     this.cssHotFix();
     this.electronControls();
     this.pageReload();
+    this.launcher();
   }
 
   cssHotFix() {
@@ -50,6 +52,19 @@ export default class DebugToolProcess extends AppProcess {
 
     button.addEventListener("click", () => {
       location.reload();
+    });
+  }
+
+  launcher() {
+    const input = this.getElement("input#launchValue", true);
+    const button = this.getElement("button#launchButton", true);
+
+    button.addEventListener("click", () => {
+      const value = input.value;
+
+      if (!value) return;
+
+      spawnApp(value, this._pid);
     });
   }
 
