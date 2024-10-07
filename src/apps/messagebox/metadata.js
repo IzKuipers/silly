@@ -16,7 +16,7 @@ export const MsgBoxApp = {
   },
   controls: {
     minimize: true,
-    maximize: true,
+    maximize: false,
     close: true,
   },
   files: {

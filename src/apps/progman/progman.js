@@ -1,4 +1,6 @@
 import { AppProcess } from "../../js/apps/process.js";
+import { MessageBox } from "../../js/desktop/message.js";
+import { MessageIcons } from "../../js/images/msgbox.js";
 import { Store } from "../../js/store.js";
 
 export default class ProgManProcess extends AppProcess {
@@ -17,9 +19,16 @@ export default class ProgManProcess extends AppProcess {
         this.update(v);
       })
     );
+
+    this.toolbarActions();
   }
 
   update(processes) {
+    const selectedPid = this.selectedPid.get();
+    const selectedProcess = this.handler.getProcess(selectedPid);
+
+    if (!selectedProcess && selectedPid !== -1) this.selectedPid.set(-1);
+
     const counter = this.getElement("#runningAppsCounter", true);
 
     counter.innerText = `${
@@ -75,8 +84,6 @@ export default class ProgManProcess extends AppProcess {
     const { nameSegment, titleSegment, pidSegment, idSegment } =
       this.segments();
 
-    console.log(process, process.app, process.name);
-
     try {
       nameSegment.innerText = process.name;
       titleSegment.innerText = process.app.data.metadata.name;
@@ -117,5 +124,46 @@ export default class ProgManProcess extends AppProcess {
     idSegment.className = "segment id";
 
     return { nameSegment, titleSegment, pidSegment, idSegment };
+  }
+
+  toolbarActions() {
+    const killButton = this.getElement("#killButton", true);
+    const runButton = this.getElement("#runButton", true);
+    const shutdownButton = this.getElement("#shutdownButton", true);
+    const restartButton = this.getElement("#restartButton", true);
+
+    killButton.addEventListener(
+      "click",
+      this.safeCallback(() => {
+        this.killSelected();
+      })
+    );
+  }
+
+  killSelected() {
+    const selectedPid = this.selectedPid.get();
+
+    if (!selectedPid) return;
+
+    MessageBox(
+      {
+        title: `Kill ${selectedPid}?`,
+        message: `Are you sure you want to behead the innocent process with ID ${selectedPid}?`,
+        buttons: [
+          {
+            caption: "Do it.",
+            action: () => {
+              this.handler.kill(selectedPid);
+            },
+          },
+          {
+            caption: "Let it live.",
+            action: () => {},
+          },
+        ],
+        icon: MessageIcons.question,
+      },
+      this._pid
+    );
   }
 }

@@ -4,7 +4,7 @@ export const ProgManApp = {
     version: "1.0.0",
     author: "Izaak Kuipers",
   },
-  size: { w: 500, h: 400 },
+  size: { w: 700, h: 500 },
   minSize: { w: 400, h: 300 },
   maxSize: { w: NaN, h: NaN },
   position: { centered: true },

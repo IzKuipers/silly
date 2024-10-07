@@ -1,13 +1,13 @@
-import { Process } from "../process/instance.js";
-import { Sleep } from "../sleep.js";
-import { Draggable } from "../neodrag.js";
-import { Store } from "../store.js";
-import { AppRendererError } from "./error.js";
-import { Log } from "../logging.js";
+import { RendererPid } from "../../env.js";
 import { MessageBox } from "../desktop/message.js";
 import { MessageIcons } from "../images/msgbox.js";
+import { Log } from "../logging.js";
+import { Draggable } from "../neodrag.js";
+import { Process } from "../process/instance.js";
+import { Sleep } from "../sleep.js";
+import { Store } from "../store.js";
 import { htmlspecialchars } from "../util.js";
-import { RendererPid } from "../../env.js";
+import { AppRendererError } from "./error.js";
 
 export class AppRenderer extends Process {
   currentState = [];
@@ -29,13 +29,25 @@ export class AppRenderer extends Process {
     RendererPid.set(this._pid);
   }
 
+  disposedCheck() {
+    if (this._disposed) {
+      throw new AppRendererError(
+        `AppRenderer with PID ${this._pid} was killed`
+      );
+    }
+  }
+
   sync() {
+    this.disposedCheck();
+
     Log("AppRenderer.sync", "syncing");
     this.syncNewbies();
     this.syncDisposed();
   }
 
   syncNewbies() {
+    this.disposedCheck();
+
     const appProcesses = [];
 
     for (const [_, proc] of [...this.handler.store.get()]) {
@@ -56,6 +68,8 @@ export class AppRenderer extends Process {
   }
 
   syncDisposed() {
+    this.disposedCheck();
+
     for (const pid of this.currentState) {
       const process = this.handler.getProcess(pid);
 
@@ -66,6 +80,8 @@ export class AppRenderer extends Process {
   }
 
   async render(process) {
+    this.disposedCheck();
+
     if (process._disposed) return;
 
     const window = document.createElement("div");
@@ -132,6 +148,8 @@ export class AppRenderer extends Process {
   }
 
   _windowClasses(window, data) {
+    this.disposedCheck();
+
     if (data.core) window.classList.add("core");
     else {
       window.style.maxWidth = `${data.maxSize.w}px`;
@@ -160,6 +178,8 @@ export class AppRenderer extends Process {
   }
 
   centerWindow(pid) {
+    this.disposedCheck();
+
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
 
     if (!window) return;
@@ -171,6 +191,8 @@ export class AppRenderer extends Process {
   }
 
   _windowEvents(pid, window, titlebar, data) {
+    this.disposedCheck();
+
     if (data.core) return; // Core applications don't need any fancy things
 
     new Draggable(window, {
@@ -193,6 +215,8 @@ export class AppRenderer extends Process {
   }
 
   focusPid(pid) {
+    this.disposedCheck();
+
     const currentFocus = this.focusedPid.get();
     const window = document.querySelector(`div.window[data-pid="${pid}"]`);
 
@@ -207,6 +231,8 @@ export class AppRenderer extends Process {
   }
 
   async _windowHtml(body, data) {
+    this.disposedCheck();
+
     try {
       const html = await (await fetch(data.files.html)).text();
 
@@ -217,6 +243,8 @@ export class AppRenderer extends Process {
   }
 
   _renderTitlebar(process) {
+    this.disposedCheck();
+
     if (process.app.data.core) return ""; // Again, core apps don't need a titlebar
 
     const titlebar = document.createElement("div");
@@ -281,6 +309,8 @@ export class AppRenderer extends Process {
   }
 
   async remove(pid) {
+    this.disposedCheck();
+
     if (!pid) return;
 
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
@@ -291,6 +321,8 @@ export class AppRenderer extends Process {
   }
 
   toggleMaximize(pid) {
+    this.disposedCheck();
+
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
 
     if (!window) return;
@@ -305,6 +337,8 @@ export class AppRenderer extends Process {
   }
 
   unMinimize(pid) {
+    this.disposedCheck();
+
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
 
     if (!window) return;
@@ -313,13 +347,14 @@ export class AppRenderer extends Process {
 
     const process = this.handler.getProcess(+pid);
 
-    if (!process || !process.app)
-      return console.log("unMaximize failed: no app data for " + pid);
+    if (!process || !process.app) return;
 
     process.app.data.state.minimized = false;
   }
 
   toggleMinimize(pid) {
+    this.disposedCheck();
+
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
 
     if (!window) return;
@@ -328,8 +363,7 @@ export class AppRenderer extends Process {
 
     const process = this.handler.getProcess(+pid);
 
-    if (!process || !process.app)
-      return console.log("toggleMaximize failed: no app data for " + pid);
+    if (!process || !process.app) return;
 
     process.app.data.state.minimized = window.classList.contains("minimized");
   }
