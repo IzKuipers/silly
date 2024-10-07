@@ -21,51 +21,60 @@ export default class DebugToolProcess extends AppProcess {
   cssHotFix() {
     const button = this.getElement("button#cssReloadHotfix", true);
 
-    button.addEventListener("click", () => {
-      const stylesheets = document.querySelectorAll("link[rel='stylesheet']");
+    button.addEventListener(
+      "click",
+      this.safe(() => {
+        const stylesheets = document.querySelectorAll("link[rel='stylesheet']");
 
-      for (const stylesheet of stylesheets) {
-        const href = stylesheet.href;
+        for (const stylesheet of stylesheets) {
+          const href = stylesheet.href;
 
-        stylesheet.href = "";
+          stylesheet.href = "";
 
-        setTimeout(() => {
-          stylesheet.href = href;
-          MessageBox({
-            title: "CSS Reload Hotfix",
-            message: `Reloaded stylesheet <b>${stylesheet.id}</b>:<br><br><code>${href}</code>`,
-            icon: MessageIcons.information,
-            buttons: [
-              {
-                caption: "Okay",
-                action() {},
-              },
-            ],
+          setTimeout(() => {
+            stylesheet.href = href;
+            MessageBox({
+              title: "CSS Reload Hotfix",
+              message: `Reloaded stylesheet <b>${stylesheet.id}</b>:<br><br><code>${href}</code>`,
+              icon: MessageIcons.information,
+              buttons: [
+                {
+                  caption: "Okay",
+                  action() {},
+                },
+              ],
+            });
           });
-        });
-      }
-    });
+        }
+      })
+    );
   }
 
   pageReload() {
     const button = this.getElement("button#pageReload", true);
 
-    button.addEventListener("click", () => {
-      location.reload();
-    });
+    button.addEventListener(
+      "click",
+      this.safe(() => {
+        location.reload();
+      })
+    );
   }
 
   launcher() {
     const input = this.getElement("input#launchValue", true);
     const button = this.getElement("button#launchButton", true);
 
-    button.addEventListener("click", () => {
-      const value = input.value;
+    button.addEventListener(
+      "click",
+      this.safe(() => {
+        const value = input.value;
 
-      if (!value) return;
+        if (!value) return;
 
-      spawnApp(value, this._pid);
-    });
+        spawnApp(value, this._pid);
+      })
+    );
   }
 
   electronControls() {
@@ -73,19 +82,30 @@ export default class DebugToolProcess extends AppProcess {
     const maximize = this.getElement("button#maximize", true);
     const close = this.getElement("button#close", true);
 
-    minimize.addEventListener("click", () => {
-      if (!BrowserWindow.getFocusedWindow()) return;
+    minimize.addEventListener(
+      "click",
+      this.safe(() => {
+        if (!BrowserWindow.getFocusedWindow()) return;
 
-      BrowserWindow.getFocusedWindow().minimize();
-    });
-    maximize.addEventListener("click", () => {
-      if (!BrowserWindow.getFocusedWindow()) return;
+        BrowserWindow.getFocusedWindow().minimize();
+      })
+    );
 
-      BrowserWindow.getFocusedWindow().maximize();
-      BrowserWindow.getFocusedWindow().fullScreen = false;
-    });
-    close.addEventListener("click", () => {
-      window.close();
-    });
+    maximize.addEventListener(
+      "click",
+      this.safe(() => {
+        if (!BrowserWindow.getFocusedWindow()) return;
+
+        BrowserWindow.getFocusedWindow().maximize();
+        BrowserWindow.getFocusedWindow().fullScreen = false;
+      })
+    );
+
+    close.addEventListener(
+      "click",
+      this.safe(() => {
+        window.close();
+      })
+    );
   }
 }
