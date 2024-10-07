@@ -1,3 +1,4 @@
+import { PREFERENCES_FILE } from "../../env.js";
 import { loadState, States } from "../../js/init.js";
 import { Log } from "../../js/logging.js";
 import { Sleep } from "../../js/sleep.js";
@@ -9,12 +10,12 @@ export default async function render() {
   let userData = {};
 
   try {
-    userData = JSON.parse(fs.readFile("user.txt"));
+    userData = JSON.parse(fs.readFile(PREFERENCES_FILE));
 
     Log(`Login`, "Loaded User Data");
   } catch {
     userData = DefaultUserData;
-    fs.writeFile("user.txt", JSON.stringify(DefaultUserData));
+    fs.writeFile(PREFERENCES_FILE, JSON.stringify(DefaultUserData));
   }
 
   UserData.set(userData);

@@ -12,6 +12,10 @@ export class AppProcess extends Process {
 
     this.app = app;
     this.app.data = JSON.parse(JSON.stringify({ ...app.data }));
+    this.app.meta = JSON.parse(JSON.stringify({ ...app.data }));
+    this.app.id = app.data.id;
+
+    this.name = app.data.id;
   }
 
   getElement(querySelector, error = false) {

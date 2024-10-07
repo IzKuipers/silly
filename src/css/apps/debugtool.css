@@ -1,0 +1,21 @@
+div.window.debugTool div.body div.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+div.window.debugTool div.body div.controls button {
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 0;
+}
+div.window.debugTool div.body div.controls button:hover {
+  color: Var(--accent-light);
+}
+
+div.window.debugTool div.body div.primary-actions {
+  display: flex;
+  justify-content: space-between;
+}

@@ -33,6 +33,8 @@ export class ProcessHandler {
       if (result === false) return;
     }
 
+    proc.name = proc.constructor.name;
+
     const store = this.store.get();
 
     store.set(pid, proc);

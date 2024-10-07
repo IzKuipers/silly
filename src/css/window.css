@@ -16,6 +16,7 @@ div.window:not(.core) {
   scale: 0.95;
   opacity: 0;
   transform-origin: center center !important;
+  /* transition: all 0.3s; */
 }
 
 div.window:not(.core).closing {
@@ -29,10 +30,11 @@ div.window:not(.core).focused {
 
 div.window:not(.core).maximized {
   transform: none !important;
+  translate: 0 0 !important;
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: calc(100% - 31px) !important;
+  height: calc(100% - 41px) !important;
   border: none !important;
   resize: none !important;
   max-height: unset !important;
@@ -48,7 +50,7 @@ div.window:not(.core).minimized {
 
 div.window:not(.core) div.body {
   padding: 15px;
-  height: calc(100% - 44px);
+  height: calc(100% - 30px);
   background-color: var(--bg);
 }
 

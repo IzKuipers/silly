@@ -7,6 +7,7 @@ import { Log } from "../logging.js";
 import { MessageBox } from "../desktop/message.js";
 import { MessageIcons } from "../images/msgbox.js";
 import { htmlspecialchars } from "../util.js";
+import { RendererPid } from "../../env.js";
 
 export class AppRenderer extends Process {
   currentState = [];
@@ -25,6 +26,7 @@ export class AppRenderer extends Process {
       );
 
     this.target = targetDiv;
+    RendererPid.set(this._pid);
   }
 
   sync() {

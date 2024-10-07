@@ -13,12 +13,11 @@ export default class DebugToolProcess extends AppProcess {
   render() {
     this.cssHotFix();
     this.electronControls();
+    this.pageReload();
   }
 
   cssHotFix() {
     const button = this.getElement("button#cssReloadHotfix", true);
-
-    if (!button) throw new AppRuntimeError("No such element #cssReloadHotfix");
 
     button.addEventListener("click", () => {
       const stylesheets = document.querySelectorAll("link[rel='stylesheet']");
@@ -43,6 +42,14 @@ export default class DebugToolProcess extends AppProcess {
           });
         });
       }
+    });
+  }
+
+  pageReload() {
+    const button = this.getElement("button#pageReload", true);
+
+    button.addEventListener("click", () => {
+      location.reload();
     });
   }
 

@@ -117,7 +117,7 @@ export default class ShellProcess extends AppProcess {
         "click",
         this.safeCallback(() => {
           this.startOpened.set(false);
-          spawnApp(id);
+          spawnApp(id, this._pid);
         })
       );
 

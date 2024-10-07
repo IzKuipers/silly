@@ -1,0 +1,107 @@
+div.window.progMan div.body {
+  padding: 0;
+}
+
+div.window.progMan div.toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: var(--border);
+  height: 50px;
+}
+
+div.window.progMan div#content {
+  height: calc(100% - 50px - 25px);
+  overflow-x: auto;
+}
+
+div.window.progMan div.status-bar {
+  border-top: var(--border);
+  height: 25px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+div.window.progMan div.status-bar div.part {
+  height: inherit;
+  line-height: 24px;
+  border-right: var(--border);
+  width: fit-content;
+  padding-right: 20px;
+}
+
+div.window.progMan div.toolbar > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+div.window.progMan div.toolbar button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+div.window.progMan div.toolbar button span.material-symbols-outlined {
+  font-size: 16px;
+}
+
+div.window.progMan div.row {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  /* gap: 20px; */
+  height: 28px;
+  padding: 0 10px;
+  width: 100%;
+  min-width: fit-content;
+}
+
+div.window.progMan div.row:hover {
+  background-color: var(--button-bg);
+}
+
+div.window.progMan div.row.selected {
+  background-color: var(--button-hover-bg);
+}
+
+div.window.progMan div.row div.segment.name {
+  width: fit-content;
+
+  margin-right: auto;
+}
+
+div.window.progMan div.row.header {
+  border-bottom: var(--border);
+  height: 30px;
+}
+
+div.window.progMan div.row.header * {
+  font-weight: bold;
+}
+
+div.window.progMan div.row div.segment {
+  width: 170px;
+  min-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: inherit;
+  line-height: 30px;
+}
+
+div.window.progMan div.row.header div.segment:not(:first-child) {
+  border-left: var(--border);
+}
+
+div.window.progMan div.row div.segment + div.segment {
+  padding-left: 10px;
+}
+
+div.window.progMan div.row div.segment.empty {
+  opacity: 0.5;
+}
+
+div.window.progMan div.indent > div.row div.segment.name {
+  padding-left: 20px;
+}

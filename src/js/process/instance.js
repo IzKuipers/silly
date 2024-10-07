@@ -4,6 +4,7 @@ export class Process {
   _criticalProcess = false;
   handler;
   parentPid = undefined;
+  name = "";
 
   constructor(handler, pid, parentPid = undefined) {
     this._pid = pid;
