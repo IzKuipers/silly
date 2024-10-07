@@ -1,3 +1,4 @@
+import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
@@ -13,17 +14,20 @@ export default class ProgManProcess extends AppProcess {
 
   render() {
     const killButton = this.getElement("#killButton", true);
+    const panicButton = this.getElement("#panicButton", true);
 
     this.content = this.getElement("div#content", true);
 
     this.handler.store.subscribe(
-      this.safeCallback((v) => {
+      this.safe((v) => {
         this.update(v);
       })
     );
 
     this.selectedPid.subscribe((v) => {
-      killButton.disabled = v === -1;
+      const somethingSelected = v === -1;
+
+      killButton.disabled = panicButton.disabled = somethingSelected;
     });
 
     this.toolbarActions();
@@ -134,14 +138,22 @@ export default class ProgManProcess extends AppProcess {
 
   toolbarActions() {
     const killButton = this.getElement("#killButton", true);
+    const panicButton = this.getElement("#panicButton", true);
     const runButton = this.getElement("#runButton", true);
     const shutdownButton = this.getElement("#shutdownButton", true);
     const restartButton = this.getElement("#restartButton", true);
 
     killButton.addEventListener(
       "click",
-      this.safeCallback(() => {
+      this.safe(() => {
         this.killSelected();
+      })
+    );
+
+    panicButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.panicSelected();
       })
     );
   }
@@ -158,12 +170,43 @@ export default class ProgManProcess extends AppProcess {
         buttons: [
           {
             caption: "Do it.",
-            action: () => {
+            action: this.safe(() => {
               this.handler.kill(selectedPid);
-            },
+            }),
           },
           {
             caption: "Let it live.",
+            action: () => {},
+          },
+        ],
+        icon: MessageIcons.question,
+      },
+      this._pid
+    );
+  }
+
+  panicSelected() {
+    const selectedPid = this.selectedPid.get();
+
+    if (!selectedPid) return;
+
+    MessageBox(
+      {
+        title: `Panic ${selectedPid}?`,
+        message: `Are you sure you want to cause mayhem for the innocent process with ID ${selectedPid}? This can cause important data to get lost.`,
+        buttons: [
+          {
+            caption: "Panic!",
+            action: this.safe(() => {
+              const process = this.handler.getProcess(selectedPid);
+
+              process.safe(() => {
+                throw new AppRuntimeError("Crash via panic button!");
+              })();
+            }),
+          },
+          {
+            caption: "Abort.",
             action: () => {},
           },
         ],

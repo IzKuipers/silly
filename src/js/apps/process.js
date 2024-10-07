@@ -61,18 +61,14 @@ export class AppProcess extends Process {
     }
   }
 
-  safeCallback(callback) {
+  safe(callback) {
     return (...args) => {
       try {
         if (this._disposed) return;
 
         callback(...args);
       } catch (e) {
-        Log(
-          `AppProcess::'${this._pid}'.safeCallback`,
-          e.message,
-          LogType.error
-        );
+        Log(`AppProcess::'${this._pid}'.safe`, e.message, LogType.error);
 
         this.crashReason = e.stack;
       }
@@ -82,7 +78,7 @@ export class AppProcess extends Process {
   addEventListener(element, event, callback) {
     element.addEventListener(
       event,
-      this.safeCallback((e) => callback(e))
+      this.safe((e) => callback(e))
     );
   }
 

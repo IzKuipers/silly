@@ -23,6 +23,7 @@ div.window:not(.core) > div.body input {
   height: 30px;
   background-color: var(--button-active-bg);
   border: var(--button-bg) 1px solid;
+  border-radius: 4px;
 }
 
 code {
@@ -34,4 +35,10 @@ pre {
   font-family: "Source Code Pro";
   white-space: pre;
   font-size: 12px;
+  margin: 5px 0;
+  padding: 5px;
+  background-color: var(--button-active-bg);
+  border-radius: 4px;
+  max-width: 100%;
+  overflow-x: auto;
 }

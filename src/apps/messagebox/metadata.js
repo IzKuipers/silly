@@ -6,7 +6,7 @@ export const MsgBoxApp = {
   },
   size: { w: NaN, h: NaN },
   minSize: { w: 100, h: 50 },
-  maxSize: { w: 1000, h: 700 },
+  maxSize: { w: 700, h: 700 },
   position: { centered: true },
   state: {
     resizable: false,

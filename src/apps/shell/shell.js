@@ -40,7 +40,7 @@ export default class ShellProcess extends AppProcess {
     });
 
     this.handler.renderer.focusedPid.subscribe(
-      this.safeCallback((v) => {
+      this.safe((v) => {
         this.updateActiveAppsFocus(v);
       })
     );
@@ -54,7 +54,7 @@ export default class ShellProcess extends AppProcess {
     if (!activeApps)
       throw new AppRuntimeError("Failed to find #activeApps div");
 
-    const populate = this.safeCallback((v = this.handler.store.get()) => {
+    const populate = this.safe((v = this.handler.store.get()) => {
       activeApps.innerHTML = "";
 
       for (const [pid, proc] of [...v]) {
@@ -68,7 +68,7 @@ export default class ShellProcess extends AppProcess {
 
         button.addEventListener(
           "click",
-          this.safeCallback(() => {
+          this.safe(() => {
             this.handler.renderer.focusPid(pid);
           })
         );
@@ -115,7 +115,7 @@ export default class ShellProcess extends AppProcess {
 
       button.addEventListener(
         "click",
-        this.safeCallback(() => {
+        this.safe(() => {
           this.startOpened.set(false);
           spawnApp(id, this._pid);
         })
@@ -127,7 +127,7 @@ export default class ShellProcess extends AppProcess {
 
   initializeStartMenu() {
     UserData.subscribe(
-      this.safeCallback((v) => {
+      this.safe((v) => {
         if (!v) return (this.usernameField.innerText = "Stranger");
 
         this.usernameField.innerText = v.username || "Stranger";
@@ -136,13 +136,13 @@ export default class ShellProcess extends AppProcess {
 
     this.startButton.addEventListener(
       "click",
-      this.safeCallback(() => {
+      this.safe(() => {
         this.startOpened.set(!this.startOpened.get());
       })
     );
 
     this.startOpened.subscribe(
-      this.safeCallback((v) => {
+      this.safe((v) => {
         this.startMenu.classList.remove("opened");
         if (v) this.startMenu.classList.add("opened");
 
@@ -157,7 +157,7 @@ export default class ShellProcess extends AppProcess {
 
     if (!clock) throw new AppRuntimeError(`Silly me, there's no clock!`);
 
-    const tick = this.safeCallback(() => {
+    const tick = this.safe(() => {
       clock.innerText = strftime("%l:%M %p");
     });
     setInterval(tick, 500);
@@ -170,7 +170,7 @@ export default class ShellProcess extends AppProcess {
 
     document.addEventListener(
       "click",
-      this.safeCallback((e) => {
+      this.safe((e) => {
         e.stopPropagation();
         e.stopImmediatePropagation();
 

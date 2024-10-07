@@ -4,6 +4,10 @@ div.window.msgBox div.body div.top {
   gap: 20px;
 }
 
+div.window.msgBox div.body div.top div#content {
+  max-width: calc(100% - 32px - 20px);
+}
+
 div.window.msgBox div.body div.bottom {
   display: flex;
   align-items: center;

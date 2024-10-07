@@ -8,7 +8,7 @@ export default class MsgBoxProcess extends AppProcess {
     super(handler, pid, parentPid, app);
 
     this.data = data;
-    this.app.data.metadata.name = data.title;
+    this.app.data.metadata.name = data ? data.title : "*";
   }
 
   async render() {
