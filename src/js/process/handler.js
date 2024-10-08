@@ -1,5 +1,6 @@
+import { KERNEL } from "../../env.js";
 import { AppRenderer } from "../apps/renderer.js";
-import { CRASHING } from "../crash.js";
+import { Crash, CRASHING } from "../crash.js";
 import { Log } from "../logging.js";
 import { Store } from "../store.js";
 

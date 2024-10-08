@@ -11,6 +11,7 @@ export class IneptaKernel {
   state;
   stack;
   params;
+  initPid;
 
   constructor() {
     Log("KERNEL", "Starting kernel");
@@ -48,8 +49,8 @@ export class IneptaKernel {
     await this.initializeCoreModules();
     this.params = new URLSearchParams();
 
-    const initPid = (await this.stack.spawn(InitProcess))._pid;
+    this.initPid = (await this.stack.spawn(InitProcess))._pid;
 
-    await this.stack._init("appRenderer", initPid);
+    await this.stack._init("appRenderer", this.initPid);
   }
 }

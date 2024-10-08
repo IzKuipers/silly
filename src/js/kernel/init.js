@@ -14,4 +14,8 @@ export class InitProcess extends Process {
       false
     );
   }
+
+  stop() {
+    throw new Error("Attempted to kill init!");
+  }
 }

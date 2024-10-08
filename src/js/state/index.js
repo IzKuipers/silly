@@ -10,7 +10,9 @@ export class StateHandler {
   constructor(store = States) {
     Log(
       "StateHandler",
-      `Constructing new StateHandler with ${Object.entries(store).length}`
+      `Constructing new StateHandler with a store containing ${
+        Object.entries(store).length
+      } states`
     );
 
     this.store = store;
