@@ -183,4 +183,10 @@ export default class ShellProcess extends AppProcess {
       })
     );
   }
+
+  stop() {
+    setTimeout(() => {
+      spawnApp("shell", this.parentPid);
+    }, 1000);
+  }
 }
