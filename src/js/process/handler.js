@@ -11,8 +11,9 @@ export class ProcessHandler {
     Log("ProcessHandler.constructor", "Constructing");
   }
 
-  async _init(renderTarget) {
-    this.renderer = await this.spawn(AppRenderer, undefined, renderTarget);
+  async _init(renderTarget, initPid) {
+    Log("ProcessHandler", "Called _init");
+    this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
   }
 
   /**
@@ -77,7 +78,7 @@ export class ProcessHandler {
     for (const [pid, proc] of procs) {
       if (proc._disposed) continue;
 
-      await this.kill(pid, true);
+      await this.kill(pid);
     }
   }
 

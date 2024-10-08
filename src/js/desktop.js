@@ -1,12 +1,9 @@
-import ShellProcess from "../apps/shell/shell.js";
+import { KERNEL } from "../env.js";
 import { loadBuiltinApps } from "./apps/builtin.js";
 import { spawnApp } from "./apps/spawn.js";
-import { ProcessHandler } from "./process/handler.js";
 import { Sleep } from "./sleep.js";
 import { StateError } from "./state/error.js";
 import { startUserDataSync, UserData } from "./user/data.js";
-
-export let Stack;
 
 export default async function render() {
   const stateLoader = document.querySelector("#stateLoader.desktop");
@@ -15,10 +12,6 @@ export default async function render() {
     throw new StateError("Desktop render invocation outside StateLoader!");
 
   startUserDataSync();
-
-  Stack = new ProcessHandler();
-
-  await Stack._init("appRenderer");
   await loadBuiltinApps();
 
   UserData.subscribe((v) => {
@@ -46,6 +39,6 @@ export default async function render() {
     }
   });
 
-  window.stack = Stack;
+  window.kernel = KERNEL;
   window.spawnApp = spawnApp;
 }

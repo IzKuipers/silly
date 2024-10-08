@@ -1,5 +1,5 @@
-:root #stateLoader[data-theme="dark"] *,
-:root #stateLoader * {
+:root #main[data-theme="dark"] *,
+:root #main * {
   --bg: #222;
   --shell-bg: #222d;
   --fg: #fff;
@@ -18,7 +18,7 @@
   --button-hover-bg: #444;
   --button-active-bg: #111;
 }
-:root #stateLoader[data-theme="light"] * {
+:root #main[data-theme="light"] * {
   --bg: #fff;
   --shell-bg: #fffb;
   --fg: #222;

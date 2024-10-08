@@ -1,9 +1,13 @@
+import { Log } from "./logging.js";
+
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
 export class VirtualFileSystem {
   constructor() {
+    Log("FS", "Constructing new Filesystem integration");
+
     this.root = this.getAppDataPath();
     if (!fs.existsSync(this.root)) {
       fs.mkdirSync(this.root, { recursive: true });

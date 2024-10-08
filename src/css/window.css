@@ -68,6 +68,7 @@ div.window.core {
 
 div.window.core div.body {
   height: 100%;
+  pointer-events: initial;
 }
 
 @keyframes show {

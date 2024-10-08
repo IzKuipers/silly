@@ -1,12 +1,12 @@
-import { RendererPid } from "../../env.js";
-import { Stack } from "../desktop.js";
+import { KERNEL, RendererPid } from "../../env.js";
 import { MessageBox } from "../desktop/message.js";
 import { MessageIcons } from "../images/msgbox.js";
 import { AppLoadError } from "./error.js";
 import { AppStore } from "./store.js";
 
 export async function spawnApp(id, parent = undefined, ...args) {
-  if (!Stack) throw new AppLoadError(`Tried to spawn an app without a handler`);
+  if (!KERNEL.stack)
+    throw new AppLoadError(`Tried to spawn an app without a handler`);
 
   const stored = AppStore.get()[id];
 
@@ -32,5 +32,7 @@ export async function spawnApp(id, parent = undefined, ...args) {
 
   app.data = JSON.parse(JSON.stringify(app.data));
 
-  return (await Stack.spawn(app.process, parent, app, ...args)) === "success";
+  return (
+    (await KERNEL.stack.spawn(app.process, parent, app, ...args)) === "success"
+  );
 }
