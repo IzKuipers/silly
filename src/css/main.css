@@ -33,12 +33,12 @@ body {
   height: 100%;
 }
 
-main {
+main#main {
   padding: 5px;
   transition: opacity 300ms;
 }
 
-main.hidden {
+main#main.hidden {
   opacity: 0;
   pointer-events: none;
 }

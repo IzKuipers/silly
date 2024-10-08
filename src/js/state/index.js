@@ -26,12 +26,12 @@ export class StateHandler {
         "Attempted state load invocation without valid metadata"
       );
 
-    const { htmlLoader, cssLoader } = this.getStateLoaders();
+    const { htmlLoader, cssLoader, main } = this.getStateLoaders();
 
     StateProps[identifier] = props || {};
 
     if (!instant) {
-      htmlLoader.classList.add("hidden");
+      main.classList.add("hidden");
 
       await Sleep(400);
     }
@@ -54,7 +54,7 @@ export class StateHandler {
     if (!instant) {
       await Sleep(500);
 
-      htmlLoader.classList.remove("hidden");
+      main.classList.remove("hidden");
     }
 
     this.previousState = identifier;
@@ -72,12 +72,13 @@ export class StateHandler {
   }
 
   getStateLoaders() {
+    const main = document.querySelector("#main");
     const cssLoader = document.getElementById("stateCSSLoader");
     const htmlLoader = document.getElementById("stateLoader");
 
-    if (!cssLoader || !htmlLoader)
+    if (!cssLoader || !htmlLoader || !main)
       throw new StateError("Missing elements of state handling.");
 
-    return { htmlLoader, cssLoader };
+    return { htmlLoader, cssLoader, main };
   }
 }

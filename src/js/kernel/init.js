@@ -9,7 +9,9 @@ export class InitProcess extends Process {
 
   start() {
     KERNEL.state.loadState(
-      KERNEL.state.store[KERNEL.params.get("state") || "boot"]
+      KERNEL.state.store[KERNEL.params.get("state") || "boot"],
+      {},
+      false
     );
   }
 }
