@@ -35,6 +35,19 @@ app.on("ready", () => {
     });
   });
 
+  window.webContents.session.webRequest.onHeadersReceived(
+    { urls: ["*://*/*"] },
+    (d, c) => {
+      if (d.responseHeaders["X-Frame-Options"]) {
+        delete d.responseHeaders["X-Frame-Options"];
+      } else if (d.responseHeaders["x-frame-options"]) {
+        delete d.responseHeaders["x-frame-options"];
+      }
+
+      c({ cancel: false, responseHeaders: d.responseHeaders });
+    }
+  );
+
   globalShortcut.register("Ctrl+Shift+Alt+I", () => {
     window.toggleDevTools();
   });

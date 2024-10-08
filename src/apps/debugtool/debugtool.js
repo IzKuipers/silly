@@ -16,6 +16,7 @@ export default class DebugToolProcess extends AppProcess {
     this.electronControls();
     this.pageReload();
     this.launcher();
+    this.frameTest();
   }
 
   cssHotFix() {
@@ -107,5 +108,15 @@ export default class DebugToolProcess extends AppProcess {
         window.close();
       })
     );
+  }
+
+  frameTest() {
+    const frameTestValue = this.getElement("#frameTestValue", true);
+    const frameTestButton = this.getElement("#frameTestButton", true);
+    const frameTest = this.getElement("#frameTest");
+
+    frameTestButton.addEventListener("click", () => {
+      frameTest.src = frameTestValue.value;
+    });
   }
 }

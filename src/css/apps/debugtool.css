@@ -36,3 +36,18 @@ div.window.debugTool div.body div.launcher {
 div.window.debugTool div.body div.launcher input {
   flex-grow: 1;
 }
+
+div.window.debugTool div.frame-test div.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+div.window.debugTool div.frame-test div.bar input {
+  flex-grow: 1;
+}
+
+div.window.debugTool #frameTest {
+  width: 100%;
+  aspect-ratio: 4/3;
+}
