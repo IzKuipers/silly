@@ -17,3 +17,5 @@ $ npm run start
 
 ## Author
 Izaak Kuipers <izaak.kuipers@gmail.com>
+
+<sub>This file was written on my phone on a bus. It was hard.</sub>
