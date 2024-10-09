@@ -3,7 +3,7 @@ import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
-import { stringifyObject } from "../../js/util/stringify.js";
+import { stringifyClassSource } from "../../js/util/stringify.js";
 
 const { BrowserWindow } = require("@electron/remote");
 
@@ -116,8 +116,11 @@ export default class DebugToolProcess extends AppProcess {
     const input = this.getElement("#kernelModInput", true);
     const output = this.getElement("#kernelModOut", true);
 
-    button.addEventListener("click", () => {
-      output.innerText = stringifyObject(KERNEL.getModule(input.value));
-    });
+    button.addEventListener(
+      "click",
+      this.safe(() => {
+        output.innerText = stringifyClassSource(KERNEL.getModule(input.value));
+      })
+    );
   }
 }
