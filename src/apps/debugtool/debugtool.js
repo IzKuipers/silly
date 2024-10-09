@@ -1,4 +1,3 @@
-import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { MessageBox } from "../../js/desktop/message.js";
@@ -16,7 +15,6 @@ export default class DebugToolProcess extends AppProcess {
     this.electronControls();
     this.pageReload();
     this.launcher();
-    this.frameTest();
   }
 
   cssHotFix() {
@@ -108,15 +106,5 @@ export default class DebugToolProcess extends AppProcess {
         window.close();
       })
     );
-  }
-
-  frameTest() {
-    const frameTestValue = this.getElement("#frameTestValue", true);
-    const frameTestButton = this.getElement("#frameTestButton", true);
-    const frameTest = this.getElement("#frameTest");
-
-    frameTestButton.addEventListener("click", () => {
-      frameTest.src = frameTestValue.value;
-    });
   }
 }

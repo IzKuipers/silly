@@ -1,8 +1,11 @@
+import { AppIcons } from "../../js/images/apps.js";
+
 export const ProgManApp = {
   metadata: {
     name: "Process Manager",
     version: "1.0.0",
     author: "Izaak Kuipers",
+    icon: AppIcons.progman,
   },
   size: { w: 750, h: 500 },
   minSize: { w: 400, h: 300 },

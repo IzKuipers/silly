@@ -1,13 +1,15 @@
+import { CRASHING } from "../crash.js";
 import { Log } from "../logging.js";
+import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";
 import { StateError } from "./error.js";
 import { StateProps, States } from "./store.js";
 
-export class StateHandler {
+export class StateHandler extends Process {
   store = {};
   previousState;
 
-  constructor(store = States) {
+  constructor(handler, pid, parentPid, store = States) {
     Log(
       "StateHandler",
       `Constructing new StateHandler with a store containing ${
@@ -15,7 +17,12 @@ export class StateHandler {
       } states`
     );
 
+    super(handler, pid, parentPid);
     this.store = store;
+  }
+
+  stop() {
+    throw new StateError("StateHandler was killed! Can't continue.");
   }
 
   async loadState(
@@ -23,6 +30,8 @@ export class StateHandler {
     props = {},
     instant = false
   ) {
+    if (CRASHING && identifier != "crash-screen") return;
+
     if (!html || !css || !js || !name || !identifier)
       throw new StateError(
         "Attempted state load invocation without valid metadata"

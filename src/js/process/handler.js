@@ -1,12 +1,12 @@
-import { KERNEL } from "../../env.js";
 import { AppRenderer } from "../apps/renderer.js";
-import { Crash, CRASHING } from "../crash.js";
+import { CRASHING } from "../crash.js";
 import { Log } from "../logging.js";
 import { Store } from "../store.js";
 
 export class ProcessHandler {
   store = Store(new Map([]));
   renderer;
+  lastPid = 0;
 
   constructor() {
     Log("ProcessHandler.constructor", "Constructing");
@@ -27,7 +27,10 @@ export class ProcessHandler {
     const pid = this.getPid();
     const proc = new process(this, pid, parentPid, ...args);
 
-    Log("ProcessHandler.spawn", `Spawning new process with ID ${pid}`);
+    Log(
+      "ProcessHandler.spawn",
+      `Spawning new ${proc.constructor.name} (PID ${pid})`
+    );
 
     if (proc.start) {
       const result = await proc.start();
@@ -48,14 +51,14 @@ export class ProcessHandler {
     return proc;
   }
 
-  async kill(pid) {
+  async kill(pid, force = false) {
     Log("ProcessHandler.kill", `Attempting to kill ${pid}`);
 
     const store = this.store.get();
     const proc = store.get(pid);
 
     if (!proc) return "err_noExist";
-    if (proc._criticalProcess) return "err_criticalProcess";
+    if (proc._criticalProcess && !force) return "err_criticalProcess";
 
     if (proc.stop) await proc.stop();
 
@@ -106,11 +109,8 @@ export class ProcessHandler {
   }
 
   getPid() {
-    const pid = Math.floor(Math.random() * 1e4);
-
-    if (this.store.get().get(pid)) return this.getPid(); // Avoid duplicates
-
-    return pid;
+    this.lastPid++;
+    return this.lastPid;
   }
 
   isPid(pid) {

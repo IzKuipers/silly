@@ -1,5 +1,6 @@
 import { RendererPid } from "../../env.js";
 import { MessageBox } from "../desktop/message.js";
+import { AppIcons } from "../images/apps.js";
 import { MessageIcons } from "../images/msgbox.js";
 import { Log } from "../logging.js";
 import { Draggable } from "../neodrag.js";
@@ -39,8 +40,6 @@ export class AppRenderer extends Process {
 
   sync() {
     this.disposedCheck();
-
-    Log("AppRenderer.sync", "syncing");
     this.syncNewbies();
     this.syncDisposed();
   }
@@ -121,6 +120,7 @@ export class AppRenderer extends Process {
       await process.CrashDetection();
     } catch (e) {
       if (!process._disposed) {
+        // if (true) {
         const lines = [
           `<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`,
           `If you were in the middle of something, the information you were working on might be lost. You can choose to view the call stack, which may contain the reason for the crash.`,
@@ -130,7 +130,7 @@ export class AppRenderer extends Process {
         ];
 
         MessageBox({
-          title: `An error occured!`,
+          title: `${data.metadata.name} - Application Error`,
           message: lines.join("<br><br>"),
           buttons: [
             {
@@ -297,7 +297,7 @@ export class AppRenderer extends Process {
     // TODO: app icons and window specific icons; inject into titlebar here.
 
     titleCaption.innerText = `${data.metadata.name}`;
-    titleIcon.src = data.metadata.icon || "./assets/application.svg";
+    titleIcon.src = data.metadata.icon || AppIcons.default;
 
     title.className = "window-title";
     title.append(titleIcon, titleCaption);

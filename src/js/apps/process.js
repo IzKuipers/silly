@@ -57,6 +57,10 @@ export class AppProcess extends Process {
         throw new AppRuntimeError(this.crashReason);
       }
 
+      if (this._disposed) {
+        throw new Error("Disposed");
+      }
+
       await Sleep(1);
     }
   }

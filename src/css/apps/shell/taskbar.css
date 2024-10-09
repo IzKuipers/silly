@@ -29,12 +29,16 @@ div.window.shell div.taskbar #activeApps button {
   padding: 0 15px;
   border: none;
   background-color: transparent;
-  min-width: fit-content;
+  /* min-width: fit-content; */
   white-space: nowrap;
+  min-width: 50px;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 div.window.shell div.taskbar #activeApps button:hover {
-  background-color: var(--button-bg);
+  background-color: var(--start-button-bg);
 }
 
 div.window.shell div.taskbar #activeApps button:active {
@@ -42,7 +46,7 @@ div.window.shell div.taskbar #activeApps button:active {
 }
 
 div.window.shell div.taskbar #activeApps button.focused {
-  background-color: var(--button-bg);
+  background-color: var(--shell-bg);
 }
 
 div.window.shell div.taskbar #activeApps button.closing {
@@ -56,7 +60,7 @@ div.window.shell div.system-area {
 }
 
 div.window.shell div.taskbar button#startButton {
-  width: 40px;
+  width: 41px;
   height: 40px;
   background-color: transparent;
   border: none;
@@ -67,11 +71,12 @@ div.window.shell div.taskbar button#startButton {
   gap: 10px;
   /* background-color: var(--start-button-bg); */
   /* padding-right: 10px; */
-  min-width: 40px;
+  min-width: 41px;
+  border-right: var(--button-bg) 1px solid;
 }
 
 div.window.shell div.taskbar button#startButton:hover {
-  background-color: var(--button-bg);
+  background-color: var(--start-button-bg);
 }
 
 div.window.shell div.taskbar button#startButton:active,

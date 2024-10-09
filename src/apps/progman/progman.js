@@ -163,9 +163,11 @@ export default class ProgManProcess extends AppProcess {
 
     if (!selectedPid) return;
 
+    const process = this.handler.getProcess(selectedPid);
+
     MessageBox(
       {
-        title: `Kill ${selectedPid}?`,
+        title: `Kill ${process.name}?`,
         message: `Are you sure you want to behead the innocent process with ID ${selectedPid}?`,
         buttons: [
           {
@@ -190,16 +192,16 @@ export default class ProgManProcess extends AppProcess {
 
     if (!selectedPid) return;
 
+    const process = this.handler.getProcess(selectedPid);
+
     MessageBox(
       {
-        title: `Panic ${selectedPid}?`,
+        title: `Panic ${process.name}?`,
         message: `Are you sure you want to cause mayhem for the innocent process with ID ${selectedPid}? This can cause important data to get lost.`,
         buttons: [
           {
             caption: "Panic!",
             action: this.safe(() => {
-              const process = this.handler.getProcess(selectedPid);
-
               process.safe(() => {
                 throw new AppRuntimeError("Crash via panic button!");
               })();

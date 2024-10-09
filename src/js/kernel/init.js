@@ -1,5 +1,4 @@
 import { KERNEL } from "../../env.js";
-import { Crash } from "../crash.js";
 import { Process } from "../process/instance.js";
 
 export class InitProcess extends Process {
@@ -7,15 +6,15 @@ export class InitProcess extends Process {
     super(handler, pid, parentPid);
   }
 
-  start() {
+  stop() {
+    throw new Error("Attempted to kill init!");
+  }
+
+  jumpstart() {
     KERNEL.state.loadState(
       KERNEL.state.store[KERNEL.params.get("state") || "boot"],
       {},
       false
     );
-  }
-
-  stop() {
-    throw new Error("Attempted to kill init!");
   }
 }

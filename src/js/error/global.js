@@ -1,4 +1,4 @@
-import { Crash } from "./crash.js";
+import { Crash } from "../crash.js";
 
 export function handleGlobalErrors() {
   function error(e) {

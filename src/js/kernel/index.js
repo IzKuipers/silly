@@ -1,5 +1,6 @@
 import { setKernel } from "../../env.js";
-import { handleGlobalErrors } from "../error.js";
+import { handleGlobalErrors } from "../error/global.js";
+import { handleConsoleIntercepts } from "../error/console.js";
 import { Log } from "../logging.js";
 import { ProcessHandler } from "../process/handler.js";
 import { StateHandler } from "../state/index.js";
@@ -17,6 +18,7 @@ export class IneptaKernel {
     Log("KERNEL", "Starting kernel");
 
     handleGlobalErrors();
+    handleConsoleIntercepts();
 
     setKernel(this);
   }
@@ -25,8 +27,6 @@ export class IneptaKernel {
     Log("KERNEL", `Initializing Core Modules`);
 
     this.fs = new VirtualFileSystem();
-    this.state = new StateHandler();
-
     this.stack = new ProcessHandler();
   }
 
@@ -49,7 +49,12 @@ export class IneptaKernel {
     await this.initializeCoreModules();
     this.params = new URLSearchParams();
 
-    this.initPid = (await this.stack.spawn(InitProcess))._pid;
+    this.init = await this.stack.spawn(InitProcess);
+    this.initPid = this.init._pid;
+
+    this.state = await this.stack.spawn(StateHandler, this.initPid);
+
+    this.init.jumpstart();
 
     await this.stack._init("appRenderer", this.initPid);
   }
