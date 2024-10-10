@@ -2,7 +2,6 @@ import { RendererPid } from "../../env.js";
 import { MessageBox } from "../desktop/message.js";
 import { AppIcons } from "../images/apps.js";
 import { MessageIcons } from "../images/msgbox.js";
-import { Log } from "../logging.js";
 import { Draggable } from "../neodrag.js";
 import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";

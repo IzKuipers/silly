@@ -1,14 +1,20 @@
+import { KernelModule } from "./kernel/module/index.js";
 import { Log } from "./logging.js";
 
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
-export class VirtualFileSystem {
-  constructor() {
+export class VirtualFileSystem extends KernelModule {
+  constructor(kernel, id) {
+    super(kernel, id);
+  }
+
+  _init() {
     Log("FS", "Constructing new Filesystem integration");
 
     this.root = this.getAppDataPath();
+
     if (!fs.existsSync(this.root)) {
       fs.mkdirSync(this.root, { recursive: true });
     }
@@ -117,6 +123,3 @@ export class VirtualFileSystem {
     fs.mkdirSync(this.root, { recursive: true });
   }
 }
-
-const fsInstance = new VirtualFileSystem();
-export default fsInstance;

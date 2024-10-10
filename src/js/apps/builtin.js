@@ -1,7 +1,7 @@
 import { Log } from "../logging.js";
+import { loadApp } from "./load.js";
 import { spawnApp } from "./spawn.js";
 import { builtInApps } from "./store.js";
-import { loadApp } from "./load.js";
 
 export async function loadBuiltinApps() {
   Log("loadBuiltinApps", `Loading ${builtInApps.length} apps.`);

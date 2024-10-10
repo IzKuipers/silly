@@ -1,19 +1,23 @@
 import { AppRenderer } from "../apps/renderer.js";
 import { CRASHING } from "../crash.js";
+import { KernelModule } from "../kernel/module/index.js";
 import { Log } from "../logging.js";
 import { Store } from "../store.js";
 
-export class ProcessHandler {
+export class ProcessHandler extends KernelModule {
   store = Store(new Map([]));
   renderer;
   lastPid = 0;
 
-  constructor() {
+  constructor(kernel, id) {
+    super(kernel, id);
+
     Log("ProcessHandler.constructor", "Constructing");
   }
 
-  async _init(renderTarget, initPid) {
-    Log("ProcessHandler", "Called _init");
+  async startRenderer(renderTarget, initPid) {
+    Log("ProcessHandler", "Starting renderer");
+
     this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
   }
 
