@@ -16,6 +16,8 @@ export class IneptaKernel {
   constructor() {
     Log("KERNEL", "Starting kernel");
 
+    // KERNEL STARTS HERE
+
     handleGlobalErrors();
     handleConsoleIntercepts();
 
