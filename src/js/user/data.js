@@ -1,9 +1,9 @@
 import { KERNEL, PREFERENCES_FILE } from "../../env.js";
 import { Store } from "../store.js";
 
-import { DefaultUserData } from "./store.js";
+import { DefaultUserPreferences } from "./store.js";
 
-export const UserData = Store(DefaultUserData);
+export const UserData = Store(DefaultUserPreferences);
 
 export function startUserDataSync() {
   UserData.subscribe((v) => {
