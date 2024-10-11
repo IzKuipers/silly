@@ -80,9 +80,17 @@ export function stringifyClassSource(instance) {
           seen.set(value, true); // Mark as seen
 
           // Return serialized object
-          return `this.${prop} = ${JSON.stringify(value)};`;
+          try {
+            return `this.${prop} = ${JSON.stringify(value)};`;
+          } catch {
+            return `this.${prop} = ?;`;
+          }
         }
-        return `this.${prop} = ${JSON.stringify(value)};`;
+        try {
+          return `this.${prop} = ${JSON.stringify(value)};`;
+        } catch {
+          return `this.${prop} = ?;`;
+        }
       })
       .join("\n");
   }
