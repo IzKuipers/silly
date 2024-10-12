@@ -61,9 +61,9 @@ export class IneptaKernel {
 
     this.state = await this.stack.spawn(StateHandler, this.initPid);
 
-    this.init.jumpstart();
-
     await this.stack.startRenderer("appRenderer", this.initPid);
+
+    this.init.jumpstart();
   }
 
   Log(source, message, type = 0) {
