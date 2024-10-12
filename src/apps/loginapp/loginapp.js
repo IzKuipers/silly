@@ -4,7 +4,9 @@ import { AppProcess } from "../../js/apps/process.js";
 import { AppStore } from "../../js/apps/store.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
+import { UserDaemon } from "../../js/user/daemon.js";
 import { MsgBoxApp } from "../messagebox/metadata.js";
+import { AppRuntimeError } from "../../js/apps/error.js";
 
 export default class LoginAppProcess extends AppProcess {
   fs;
@@ -18,16 +20,15 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async render() {
+    await this.satisfyDependencies();
+
     const stateHandler = this.kernel.getModule("state");
     const { currentState } = stateHandler;
 
     if (currentState !== "login") {
-      this.closeWindow();
-
-      return;
+      throw new AppRuntimeError(`Can't launch LoginApp: invalid context`);
     }
 
-    await this.satisfyDependencies();
     this._prepare();
   }
 
@@ -55,8 +56,12 @@ export default class LoginAppProcess extends AppProcess {
 
     loginButton.addEventListener(
       "click",
-      this.safe(() => {
-        this.proceed(usernameField.value, passwordField.value);
+      this.safe(async () => {
+        loginButton.disabled = true;
+
+        await this.proceed(usernameField.value, passwordField.value);
+
+        loginButton.disabled = false;
       })
     );
 
@@ -87,7 +92,7 @@ export default class LoginAppProcess extends AppProcess {
       return;
     }
 
-    // SPAWN USER DAEMON
+    await this.startDaemon(username);
 
     AppStore.set({});
 
@@ -111,5 +116,13 @@ export default class LoginAppProcess extends AppProcess {
     if (!passwordValid) return false;
 
     return true;
+  }
+
+  async startDaemon(username) {
+    await this.handler.spawn(
+      UserDaemon,
+      this.handler._kernel.initPid,
+      username
+    );
   }
 }

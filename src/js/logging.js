@@ -18,5 +18,5 @@ export function Log(source, message, type = 0) {
   const msg = `[${LogType[type]}] ${timestamp} | ${source}: ${message}`;
 
   console.log(msg);
-  LogStore.push(msg);
+  LogStore.push({ type, timestamp, source, message });
 }

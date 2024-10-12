@@ -5,13 +5,13 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
-export class VirtualFileSystem extends KernelModule {
+export class FileSystem extends KernelModule {
   constructor(kernel, id) {
     super(kernel, id);
   }
 
   _init() {
-    Log("FS", "Constructing new Filesystem integration");
+    Log("FileSystem._init", "Constructing new Filesystem integration");
 
     this.root = this.getAppDataPath();
 

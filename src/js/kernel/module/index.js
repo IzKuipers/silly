@@ -12,7 +12,7 @@ export class KernelModule {
   }
 
   async __init() {
-    Log(`${this._id}`, `Calling _init`);
+    Log(`KernelModule::${this._id}`, `Calling _init`);
 
     await this._init();
   }

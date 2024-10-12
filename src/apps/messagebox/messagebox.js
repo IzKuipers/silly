@@ -36,6 +36,8 @@ export default class MsgBoxProcess extends AppProcess {
       buttonsDiv.append(buttonElement);
     }
 
-    this.handler.renderer.centerWindow(this._pid);
+    setTimeout(() => {
+      this.handler.renderer.centerWindow(this._pid);
+    });
   }
 }

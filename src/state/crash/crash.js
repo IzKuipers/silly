@@ -1,7 +1,7 @@
 import { KERNEL } from "../../env.js";
-import { LogStore } from "../../js/logging.js";
+import { LogStore, LogType } from "../../js/logging.js";
 import { getStateProps } from "../../js/state/store.js";
-
+import { strftime } from "../../js/desktop/date.js";
 export default async function render() {
   const crashText = document.getElementById("crashText");
 
@@ -21,7 +21,14 @@ export default async function render() {
 
   crashText.innerText = crashText.innerText.replaceAll(location.href, "./");
 
-  setTimeout(async () => {
-    crashText.innerText += `\n\n${LogStore.reverse().join("\n")}`;
+  setTimeout(() => {
+    crashText.innerText += `\n\n${LogStore.map(
+      ({ type, timestamp, source, message }) =>
+        `[${strftime("%k:%M:%S", new Date(timestamp))}] ${
+          LogType[type]
+        } ${source}: ${message}`
+    )
+      .reverse()
+      .join("\n")}`;
   });
 }

@@ -1,3 +1,4 @@
+import { KERNEL } from "../../env.js";
 import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
@@ -45,8 +46,6 @@ export default class ShellProcess extends AppProcess {
       })
     );
   }
-
-  stop() {}
 
   startActiveAppsPopulator() {
     const activeApps = this.getElement("#activeApps");
@@ -182,11 +181,5 @@ export default class ShellProcess extends AppProcess {
         }
       })
     );
-  }
-
-  stop() {
-    setTimeout(() => {
-      spawnApp("shell", this.parentPid);
-    }, 1000);
   }
 }

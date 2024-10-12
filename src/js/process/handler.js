@@ -16,7 +16,7 @@ export class ProcessHandler extends KernelModule {
   }
 
   async startRenderer(renderTarget, initPid) {
-    Log("ProcessHandler", "Starting renderer");
+    Log("ProcessHandler.startRenderer", "Starting renderer");
 
     this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
   }

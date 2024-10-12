@@ -11,7 +11,7 @@ export class StateHandler extends Process {
 
   constructor(handler, pid, parentPid, store = States) {
     Log(
-      "StateHandler",
+      "StateHandler.constructor",
       `Constructing new StateHandler with a store containing ${
         Object.entries(store).length
       } states`
@@ -75,7 +75,7 @@ export class StateHandler extends Process {
 
       if (!render) throw new StateError(`${identifier}: No render function`);
 
-      Log(`loadState`, `-> Now entering ${name}`);
+      Log(`StateHandler.loadState`, `-> Now entering ${name}`);
       await render();
     } catch (e) {
       throw new StateError(`${identifier}: ${e.stack}`);

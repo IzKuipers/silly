@@ -56,3 +56,8 @@ main#main.hidden {
 #appRenderer > div.window:not(.core) {
   pointer-events: initial;
 }
+
+@font-face {
+  font-family: unifont;
+  src: url(../assets/unifont.ttf);
+}

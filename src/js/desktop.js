@@ -1,10 +1,11 @@
 import { KERNEL } from "../env.js";
 import { loadBuiltinApps } from "./apps/builtin.js";
+import { loadApp } from "./apps/load.js";
 import { spawnApp } from "./apps/spawn.js";
-import { AppStore } from "./apps/store.js";
+import { LogStore } from "./logging.js";
 import { Sleep } from "./sleep.js";
 import { StateError } from "./state/error.js";
-import { startUserDataSync, UserData } from "./user/data.js";
+import { UserData } from "./user/data.js";
 
 export default async function render() {
   const stateLoader = document.querySelector("#stateLoader.desktop");
@@ -12,7 +13,6 @@ export default async function render() {
   if (!stateLoader)
     throw new StateError("Desktop render invocation outside StateLoader!");
 
-  startUserDataSync();
   await loadBuiltinApps();
 
   UserData.subscribe((v) => {
@@ -42,4 +42,7 @@ export default async function render() {
 
   window.kernel = KERNEL;
   window.spawnApp = spawnApp;
+  window.loadApp = loadApp;
+  window.userData = UserData;
+  window.logStore = LogStore;
 }
