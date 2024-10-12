@@ -1,3 +1,5 @@
+import { KERNEL } from "../env.js";
+
 export const LogStore = [];
 export const LogType = {
   0: "INFO",
@@ -11,12 +13,7 @@ export const LogType = {
 };
 
 export function Log(source, message, type = 0) {
-  if (!LogType[type]) return;
+  if (!KERNEL) return;
 
-  const timestamp = new Date().toJSON();
-
-  const msg = `[${LogType[type]}] ${timestamp} | ${source}: ${message}`;
-
-  console.log(msg);
-  LogStore.push({ type, timestamp, source, message });
+  KERNEL.Log(source, message, type);
 }

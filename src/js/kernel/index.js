@@ -1,7 +1,7 @@
 import { setKernel } from "../../env.js";
 import { handleConsoleIntercepts } from "../error/console.js";
 import { handleGlobalErrors } from "../error/global.js";
-import { Log } from "../logging.js";
+import { Log, LogStore, LogType } from "../logging.js";
 import { StateHandler } from "../state/index.js";
 import { InitProcess } from "./init.js";
 import { CoreKernelModules } from "./module/store.js";
@@ -12,11 +12,14 @@ export class IneptaKernel {
   stack;
   params;
   initPid;
+  startMs;
 
   constructor() {
     Log("KERNEL", "Starting kernel");
 
     // KERNEL STARTS HERE
+
+    this.startMs = new Date().getTime();
 
     handleGlobalErrors();
     handleConsoleIntercepts();
@@ -61,5 +64,25 @@ export class IneptaKernel {
     this.init.jumpstart();
 
     await this.stack.startRenderer("appRenderer", this.initPid);
+  }
+
+  Log(source, message, type = 0) {
+    if (!LogType[type]) return;
+
+    const date = new Date();
+    const ms = date.getTime();
+    const timestamp = date.toJSON();
+
+    const msg = `[${LogType[type]}] ${timestamp} | ${source}: ${message}`;
+
+    console.log(msg);
+
+    LogStore.push({
+      type,
+      timestamp,
+      source,
+      message,
+      kernelTime: ms - this.startMs,
+    });
   }
 }

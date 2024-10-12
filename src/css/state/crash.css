@@ -6,6 +6,7 @@
   animation: crash-show 0s linear forwards;
   animation-delay: 1s;
   transition: none !important;
+  font-size: 16px;
 }
 
 @keyframes crash-show {

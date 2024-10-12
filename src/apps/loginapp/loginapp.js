@@ -25,6 +25,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async render() {
+    if (this._disposed) return;
+
     await this.satisfyDependencies();
 
     const stateHandler = this.kernel.getModule("state");
@@ -56,6 +58,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async satisfyDependencies() {
+    if (this._disposed) return;
+
     if (!isLoaded("msgBox")) await loadApp(MsgBoxApp);
 
     this.fs = this.kernel.getModule("fs");
@@ -64,6 +68,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   _prepare() {
+    if (this._disposed) return;
+
     const usernameField = this.getElement("#usernameField", true);
     const passwordField = this.getElement("#passwordField", true);
     const loginButton = this.getElement("#loginButton", true);
@@ -115,6 +121,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async proceed(username, password) {
+    if (this._disposed) return;
+
     const valid = await this.isValid(username, password);
 
     if (!valid) {
@@ -158,6 +166,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async isValid(username, password) {
+    if (this._disposed) return;
+
     const user = this.userlogic.getUser(username);
 
     if (!user) return false;
@@ -173,6 +183,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async startDaemon(username) {
+    if (this._disposed) return;
+
     await this.handler.spawn(
       UserDaemon,
       this.handler._kernel.initPid,
@@ -181,6 +193,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   displayStatus(status) {
+    if (this._disposed) return;
+
     const statusDiv = this.getElement("#status", true);
     const container = this.getElement("#container", true);
     const banner = this.getElement("#banner", true);
@@ -192,6 +206,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   hideStatus() {
+    if (this._disposed) return;
+
     const statusDiv = this.getElement("#status", true);
     const container = this.getElement("#container", true);
     const banner = this.getElement("#banner", true);
@@ -203,6 +219,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async logout() {
+    if (this._disposed) return;
+
     this.displayStatus("Logging you out...");
 
     await Sleep(2000);
@@ -216,6 +234,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async shutdown() {
+    if (this._disposed) return;
+
     this.displayStatus("Inepta is shutting down...");
 
     await Sleep(2000);
@@ -226,6 +246,8 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async restart() {
+    if (this._disposed) return;
+
     this.displayStatus("Inepta is restarting...");
 
     await Sleep(2000);

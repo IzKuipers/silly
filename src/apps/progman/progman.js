@@ -13,6 +13,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   render() {
+    if (this._disposed) return;
+
     const killButton = this.getElement("#killButton", true);
     const panicButton = this.getElement("#panicButton", true);
 
@@ -34,6 +36,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   update(processes) {
+    if (this._disposed) return;
+
     const selectedPid = this.selectedPid.get();
     const selectedProcess = this.handler.getProcess(selectedPid);
 
@@ -57,6 +61,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   _createHeader() {
+    if (this._disposed) return;
+
     const row = document.createElement("div");
 
     row.className = "row header";
@@ -123,6 +129,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   segments() {
+    if (this._disposed) return;
+
     const nameSegment = document.createElement("div");
     const titleSegment = document.createElement("div");
     const pidSegment = document.createElement("div");
@@ -137,6 +145,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   toolbarActions() {
+    if (this._disposed) return;
+
     const killButton = this.getElement("#killButton", true);
     const panicButton = this.getElement("#panicButton", true);
     const runButton = this.getElement("#runButton", true);
@@ -159,6 +169,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   killSelected() {
+    if (this._disposed) return;
+
     const selectedPid = this.selectedPid.get();
 
     if (!selectedPid) return;
@@ -188,6 +200,8 @@ export default class ProgManProcess extends AppProcess {
   }
 
   panicSelected() {
+    if (this._disposed) return;
+
     const selectedPid = this.selectedPid.get();
 
     if (!selectedPid) return;
