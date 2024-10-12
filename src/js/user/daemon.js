@@ -55,6 +55,6 @@ export class UserDaemon extends Process {
       if (proc.closeWindow) await proc.closeWindow();
     }
 
-    KERNEL.state.loadState(KERNEL.state.store.login);
+    KERNEL.state.loadState(KERNEL.state.store.login, { type: "logout" });
   }
 }

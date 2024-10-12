@@ -7,16 +7,21 @@ import { MessageIcons } from "../../js/images/msgbox.js";
 import { UserDaemon } from "../../js/user/daemon.js";
 import { MsgBoxApp } from "../messagebox/metadata.js";
 import { AppRuntimeError } from "../../js/apps/error.js";
+import { Sleep } from "../../js/sleep.js";
+import { spawnApp } from "../../js/apps/spawn.js";
+import { getStateProps, StateProps } from "../../js/state/store.js";
 
 export default class LoginAppProcess extends AppProcess {
   fs;
   state;
   userlogic;
+  type;
 
-  constructor(handler, pid, parentPid, app) {
+  constructor(handler, pid, parentPid, app, type) {
     super(handler, pid, parentPid, app);
 
     this.kernel = this.handler._kernel;
+    this.type = type;
   }
 
   async render() {
@@ -30,6 +35,24 @@ export default class LoginAppProcess extends AppProcess {
     }
 
     this._prepare();
+
+    this.type ||= getStateProps({ identifier: "login" }).type;
+
+    if (!this.type) return;
+
+    switch (this.type) {
+      case "shutdown":
+        this.shutDown();
+        break;
+      case "restart":
+        this.restart();
+        break;
+      case "logout":
+        this.logout();
+        break;
+      default:
+        throw new AppRuntimeError(`Don't know what to do with type "${type}"`);
+    }
   }
 
   async satisfyDependencies() {
@@ -65,12 +88,26 @@ export default class LoginAppProcess extends AppProcess {
       })
     );
 
+    shutdownButton.addEventListener(
+      "click",
+      this.safe(() => this.shutdown())
+    );
+
+    cancelButton.addEventListener("click", () => {
+      this.closeWindow();
+      setTimeout(() => {
+        spawnApp("loginApp");
+      }, 100);
+    });
+
+    cancelButton.disabled = false;
     loginButton.disabled = true;
 
     usernameField.addEventListener(
       "input",
       this.safe(() => onValuesChange())
     );
+
     passwordField.addEventListener(
       "input",
       this.safe(() => onValuesChange())
@@ -92,13 +129,30 @@ export default class LoginAppProcess extends AppProcess {
       return;
     }
 
+    this.displayStatus(`Welcome, ${username}! Logging you in...`);
+    await Sleep(800);
+
+    this.displayStatus(`Spawning UserDaemon`);
+    await Sleep(100);
+
     await this.startDaemon(username);
+
+    this.displayStatus(`Resetting app storage`);
+    await Sleep(100);
 
     AppStore.set({});
 
-    for (const [_, proc] of this.handler.store.get()) {
+    this.displayStatus(`Terminating graphical processes`);
+    await Sleep(100);
+
+    for (const [pid, proc] of this.handler.store.get()) {
+      this.displayStatus(`Terminating process ${pid}`);
+
       if (proc.closeWindow) await proc.closeWindow();
     }
+
+    this.displayStatus(`Navigating to desktop`);
+    await Sleep(100);
 
     await this.state.loadState(this.state.store.desktop);
   }
@@ -124,5 +178,59 @@ export default class LoginAppProcess extends AppProcess {
       this.handler._kernel.initPid,
       username
     );
+  }
+
+  displayStatus(status) {
+    const statusDiv = this.getElement("#status", true);
+    const container = this.getElement("#container", true);
+    const banner = this.getElement("#banner", true);
+
+    statusDiv.innerText = status;
+    statusDiv.classList.remove("hidden");
+    container.classList.add("hidden");
+    banner.classList.add("loading");
+  }
+
+  hideStatus() {
+    const statusDiv = this.getElement("#status", true);
+    const container = this.getElement("#container", true);
+    const banner = this.getElement("#banner", true);
+
+    statusDiv.innerText = "";
+    statusDiv.classList.add("hidden");
+    container.classList.remove("hidden");
+    banner.classList.remove("loading");
+  }
+
+  async logout() {
+    this.displayStatus("Logging you out...");
+
+    await Sleep(2000);
+
+    this.closeWindow();
+    StateProps["login"] = {};
+
+    await Sleep(100);
+
+    spawnApp("loginApp");
+  }
+
+  async shutdown() {
+    this.displayStatus("Inepta is shutting down...");
+
+    await Sleep(2000);
+
+    (() => {
+      throw new Error("SHUTDOWN GOES HERE");
+    })();
+  }
+
+  async restart() {
+    this.displayStatus("Inepta is restarting...");
+
+    await Sleep(2000);
+    await this.state.loadState(this.state.store.boot);
+
+    location.reload();
   }
 }
