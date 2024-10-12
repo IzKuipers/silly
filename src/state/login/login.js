@@ -1,28 +1,9 @@
-import { KERNEL, PREFERENCES_FILE } from "../../env.js";
-import { Log } from "../../js/logging.js";
-import { Sleep } from "../../js/sleep.js";
-import { UserData } from "../../js/user/data.js";
-import { DefaultUserData } from "../../js/user/store.js";
+import { LoginApp } from "../../apps/loginapp/metadata.js";
+import { loadApp } from "../../js/apps/load.js";
+import { spawnApp } from "../../js/apps/spawn.js";
 
 export default async function render() {
-  let userData = {};
+  await loadApp(LoginApp);
 
-  try {
-    userData = JSON.parse(KERNEL.fs.readFile(PREFERENCES_FILE));
-
-    Log(`Login`, "Loaded User Data");
-  } catch {
-    userData = DefaultUserData;
-    KERNEL.fs.writeFile(PREFERENCES_FILE, JSON.stringify(DefaultUserData));
-  }
-
-  UserData.set(userData);
-
-  const nameElement = document.querySelector(".login #username");
-
-  nameElement.innerText = userData.username || "Stranger";
-
-  await Sleep(1000);
-
-  KERNEL.state.loadState(KERNEL.state.store.desktop);
+  await spawnApp("loginApp");
 }

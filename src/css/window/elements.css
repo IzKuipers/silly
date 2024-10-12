@@ -26,6 +26,10 @@ div.window:not(.core) > div.body input {
   border-radius: 4px;
 }
 
+div.window:not(.core) > div.body input:focus {
+  border: var(--accent) 1px solid;
+}
+
 code {
   font-family: "Source Code Pro";
   white-space: pre;

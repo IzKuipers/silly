@@ -1,9 +1,3 @@
 .login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 30px;
-  background-color: #34422e;
-  font-size: 18px;
+  background-color: var(--accent-darker);
 }

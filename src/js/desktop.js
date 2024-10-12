@@ -1,6 +1,7 @@
 import { KERNEL } from "../env.js";
 import { loadBuiltinApps } from "./apps/builtin.js";
 import { spawnApp } from "./apps/spawn.js";
+import { AppStore } from "./apps/store.js";
 import { Sleep } from "./sleep.js";
 import { StateError } from "./state/error.js";
 import { startUserDataSync, UserData } from "./user/data.js";

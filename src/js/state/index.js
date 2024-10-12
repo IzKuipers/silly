@@ -7,7 +7,7 @@ import { StateProps, States } from "./store.js";
 
 export class StateHandler extends Process {
   store = {};
-  previousState;
+  currentState;
 
   constructor(handler, pid, parentPid, store = States) {
     Log(
@@ -57,7 +57,7 @@ export class StateHandler extends Process {
       );
     }
 
-    if (this.previousState) htmlLoader.classList.remove(this.previousState);
+    if (this.currentState) htmlLoader.classList.remove(this.currentState);
 
     htmlLoader.classList.add(`fullscreen`, identifier);
     cssLoader.href = css;
@@ -68,7 +68,7 @@ export class StateHandler extends Process {
       main.classList.remove("hidden");
     }
 
-    this.previousState = identifier;
+    this.currentState = identifier;
 
     try {
       const { default: render } = await import(js);
