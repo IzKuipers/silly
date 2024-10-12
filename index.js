@@ -49,10 +49,10 @@ app.on("ready", () => {
   );
 
   globalShortcut.register("Ctrl+Shift+Alt+I", () => {
-    window.toggleDevTools();
+    if (window.isFocused()) window.toggleDevTools();
   });
 
   globalShortcut.register("Alt+Enter", () => {
-    window.fullScreen = !window.fullScreen;
+    if (window.isFocused()) window.fullScreen = !window.fullScreen;
   });
 });
