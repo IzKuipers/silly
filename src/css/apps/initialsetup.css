@@ -1,21 +1,21 @@
-div.window.setupHelper div.body {
+div.window.initialSetup div.body {
   padding: 0 !important;
   display: flex;
   flex-direction: column;
   border-top: var(--border);
 }
 
-div.window.setupHelper div.top {
+div.window.initialSetup div.top {
   display: flex;
   align-items: center;
   height: calc(100% - 51px);
 }
 
-div.window.setupHelper div.top div.page:not(.show) {
+div.window.initialSetup div.top div.page:not(.show) {
   display: none;
 }
 
-div.window.setupHelper div.top div.banner {
+div.window.initialSetup div.top div.banner {
   height: 100%;
   width: 151px;
   padding: 25px;
@@ -29,20 +29,20 @@ div.window.setupHelper div.top div.banner {
   border-right: var(--border);
 }
 
-div.window.setupHelper div.top div.banner img {
+div.window.initialSetup div.top div.banner img {
   height: 48px;
   padding: 5px;
   border: var(--accent-light) 2px solid;
   background-color: var(--accent-dark);
 }
 
-div.window.setupHelper div.top div.container {
+div.window.initialSetup div.top div.container {
   width: calc(100% - 151px);
   padding: 20px;
   height: 100%;
 }
 
-div.window.setupHelper div.top div.container div.page > h1 {
+div.window.initialSetup div.top div.container div.page > h1 {
   display: flex;
   align-items: center;
   font-size: 22px;
@@ -50,11 +50,11 @@ div.window.setupHelper div.top div.container div.page > h1 {
   margin-bottom: 20px;
 }
 
-div.window.setupHelper div.top div.container div.page > h1 img {
+div.window.initialSetup div.top div.container div.page > h1 img {
   height: 32px;
 }
 
-div.window.setupHelper div.bottom {
+div.window.initialSetup div.bottom {
   border-top: var(--border);
   height: 51px;
   display: flex;
@@ -62,36 +62,36 @@ div.window.setupHelper div.bottom {
   justify-content: end;
   padding: 0 10px;
 }
-div.window.setupHelper div.bottom div.actions,
-div.window.setupHelper div.bottom div.actions button {
+div.window.initialSetup div.bottom div.actions,
+div.window.initialSetup div.bottom div.actions button {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-div.window.setupHelper
+div.window.initialSetup
   div.bottom
   div.actions
   button
   span.material-symbols-outlined {
   font-size: 16px;
 }
-div.window.setupHelper div.bottom div.actions div.sep {
+div.window.initialSetup div.bottom div.actions div.sep {
   height: 30px;
   width: 1px;
   background-color: var(--border-clr);
 }
 
-div.window.setupHelper div#page2 table {
+div.window.initialSetup div#page2 table {
   width: 100%;
   border-collapse: collapse;
   margin: 15px 0;
 }
-div.window.setupHelper div#page2 table td {
+div.window.initialSetup div#page2 table td {
   padding: 0;
 }
 
-div.window.setupHelper div#page2 table input {
+div.window.initialSetup div#page2 table input {
   margin-left: 10px;
   margin-bottom: 5px;
   width: 250px;

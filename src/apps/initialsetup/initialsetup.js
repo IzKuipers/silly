@@ -142,10 +142,10 @@ export default class SetupHelperProcess extends AppProcess {
       true
     );
 
-    this.registry.setValue("setupHelper.finishedAt", new Date().getTime());
-    this.registry.setValue("setupHelper.doneBy", this.usernameField.value);
-    this.registry.setValue("setupHelper.completed", true);
-    this.registry.setValue("setupHelper.installVersion", VERSION);
+    this.registry.setValue("initialSetup.finishedAt", new Date().getTime());
+    this.registry.setValue("initialSetup.doneBy", this.usernameField.value);
+    this.registry.setValue("initialSetup.completed", true);
+    this.registry.setValue("initialSetup.installVersion", VERSION);
 
     this.powerLogic.restart();
   }

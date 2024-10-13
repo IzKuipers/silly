@@ -21,11 +21,11 @@ export const SetupHelperApp = {
     close: false,
   },
   files: {
-    js: "../../apps/setuphelper/setuphelper.js",
-    css: "./css/apps/setuphelper.css",
-    html: "./apps/setuphelper/setuphelper.html",
+    js: "../../apps/initialsetup/initialsetup.js",
+    css: "./css/apps/initialsetup.css",
+    html: "./apps/initialsetup/initialsetup.html",
   },
   hidden: true,
   core: false,
-  id: "setupHelper",
+  id: "initialSetup",
 };
