@@ -10,6 +10,8 @@ export default class ProgManProcess extends AppProcess {
 
   constructor(handler, pid, parentPid, app) {
     super(handler, pid, parentPid, app);
+
+    this.powerLogic = this.kernel.getModule("powerlogic");
   }
 
   render() {
@@ -152,6 +154,20 @@ export default class ProgManProcess extends AppProcess {
     const runButton = this.getElement("#runButton", true);
     const shutdownButton = this.getElement("#shutdownButton", true);
     const restartButton = this.getElement("#restartButton", true);
+
+    shutdownButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.powerLogic.shutdown();
+      })
+    );
+
+    restartButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.powerLogic.restart();
+      })
+    );
 
     killButton.addEventListener(
       "click",

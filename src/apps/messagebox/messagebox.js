@@ -10,6 +10,8 @@ export default class MsgBoxProcess extends AppProcess {
     this.data = data;
     this.app.data.metadata.name = data ? data.title : "*";
     this.app.data.metadata.icon = data ? data.icon : "";
+
+    this.windowTitle.set(this.app.data.metadata.name);
   }
 
   async render() {
