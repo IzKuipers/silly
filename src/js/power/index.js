@@ -1,4 +1,5 @@
 import { KernelModule } from "../kernel/module/index.js";
+import { Sleep } from "../sleep.js";
 
 export class PowerLogic extends KernelModule {
   constructor(kernel, id) {
@@ -25,7 +26,11 @@ export class PowerLogic extends KernelModule {
       this.alreadyInLogin()
     );
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      await this.closeAllWindows();
+
+      await Sleep(300);
+
       window.close();
     }, 3000);
   }
@@ -41,7 +46,11 @@ export class PowerLogic extends KernelModule {
       this.alreadyInLogin()
     );
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      await this.closeAllWindows();
+
+      await Sleep(300);
+
       location.reload();
     }, 3000);
   }
