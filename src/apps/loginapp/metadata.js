@@ -3,6 +3,7 @@ export const LoginApp = {
     name: "Log in to Inepta",
     version: "1.0.0",
     author: "Izaak Kuipers",
+    icon: "./assets/apps/loginapp.svg",
   },
   size: { w: 420, h: 310 },
   minSize: { w: 420, h: 310 },
