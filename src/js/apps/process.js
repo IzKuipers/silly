@@ -1,11 +1,13 @@
 import { Log, LogType } from "../logging.js";
 import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";
+import { Store } from "../store.js";
 import { AppRuntimeError } from "./error.js";
 
 export class AppProcess extends Process {
   crashReason = "";
   app;
+  windowTitle = Store("");
 
   constructor(handler, pid, parentPid, app) {
     super(handler, pid, parentPid, app);
@@ -14,6 +16,7 @@ export class AppProcess extends Process {
     this.app.data = JSON.parse(JSON.stringify({ ...app.data }));
     this.app.meta = JSON.parse(JSON.stringify({ ...app.data }));
     this.app.id = app.data.id;
+    this.windowTitle.set(app.data.metadata.name);
 
     this.name = app.data.id;
   }
@@ -35,9 +38,9 @@ export class AppProcess extends Process {
   async closeWindow() {
     const elements = [
       ...document.querySelectorAll(`div.window[data-pid="${this._pid}"]`),
-      ...document.querySelectorAll(
+      ...(document.querySelectorAll(
         `button.opened-app[data-pid="${this._pid}"]`
-      ),
+      ) || []),
     ];
 
     if (!elements.length) return this.killSelf();

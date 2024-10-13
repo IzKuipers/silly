@@ -1,4 +1,5 @@
 import { setKernel } from "../../env.js";
+import { Crash } from "../crash.js";
 import { handleConsoleIntercepts } from "../error/console.js";
 import { handleGlobalErrors } from "../error/global.js";
 import { Log, LogStore, LogType } from "../logging.js";
@@ -83,6 +84,17 @@ export class IneptaKernel {
       source,
       message,
       kernelTime: ms - this.startMs,
+    });
+  }
+
+  async panic(reason) {
+    const obj = {
+      message: reason,
+      stack: `Inepta Kernel Panic`,
+    };
+    Crash({
+      reason: obj,
+      error: obj,
     });
   }
 }

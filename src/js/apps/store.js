@@ -9,8 +9,8 @@ export const AppStore = Store({});
 
 export const builtInApps = [
   MsgBoxApp,
-  WallpaperApp,
   ShellApp,
+  WallpaperApp,
   DebugToolApp,
   ProgManApp,
 ];

@@ -25,7 +25,7 @@ export const LoginApp = {
     css: "./css/apps/loginapp.css",
     html: "./apps/loginapp/loginapp.html",
   },
-  hidden: false,
+  hidden: true,
   core: false,
   id: "loginApp",
 };

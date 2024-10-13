@@ -21,6 +21,7 @@ export default class LoginAppProcess extends AppProcess {
     super(handler, pid, parentPid, app);
 
     this.kernel = this.handler._kernel;
+    this.powerLogic = this.kernel.getModule("powerlogic");
     this.type = type;
   }
 
@@ -44,7 +45,7 @@ export default class LoginAppProcess extends AppProcess {
 
     switch (this.type) {
       case "shutdown":
-        this.shutDown();
+        this.shutdown();
         break;
       case "restart":
         this.restart();
@@ -96,15 +97,20 @@ export default class LoginAppProcess extends AppProcess {
 
     shutdownButton.addEventListener(
       "click",
-      this.safe(() => this.shutdown())
+      this.safe(() => this.powerLogic.shutdown())
     );
 
-    cancelButton.addEventListener("click", () => {
-      this.closeWindow();
-      setTimeout(() => {
-        spawnApp("loginApp");
-      }, 100);
-    });
+    cancelButton.addEventListener(
+      "click",
+      this.safe(() => {
+        cancelButton.disabled = true;
+
+        this.closeWindow();
+        setTimeout(() => {
+          spawnApp("loginApp");
+        }, 100);
+      })
+    );
 
     cancelButton.disabled = false;
     loginButton.disabled = true;
@@ -203,6 +209,7 @@ export default class LoginAppProcess extends AppProcess {
     statusDiv.classList.remove("hidden");
     container.classList.add("hidden");
     banner.classList.add("loading");
+    this.windowTitle.set(status);
   }
 
   hideStatus() {
@@ -237,22 +244,11 @@ export default class LoginAppProcess extends AppProcess {
     if (this._disposed) return;
 
     this.displayStatus("Inepta is shutting down...");
-
-    await Sleep(2000);
-
-    (() => {
-      throw new Error("SHUTDOWN GOES HERE");
-    })();
   }
 
   async restart() {
     if (this._disposed) return;
 
     this.displayStatus("Inepta is restarting...");
-
-    await Sleep(2000);
-    await this.state.loadState(this.state.store.boot);
-
-    location.reload();
   }
 }

@@ -21,7 +21,14 @@ export class UserDaemon extends Process {
     this.preferencesPath = `./Users/${this.username}/preferences.json`;
 
     await this.loadPreferences();
+    await this.checkUserFolders();
     this.preferencesSync();
+  }
+
+  async checkUserFolders() {
+    await this.fs.createDirectory(`./Users/${this.username}/Documents`);
+    await this.fs.createDirectory(`./Users/${this.username}/Pictures`);
+    await this.fs.createDirectory(`./Users/${this.username}/Apps`);
   }
 
   async loadPreferences() {

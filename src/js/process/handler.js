@@ -86,6 +86,12 @@ export class ProcessHandler extends KernelModule {
     for (const [pid, proc] of procs) {
       if (proc._disposed) continue;
 
+      if (proc.closeWindow) {
+        await proc.closeWindow();
+
+        continue;
+      }
+
       await this.kill(pid);
     }
   }

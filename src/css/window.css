@@ -19,9 +19,14 @@ div.window:not(.core) {
   /* transition: all 0.3s; */
 }
 
-div.window:not(.core).closing {
-  animation: hide 250ms forwards;
+div.window.closing {
+  scale: 1;
+  animation: hide 250ms forwards !important;
   pointer-events: none;
+}
+
+div.window.core.closing {
+  scale: 1 !important;
 }
 
 div.window:not(.core).focused {

@@ -298,6 +298,10 @@ export class AppRenderer extends Process {
     titleCaption.innerText = `${data.metadata.name}`;
     titleIcon.src = data.metadata.icon || AppIcons.default;
 
+    process.windowTitle.subscribe((v) => {
+      titleCaption.innerText = v;
+    });
+
     title.className = "window-title";
     title.append(titleIcon, titleCaption);
 

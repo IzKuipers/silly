@@ -8,6 +8,7 @@ import { Store } from "../../js/store.js";
 import { UserData } from "../../js/user/data.js";
 
 export default class ShellProcess extends AppProcess {
+  powerLogic;
   startOpened = Store(false);
   startPopulated = false;
   userData;
@@ -19,12 +20,16 @@ export default class ShellProcess extends AppProcess {
 
   constructor(handler, pid, parentPid, app) {
     super(handler, pid, parentPid, app);
+
+    this.powerLogic = KERNEL.getModule("powerlogic");
   }
 
   render() {
     this.userData = UserData.get();
     this.usernameField = this.getElement("#startMenu #username", true);
     this.shutdownButton = this.getElement("#startMenu #shutdown", true);
+    this.restartButton = this.getElement("#startMenu #restart", true);
+    this.logoutButton = this.getElement("#startMenu #logout", true);
     this.startButton = this.getElement("#startButton", true);
     this.startMenu = this.getElement("#startMenu", true);
     this.appList = this.getElement("#appList", true);
@@ -33,6 +38,7 @@ export default class ShellProcess extends AppProcess {
     this.startOutsideTrigger();
     this.startClock();
     this.initializeStartMenu();
+    this.powerButtons();
 
     AppStore.subscribe((v) => {
       if (!v) return;
@@ -181,5 +187,17 @@ export default class ShellProcess extends AppProcess {
         }
       })
     );
+  }
+
+  powerButtons() {
+    this.restartButton.addEventListener("click", () => {
+      this.powerLogic.restart();
+    });
+    this.shutdownButton.addEventListener("click", () => {
+      this.powerLogic.shutdown();
+    });
+    this.logoutButton.addEventListener("click", () => {
+      this.powerLogic.logoff();
+    });
   }
 }

@@ -32,4 +32,6 @@ export default async function render() {
   )
     .reverse()
     .join("\n")}`;
+
+  throw reason;
 }

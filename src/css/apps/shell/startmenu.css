@@ -75,6 +75,12 @@ div#startMenu div.middle div.right {
   border-left: var(--border);
 }
 
+div#startMenu div.bottom div.right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 div#startMenu div.bottom {
   display: flex;
   align-items: center;
