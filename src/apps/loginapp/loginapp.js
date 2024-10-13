@@ -10,6 +10,7 @@ import { AppRuntimeError } from "../../js/apps/error.js";
 import { Sleep } from "../../js/sleep.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { getStateProps, StateProps } from "../../js/state/store.js";
+import { SetupHelperApp } from "../setuphelper/metadata.js";
 
 export default class LoginAppProcess extends AppProcess {
   fs;
@@ -41,7 +42,15 @@ export default class LoginAppProcess extends AppProcess {
 
     this.type ||= getStateProps({ identifier: "login" }).type;
 
-    if (!this.type) return;
+    if (!this.type) {
+      if (!this.registry.getValue("setupHelper.completed")) {
+        this.displayStatus(`Welcome to Inepta`);
+        await loadApp(SetupHelperApp);
+        await spawnApp("setupHelper", this._pid);
+      }
+
+      return;
+    }
 
     switch (this.type) {
       case "shutdown":

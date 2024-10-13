@@ -34,6 +34,19 @@ export class AppProcess extends Process {
 
     return element;
   }
+  getElements(querySelector, error = false) {
+    const element = document.querySelectorAll(
+      `div.window[data-pid="${this._pid}"] > div.body ${querySelector}`
+    );
+
+    if (error && !element.length) {
+      throw new AppRuntimeError(
+        `${this._pid}: No such elements ${querySelector}`
+      );
+    }
+
+    return element;
+  }
 
   async closeWindow() {
     const elements = [

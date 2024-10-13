@@ -81,3 +81,18 @@ div.window.setupHelper div.bottom div.actions div.sep {
   width: 1px;
   background-color: var(--border-clr);
 }
+
+div.window.setupHelper div#page2 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+div.window.setupHelper div#page2 table td {
+  padding: 0;
+}
+
+div.window.setupHelper div#page2 table input {
+  margin-left: 10px;
+  margin-bottom: 5px;
+  width: 250px;
+}

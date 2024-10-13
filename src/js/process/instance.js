@@ -1,3 +1,5 @@
+import { KERNEL } from "../../env.js";
+
 export class Process {
   _pid;
   _disposed = false;
@@ -11,6 +13,8 @@ export class Process {
     this._disposed = false;
     this.parentPid = parentPid;
     this.handler = handler;
+    this.kernel = KERNEL;
+    this.registry = KERNEL.getModule("registry");
   }
 
   async killSelf() {

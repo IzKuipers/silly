@@ -53,6 +53,8 @@ export class UserLogic extends KernelModule {
   }
 
   async createUser(username, password, admin = false) {
+    username &&= username.toLowerCase();
+
     const store = this.store.get();
 
     if (store[username]) return false;
@@ -70,12 +72,16 @@ export class UserLogic extends KernelModule {
   }
 
   getUser(username) {
+    username &&= username.toLowerCase();
+
     const store = this.store.get();
 
     return store[username];
   }
 
   async initializeUser(username) {
+    username &&= username.toLowerCase();
+
     const user = this.getUser(username);
 
     if (!user) return false;
@@ -88,6 +94,8 @@ export class UserLogic extends KernelModule {
   }
 
   async initializePreferences(user) {
+    user.username &&= user.username.toLowerCase();
+
     const preferencesPath = join(user.userFolder, "preferences.json");
 
     await this.fs.writeFile(
