@@ -3,6 +3,13 @@ import { KernelModule } from "../kernel/module/index.js";
 export class PowerLogic extends KernelModule {
   constructor(kernel, id) {
     super(kernel, id);
+
+    this.registry = kernel.getModule("registry");
+
+    this.registry.setValue(
+      "KERNEL.module.powerlogic.loadTime.startRenderer",
+      new Date().getTime()
+    );
   }
 
   _init() {}

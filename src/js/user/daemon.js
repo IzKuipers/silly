@@ -14,10 +14,14 @@ export class UserDaemon extends Process {
 
     this.username = username;
     this.fs = this.handler._kernel.getModule("fs");
+    this.registry = this.handler._kernel.getModule("registry");
     this.userlogic = this.handler._kernel.getModule("userlogic");
   }
 
   async start() {
+    this.registry.setValue("UserDaemon.lastLoginName", this.username);
+    this.registry.setValue("UserDaemon.lastLoginTime", new Date().getTime());
+
     this.preferencesPath = `./Users/${this.username}/preferences.json`;
 
     await this.loadPreferences();

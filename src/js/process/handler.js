@@ -12,11 +12,23 @@ export class ProcessHandler extends KernelModule {
   constructor(kernel, id) {
     super(kernel, id);
 
+    this.registry = kernel.getModule("registry");
+
+    this.registry.setValue(
+      "KERNEL.module.processHandler.loadTime.absolute",
+      new Date().getTime()
+    );
+
     Log("ProcessHandler.constructor", "Constructing");
   }
 
   async startRenderer(renderTarget, initPid) {
     Log("ProcessHandler.startRenderer", "Starting renderer");
+
+    this.registry.setValue(
+      "KERNEL.module.processHandler.loadTime.startRenderer",
+      new Date().getTime()
+    );
 
     this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
   }

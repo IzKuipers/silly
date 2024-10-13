@@ -14,7 +14,19 @@ export class UserLogic extends KernelModule {
 
   async _init() {
     this.fs = this._kernel.getModule("fs");
+    this.registry = this._kernel.getModule("registry");
+
     await this.initialize();
+
+    this.registry.setValue(
+      "KERNEL.module.userlogic.loadTime.relative",
+      this._kernel.startMs
+    );
+
+    this.registry.setValue(
+      "KERNEL.module.userlogic.loadTime.absolute",
+      new Date().getTime()
+    );
   }
 
   async initialize() {

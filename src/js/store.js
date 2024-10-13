@@ -28,5 +28,15 @@ export function Store(value) {
     cb(_value);
   }
 
-  return { get, set, update, clear, subscribe };
+  function destroy() {
+    _subs = [];
+    _value = undefined;
+    get = null;
+    set = null;
+    update = null;
+    clear = null;
+    subscribe = null;
+  }
+
+  return { get, set, update, clear, subscribe, destroy };
 }
