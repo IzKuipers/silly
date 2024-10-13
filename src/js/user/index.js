@@ -19,12 +19,12 @@ export class UserLogic extends KernelModule {
     await this.initialize();
 
     this.registry.setValue(
-      "KERNEL.module.userlogic.loadTime.relative",
+      "KERNEL.loadTime.userlogic.relative",
       this._kernel.startMs
     );
 
     this.registry.setValue(
-      "KERNEL.module.userlogic.loadTime.absolute",
+      "KERNEL.loadTime.userlogic.absolute",
       new Date().getTime()
     );
   }

@@ -17,14 +17,8 @@ export class IneptaRegistry extends KernelModule {
     await this.loadRegistry();
     this.registrySync();
 
-    this.setValue(
-      "KERNEL.module.registry.loadTime.relative",
-      this._kernel.startMs
-    );
-    this.setValue(
-      "KERNEL.module.registry.loadTime.absolute",
-      new Date().getTime()
-    );
+    this.setValue("KERNEL.loadTime.registry.relative", this._kernel.startMs);
+    this.setValue("KERNEL.loadTime.registry.absolute", new Date().getTime());
   }
 
   async loadRegistry() {

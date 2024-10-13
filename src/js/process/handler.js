@@ -15,7 +15,7 @@ export class ProcessHandler extends KernelModule {
     this.registry = kernel.getModule("registry");
 
     this.registry.setValue(
-      "KERNEL.module.processHandler.loadTime.absolute",
+      "KERNEL.loadTime.processHandler.absolute",
       new Date().getTime()
     );
 
@@ -26,7 +26,7 @@ export class ProcessHandler extends KernelModule {
     Log("ProcessHandler.startRenderer", "Starting renderer");
 
     this.registry.setValue(
-      "KERNEL.module.processHandler.loadTime.startRenderer",
+      "KERNEL.loadTime.processHandler.startRenderer",
       new Date().getTime()
     );
 
