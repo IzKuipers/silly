@@ -1,9 +1,8 @@
-import { app, BrowserWindow, globalShortcut, webContents } from "electron";
-import { VERSION } from "./src/env.js";
 import remote from "@electron/remote/main/index.js";
+import { app, BrowserWindow, globalShortcut, nativeTheme } from "electron";
+import { VERSION } from "./src/env.js";
 
 remote.initialize();
-// remote.enable(webContents);
 
 let window;
 
@@ -36,6 +35,10 @@ app.on("ready", () => {
     });
   });
 
+  window.webContents.on("devtools-opened", () => {
+    toggleNativeTheme();
+  });
+
   window.webContents.session.webRequest.onHeadersReceived(
     { urls: ["*://*/*"] },
     (d, c) => {
@@ -57,3 +60,13 @@ app.on("ready", () => {
     if (window.isFocused()) window.fullScreen = !window.fullScreen;
   });
 });
+
+function toggleNativeTheme() {
+  // First, set the theme to 'light'
+  nativeTheme.themeSource = "light";
+
+  // After a short delay, set it to 'dark'
+  setTimeout(() => {
+    nativeTheme.themeSource = "dark";
+  }, 100); // 100ms delay; adjust if necessary
+}
