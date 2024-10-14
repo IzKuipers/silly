@@ -12,16 +12,17 @@ export default class RegEditProcess extends AppProcess {
   render() {
     this.treeElement = this.getElement("#directoryView", true);
     this.contentElement = this.getElement("#contentView", true);
+    this.pathElement = this.getElement("#path", true);
 
     this.registry.store.subscribe(
       this.safe((v) => {
-        this._treeView(v);
+        this.populateTree(v);
         this.updateContent();
       })
     );
   }
 
-  _treeView(store) {
+  populateTree(store) {
     const rootObjects = this.treeBranch(store, "");
 
     const rootBranch = document.createElement("div");
@@ -30,19 +31,35 @@ export default class RegEditProcess extends AppProcess {
 
     rootBranch.className = "branch expanded";
     indent.className = "indent";
-    button.className = "expander";
 
+    button.className = "expander";
     button.innerText = "Registry";
-    rootBranch.append(button, indent);
+    button.addEventListener("click", () => {
+      this.select("");
+    });
+
+    this.hierarchy.subscribe((v) => {
+      if (!v) button.classList.add("selected");
+      else button.classList.remove("selected");
+    });
+
     indent.append(...rootObjects);
+    rootBranch.append(button, indent);
 
     this.treeElement.innerHTML = "";
     this.treeElement.append(rootBranch);
   }
 
   select(hierarchy) {
+    const split = hierarchy.split(".");
+    const last = split[split.length - 1];
+    const shortened = [...split].map((a) => a[0]);
+
+    shortened.splice(-1);
+
     this.hierarchy.set(hierarchy);
     this.updateContent();
+    this.windowTitle.set(`Registry Editor - ${shortened.join("/")}/${last}`);
   }
 
   treeBranch(object, path) {
@@ -63,7 +80,6 @@ export default class RegEditProcess extends AppProcess {
 
       const currentPath = path ? `${path}.${key}` : key;
 
-      // Add parent branch first, then sub-items
       button.innerText = key;
       button.addEventListener("click", () => {
         if (
@@ -85,15 +101,14 @@ export default class RegEditProcess extends AppProcess {
 
       branch.append(button);
 
-      // If the value is an object, recursively build the tree
       if (!isLeaf) {
         const subItems = this.treeBranch(value, currentPath);
-        indent.append(...subItems); // Sub-items go inside indent
+
+        indent.append(...subItems);
       }
 
-      // Append indent after the branch so that the children are below the parent
       branch.append(indent);
-      elements.unshift(branch); // Use unshift to reverse the order, placing the parent after children
+      elements.unshift(branch);
     }
 
     return elements;
@@ -122,9 +137,16 @@ export default class RegEditProcess extends AppProcess {
       type.className = "type";
 
       name.innerText = key;
-      value.innerText = JSON.stringify(element);
+      value.innerText =
+        typeof element === "object" ? "(folder)" : JSON.stringify(element);
       valuelength.innerText = `${JSON.stringify(element).length} bytes`;
       type.innerText = `REG_${(typeof element).toUpperCase()}`;
+
+      row.addEventListener("click", () => {
+        if (typeof element === "object") {
+          this.select(hierarchy ? `${hierarchy}.${key}` : key);
+        }
+      });
 
       row.append(name, value, valuelength, type);
 

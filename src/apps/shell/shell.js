@@ -78,6 +78,10 @@ export default class ShellProcess extends AppProcess {
           })
         );
 
+        proc.windowTitle.subscribe((v) => {
+          button.innerText = v;
+        });
+
         activeApps.append(button);
       }
     });

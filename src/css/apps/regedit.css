@@ -9,11 +9,16 @@ div.window.regEditApp div.panes {
   border-bottom: var(--border);
 }
 
+div.window.regEditApp div.panes > #directoryView > div.branch > button::before {
+  display: none;
+}
+
 div.window.regEditApp div.panes > #directoryView {
   width: 250px;
   height: 100%;
   overflow-y: auto;
   border-right: var(--border);
+  padding: 5px;
 }
 
 div.window.regEditApp div.panes > div.right-pane {
@@ -66,6 +71,11 @@ div.window.regEditApp div.panes table {
   border-collapse: collapse;
 }
 
+div.window.regEditApp div.panes table thead {
+  border-right: var(--border);
+  border-bottom: var(--border);
+}
+
 div.window.regEditApp div.panes table th {
   text-align: left;
   background-color: var(--button-bg);
@@ -91,4 +101,8 @@ div.window.regEditApp div.panes table td {
 
 div.window.regEditApp div.panes table td.value {
   max-width: 350px;
+}
+
+div.window.regEditApp div.panes table tr:hover {
+  background-color: var(--button-bg);
 }
