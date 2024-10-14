@@ -72,15 +72,22 @@ export default class RegEditProcess extends AppProcess {
 
       const branch = document.createElement("div");
       const button = document.createElement("button");
+      const icon = document.createElement("img");
+      const caption = document.createElement("span");
       const indent = document.createElement("div");
 
       branch.className = "branch";
       indent.className = "indent";
       button.className = "expander";
 
+      icon.src = "./assets/fs/folder.svg";
+      icon.className = "icon";
+      caption.innerText = key;
+
+      button.append(icon, caption);
+
       const currentPath = path ? `${path}.${key}` : key;
 
-      button.innerText = key;
       button.addEventListener("click", () => {
         if (
           currentPath === this.hierarchy.get() &&

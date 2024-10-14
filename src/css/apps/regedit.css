@@ -51,9 +51,12 @@ div.window.regEditApp div.panes > #directoryView button.expander {
   background-color: transparent;
   border-radius: 3px;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 div.window.regEditApp div.panes > #directoryView button.expander.selected {
-  background-color: var(--accent);
+  background-color: var(--accent-darker);
 }
 
 div.window.regEditApp div.panes > #directoryView button.expander::before {
