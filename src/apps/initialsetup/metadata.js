@@ -1,4 +1,4 @@
-export const SetupHelperApp = {
+export const InitialSetupApp = {
   metadata: {
     name: "Set up Inepta",
     version: "1.0.0",

@@ -1,3 +1,12 @@
 .login {
   background-color: var(--accent-darker);
 }
+
+.login #versionNumber {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  font-family: "unifont";
+  font-size: 16px;
+  text-align: right;
+}

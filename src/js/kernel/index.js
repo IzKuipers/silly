@@ -14,6 +14,7 @@ export class IneptaKernel {
   params;
   initPid;
   startMs;
+  modules = [];
 
   constructor() {
     Log("KERNEL", "Starting kernel");
@@ -35,6 +36,8 @@ export class IneptaKernel {
       this[id] = new mod(this, id);
 
       await this[id].__init();
+
+      this.modules.push(id);
     }
   }
 
@@ -49,6 +52,7 @@ export class IneptaKernel {
       throw new Error(`Attempted to load invalid Kernel Module "${id}"`);
 
     this[id] = data;
+    this.modules.push(id);
   }
 
   async _init() {

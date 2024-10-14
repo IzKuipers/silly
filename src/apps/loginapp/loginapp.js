@@ -10,7 +10,7 @@ import { AppRuntimeError } from "../../js/apps/error.js";
 import { Sleep } from "../../js/sleep.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { getStateProps, StateProps } from "../../js/state/store.js";
-import { SetupHelperApp } from "../initialsetup/metadata.js";
+import { InitialSetupApp } from "../initialsetup/metadata.js";
 
 export default class LoginAppProcess extends AppProcess {
   fs;
@@ -45,7 +45,7 @@ export default class LoginAppProcess extends AppProcess {
     if (!this.type) {
       if (!this.registry.getValue("initialSetup.completed")) {
         this.displayStatus(`Welcome to Inepta`);
-        await loadApp(SetupHelperApp);
+        await loadApp(InitialSetupApp);
         await spawnApp("initialSetup", this._pid);
       }
 
@@ -86,6 +86,9 @@ export default class LoginAppProcess extends AppProcess {
     const cancelButton = this.getElement("#cancelButton", true);
     const shutdownButton = this.getElement("#shutdownButton", true);
     const versionNumber = this.getElement("#versionNumber", true);
+
+    usernameField.focus();
+    usernameField.autofocus = true;
 
     versionNumber.innerText = `${VERSION[0]}.${VERSION[1]}`;
 
@@ -132,6 +135,25 @@ export default class LoginAppProcess extends AppProcess {
     passwordField.addEventListener(
       "input",
       this.safe(() => onValuesChange())
+    );
+
+    passwordField.addEventListener(
+      "keydown",
+      this.safe(async (e) => {
+        if (e.key === "Enter") {
+          if (!usernameField.value || !passwordField.value) return;
+
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+
+          loginButton.disabled = true;
+
+          await this.proceed(usernameField.value, passwordField.value);
+
+          loginButton.disabled = false;
+        }
+      })
     );
   }
 

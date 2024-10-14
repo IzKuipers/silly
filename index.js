@@ -9,11 +9,12 @@ let window;
 
 app.on("ready", () => {
   window = new BrowserWindow({
-    width: 1024,
-    height: 600,
+    width: 1280,
+    height: 720,
     minWidth: 800,
     minHeight: 600,
     center: true,
+    fullscreen: true,
     backgroundColor: "#000",
     title: `Inepta ${VERSION}`,
     webPreferences: {

@@ -37,6 +37,8 @@ export default class MsgBoxProcess extends AppProcess {
       });
 
       buttonsDiv.append(buttonElement);
+
+      buttonElement.focus();
     }
 
     setTimeout(() => {
