@@ -19,6 +19,18 @@ export class ProcessHandler extends KernelModule {
       new Date().getTime()
     );
 
+    this.store.subscribe((v) => {
+      this.registry.setValue(
+        "KERNEL.processHandler.store",
+        [...v].map(([k, v]) => ({
+          seq: k,
+          pid: v._pid,
+          name: v.name,
+          parent: v.parentPid,
+        }))
+      );
+    });
+
     Log("ProcessHandler.constructor", "Constructing");
   }
 
@@ -132,6 +144,7 @@ export class ProcessHandler extends KernelModule {
 
   getPid() {
     this.lastPid++;
+    this.registry.setValue("KERNEL.processHandler.lastPid", this.lastPid);
     return this.lastPid;
   }
 

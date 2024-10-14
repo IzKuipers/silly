@@ -1,0 +1,94 @@
+div.window.regEditApp div.body {
+  padding: 0;
+  border-top: var(--border);
+}
+
+div.window.regEditApp div.panes {
+  display: flex;
+  height: calc(100% - 30px);
+  border-bottom: var(--border);
+}
+
+div.window.regEditApp div.panes > #directoryView {
+  width: 250px;
+  height: 100%;
+  overflow-y: auto;
+  border-right: var(--border);
+}
+
+div.window.regEditApp div.panes > div.right-pane {
+  width: calc(100% - 250px);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+div.window.regEditApp div.branch:not(.expanded) > div.indent {
+  display: none;
+}
+
+div.window.regEditApp div.branch.expanded > div.indent {
+  display: block;
+}
+
+div.window.regEditApp div.panes > #directoryView div.indent {
+  padding-left: 6.5px;
+  margin-left: 13px;
+  overflow: hidden;
+  border-left: var(--border);
+}
+
+div.window.regEditApp div.panes > #directoryView button.expander {
+  height: fit-content;
+  padding: 2px 5px;
+  text-align: left;
+  border-radius: 0;
+  background-color: transparent;
+  border-radius: 3px;
+  position: relative;
+}
+div.window.regEditApp div.panes > #directoryView button.expander.selected {
+  background-color: var(--accent);
+}
+
+div.window.regEditApp div.panes > #directoryView button.expander::before {
+  content: "";
+  height: 1px;
+  width: 20px;
+  position: Absolute;
+  left: -20px;
+  top: 11px;
+  background-color: var(--border-clr);
+}
+
+div.window.regEditApp div.panes table {
+  min-width: 50%;
+  border-collapse: collapse;
+}
+
+div.window.regEditApp div.panes table th {
+  text-align: left;
+  background-color: var(--button-bg);
+}
+
+div.window.regEditApp div.panes table th:not(:first-child) {
+  border-left: var(--border);
+}
+
+div.window.regEditApp div.panes table th,
+div.window.regEditApp div.panes table td {
+  padding: 0 10px;
+  height: 24px;
+  min-width: 80px;
+}
+div.window.regEditApp div.panes table td {
+  font-family: "Source Code Pro";
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: fit-content;
+}
+
+div.window.regEditApp div.panes table td.value {
+  max-width: 350px;
+}

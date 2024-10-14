@@ -27,6 +27,12 @@ export class UserDaemon extends Process {
     await this.loadPreferences();
     await this.checkUserFolders();
     this.preferencesSync();
+
+    UserData.subscribe((v) => {
+      if (!this._disposed) {
+        this.registry.setValue("CurrentUser", v);
+      }
+    });
   }
 
   async checkUserFolders() {
@@ -55,6 +61,7 @@ export class UserDaemon extends Process {
 
   preferencesSync() {
     UserData.subscribe((v) => {
+      if (this._disposed) return;
       this.fs.writeFile(this.preferencesPath, JSON.stringify(v, null, 2));
     });
   }
