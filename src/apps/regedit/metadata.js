@@ -3,6 +3,7 @@ export const RegEditApp = {
     name: "Registry Editor",
     version: "1.0.0",
     author: "Izaak Kuipers",
+    icon: "./assets/apps/regedit.svg",
   },
   size: { w: 750, h: 500 },
   minSize: { w: 500, h: 500 },

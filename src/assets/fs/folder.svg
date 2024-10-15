@@ -5,12 +5,12 @@
       fill="#8E6417" />
     <g filter="url(#filter0_d_94_2)">
       <path
-        d="M1.88299 5.05579C1.95118 4.73187 2.23695 4.5 2.56798 4.5H15.1373C15.5819 4.5 15.9139 4.90912 15.8223 5.34421L14.117 13.4442C14.0488 13.7681 13.763 14 13.432 14H0.246489C0.119455 14 0.0246089 13.8831 0.0507794 13.7588L1.88299 5.05579Z"
+        d="M1.87302 6.03967C1.94742 5.72347 2.22957 5.5 2.55441 5.5H15.1162C15.5676 5.5 15.901 5.92093 15.7976 6.36033L14.127 13.4603C14.0526 13.7765 13.7704 14 13.4456 14H0.252521C0.123551 14 0.028298 13.8797 0.0578372 13.7542L1.87302 6.03967Z"
         fill="#FFBC40" />
     </g>
   </g>
   <defs>
-    <filter id="filter0_d_94_2" x="-0.953583" y="3.5" width="17.7911" height="11.5" filterUnits="userSpaceOnUse"
+    <filter id="filter0_d_94_2" x="-0.947571" y="4.5" width="17.7641" height="10.5" filterUnits="userSpaceOnUse"
       color-interpolation-filters="sRGB">
       <feFlood flood-opacity="0" result="BackgroundImageFix" />
       <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
