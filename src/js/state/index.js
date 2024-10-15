@@ -47,10 +47,13 @@ export class StateHandler extends Process {
       await Sleep(400);
     }
 
+    Log(`StateHandler.loadState`, `BEGINNING LOAD OF ${name} (${identifier})`);
+
     try {
       const htmlContents = await (await fetch(html)).text();
 
       htmlLoader.innerHTML = htmlContents;
+      Log(`StateHandler.loadState`, ` -> Loaded ${html}`);
     } catch {
       throw new StateError(
         `${identifier}: Could not find required file ${html}`
@@ -61,6 +64,7 @@ export class StateHandler extends Process {
 
     htmlLoader.classList.add(`fullscreen`, identifier);
     cssLoader.href = css;
+    Log(`StateHandler.loadState`, ` -> Loaded ${css}`);
 
     if (!instant) {
       await Sleep(500);
@@ -75,7 +79,8 @@ export class StateHandler extends Process {
 
       if (!render) throw new StateError(`${identifier}: No render function`);
 
-      Log(`StateHandler.loadState`, `-> Now entering ${name}`);
+      Log(`StateHandler.loadState`, ` -> Loaded ${js}`);
+      Log(`StateHandler.loadState`, `==> Now entering ${name}`);
       await render();
     } catch (e) {
       throw new StateError(`${identifier}: ${e.stack}`);

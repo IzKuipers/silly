@@ -5,7 +5,7 @@ import { RegistryHives } from "./store.js";
 
 export class IneptaRegistry extends KernelModule {
   store = Store({});
-  PATH = "./registry.json";
+  PATH = "./System/Registry.json";
   fs;
 
   constructor(kernel, id) {
