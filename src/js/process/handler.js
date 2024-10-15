@@ -20,15 +20,17 @@ export class ProcessHandler extends KernelModule {
     );
 
     this.store.subscribe((v) => {
-      this.registry.setValue(
-        "KERNEL.processHandler.store",
-        [...v].map(([k, v]) => ({
+      const store = this.registry.setValue("KERNEL.processHandler.store", {});
+      [...v]
+        .map(([k, v]) => ({
           seq: k,
           pid: v._pid,
           name: v.name,
           parent: v.parentPid,
         }))
-      );
+        .forEach((p) => {
+          this.registry.setValue(`KERNEL.processHandler.store.#${p.pid}`, p);
+        });
     });
 
     Log("ProcessHandler.constructor", "Constructing");

@@ -1,5 +1,7 @@
 import { VERSION } from "../../env.js";
 import { AppProcess } from "../../js/apps/process.js";
+import { MessageBox } from "../../js/desktop/message.js";
+import { MessageIcons } from "../../js/images/msgbox.js";
 
 export default class SetupHelperProcess extends AppProcess {
   pageIndex = 0;
@@ -123,10 +125,34 @@ export default class SetupHelperProcess extends AppProcess {
       !this.usernameField.value ||
       !this.passwordField.value ||
       !this.confirmField.value
-    )
-      return;
+    ) {
+      MessageBox(
+        {
+          title: "Missing values",
+          message:
+            "You forgot to fill out one of the fields! Please fill out all fields before continuing.",
+          buttons: [{ caption: "Okay", action() {} }],
+          icon: MessageIcons.warning,
+        },
+        this._pid
+      );
 
-    if (this.passwordField.value !== this.confirmField.value) return;
+      return;
+    }
+
+    if (this.passwordField.value !== this.confirmField.value) {
+      MessageBox(
+        {
+          title: "Passwords don't match",
+          message: "The passwords you entered don't match! Please try again.",
+          buttons: [{ caption: "Okay", action() {} }],
+          icon: MessageIcons.warning,
+        },
+        this._pid
+      );
+
+      return;
+    }
 
     this.usernameField.disabled = true;
     this.passwordField.disabled = true;

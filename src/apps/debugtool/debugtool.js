@@ -1,9 +1,7 @@
-import { KERNEL } from "../../env.js";
 import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
-import { stringifyClassSource } from "../../js/util/stringify.js";
 
 const { BrowserWindow } = require("@electron/remote");
 
@@ -17,7 +15,6 @@ export default class DebugToolProcess extends AppProcess {
     this.electronControls();
     this.pageReload();
     this.launcher();
-    this.kernelMod();
   }
 
   cssHotFix() {
@@ -107,19 +104,6 @@ export default class DebugToolProcess extends AppProcess {
       "click",
       this.safe(() => {
         window.close();
-      })
-    );
-  }
-
-  kernelMod() {
-    const button = this.getElement("#kernelModButton", true);
-    const input = this.getElement("#kernelModInput", true);
-    const output = this.getElement("#kernelModOut", true);
-
-    button.addEventListener(
-      "click",
-      this.safe(() => {
-        output.innerText = stringifyClassSource(KERNEL.getModule(input.value));
       })
     );
   }

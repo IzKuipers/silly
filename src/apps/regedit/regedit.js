@@ -60,6 +60,7 @@ export default class RegEditProcess extends AppProcess {
     this.hierarchy.set(hierarchy);
     this.updateContent();
     this.windowTitle.set(`Registry - ${shortened.join("/")}/${last}`);
+    this.pathElement.innerText = `Registry/${split.join("/")}`;
   }
 
   treeBranch(object, path) {
@@ -165,7 +166,7 @@ export default class RegEditProcess extends AppProcess {
       }`;
 
       row.addEventListener("click", () => {
-        if (typeof element === "object") {
+        if (typeof element === "object" && !Array.isArray(element)) {
           this.select(hierarchy ? `${hierarchy}.${key}` : key);
         }
       });
