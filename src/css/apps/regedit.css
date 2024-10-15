@@ -95,11 +95,20 @@ div.window.regEditApp div.panes table td {
   min-width: 80px;
 }
 div.window.regEditApp div.panes table td {
-  font-family: "Source Code Pro";
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: fit-content;
+}
+
+div.window.regEditApp div.panes table td.name > div {
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  align-items: center;
+  gap: 5px;
 }
 
 div.window.regEditApp div.panes table td.value {

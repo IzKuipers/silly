@@ -59,14 +59,15 @@ export default class RegEditProcess extends AppProcess {
 
     this.hierarchy.set(hierarchy);
     this.updateContent();
-    this.windowTitle.set(`Registry Editor - ${shortened.join("/")}/${last}`);
+    this.windowTitle.set(`Registry - ${shortened.join("/")}/${last}`);
   }
 
   treeBranch(object, path) {
     const elements = [];
 
     for (const [key, value] of Object.entries(object)) {
-      const isLeaf = typeof value !== "object" || value === null;
+      const isLeaf =
+        typeof value !== "object" || Array.isArray(value) || value === null;
 
       if (isLeaf) continue;
 
@@ -102,8 +103,10 @@ export default class RegEditProcess extends AppProcess {
       });
 
       this.hierarchy.subscribe((v) => {
-        if (currentPath == v) button.classList.add("selected");
-        else button.classList.remove("selected");
+        if (currentPath == v) {
+          button.classList.add("selected");
+          branch.classList.add("expanded");
+        } else button.classList.remove("selected");
       });
 
       branch.append(button);
@@ -131,6 +134,8 @@ export default class RegEditProcess extends AppProcess {
     for (const [key, element] of Object.entries(object)) {
       if (!element && element !== false && element !== 0) continue;
 
+      const isFolder = typeof element === "object" && !Array.isArray(element);
+
       const row = document.createElement("tr");
 
       const name = document.createElement("td");
@@ -138,16 +143,26 @@ export default class RegEditProcess extends AppProcess {
       const valuelength = document.createElement("td");
       const type = document.createElement("td");
 
+      const nameWrapper = document.createElement("div");
+      const nameCaption = document.createElement("span");
+      const icon = document.createElement("img");
+
+      icon.src = "./assets/fs/" + (isFolder ? "folder.svg" : "file.svg");
+      nameCaption.innerText = key;
+      nameWrapper.append(icon, nameCaption);
+
+      name.append(nameWrapper);
+
       name.className = "name";
       value.className = "value";
       valuelength.className = "value-length";
       type.className = "type";
 
-      name.innerText = key;
-      value.innerText =
-        typeof element === "object" ? "(folder)" : JSON.stringify(element);
+      value.innerText = isFolder ? "(folder)" : JSON.stringify(element);
       valuelength.innerText = `${JSON.stringify(element).length} bytes`;
-      type.innerText = `REG_${(typeof element).toUpperCase()}`;
+      type.innerText = `REG_${
+        Array.isArray(element) ? "ARRAY" : (typeof element).toUpperCase()
+      }`;
 
       row.addEventListener("click", () => {
         if (typeof element === "object") {
