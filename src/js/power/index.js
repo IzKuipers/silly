@@ -6,8 +6,6 @@ export class PowerLogic extends KernelModule {
     super(kernel, id);
 
     this.registry = kernel.getModule("registry");
-
-    this.registry.setValue("KERNEL.loadTime.powerlogic", new Date().getTime());
   }
 
   _init() {}

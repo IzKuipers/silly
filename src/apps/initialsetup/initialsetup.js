@@ -2,6 +2,7 @@ import { VERSION } from "../../env.js";
 import { AppProcess } from "../../js/apps/process.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
+import { RegistryHives } from "../../js/registry/store.js";
 
 export default class SetupHelperProcess extends AppProcess {
   pageIndex = 0;
@@ -168,10 +169,22 @@ export default class SetupHelperProcess extends AppProcess {
       true
     );
 
-    this.registry.setValue("initialSetup.finishedAt", new Date().getTime());
-    this.registry.setValue("initialSetup.doneBy", this.usernameField.value);
-    this.registry.setValue("initialSetup.completed", true);
-    this.registry.setValue("initialSetup.installVersion", VERSION);
+    this.registry.setValue(
+      RegistryHives.local,
+      "initialSetup.finishedAt",
+      new Date().getTime()
+    );
+    this.registry.setValue(
+      RegistryHives.local,
+      "initialSetup.doneBy",
+      this.usernameField.value
+    );
+    this.registry.setValue(RegistryHives.local, "initialSetup.completed", true);
+    this.registry.setValue(
+      RegistryHives.local,
+      "initialSetup.installVersion",
+      VERSION
+    );
 
     this.powerLogic.restart();
   }

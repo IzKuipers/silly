@@ -1,6 +1,7 @@
 import { getJsonHierarchy, setJsonHierarchy } from "../hierarchy.js";
 import { KernelModule } from "../kernel/module/index.js";
 import { Store } from "../store.js";
+import { RegistryHives } from "./store.js";
 
 export class IneptaRegistry extends KernelModule {
   store = Store({});
@@ -15,10 +16,8 @@ export class IneptaRegistry extends KernelModule {
 
   async _init() {
     await this.loadRegistry();
-    this.registrySync();
 
-    this.setValue("KERNEL.loadTime.registry.relative", this._kernel.startMs);
-    this.setValue("KERNEL.loadTime.registry.absolute", new Date().getTime());
+    this.registrySync();
   }
 
   async loadRegistry() {
@@ -43,15 +42,15 @@ export class IneptaRegistry extends KernelModule {
     this.store.destroy();
   }
 
-  setValue(path, value) {
+  setValue(hive = RegistryHives.local, path, value) {
     const store = this.store.get();
 
-    setJsonHierarchy(store, path, value);
+    setJsonHierarchy(store, `${hive}.${path}`, value);
 
     this.store.set(store);
   }
 
-  getValue(path) {
-    return getJsonHierarchy(this.store.get(), path);
+  getValue(hive = RegistryHives.local, path) {
+    return getJsonHierarchy(this.store.get(), `${hive}.${path}`);
   }
 }

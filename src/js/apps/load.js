@@ -1,4 +1,6 @@
+import { KERNEL } from "../../env.js";
 import { Log } from "../logging.js";
+import { RegistryHives } from "../registry/store.js";
 import { AppLoadError } from "./error.js";
 import { appDataComplete } from "./sanitise.js";
 import { AppStore } from "./store.js";
@@ -14,7 +16,7 @@ export async function loadApp(data = {}) {
 
   Log(
     `loadApp`,
-    `${data.id}: Loading app: ${data.metadata.name} by ${data.metadata.author} (v${data.metadata.version})`
+    `${data.id}: ${data.metadata.name} by ${data.metadata.author} (v${data.metadata.version})`
   );
 
   try {
@@ -28,6 +30,10 @@ export async function loadApp(data = {}) {
     store[data.id] = { data, process };
 
     AppStore.set(store);
+
+    Log(`loadApp`, `${data.id}: Copying application metadata to the Registry.`);
+
+    KERNEL.registry.setValue(RegistryHives.apps, `${data.id}`, data);
   } catch (e) {
     throw new AppLoadError(
       `Failed to import "${data.files.js}" for ${data.id}: ${e.message}`

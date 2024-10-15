@@ -14,35 +14,11 @@ export class ProcessHandler extends KernelModule {
 
     this.registry = kernel.getModule("registry");
 
-    this.registry.setValue(
-      "KERNEL.loadTime.processHandler.absolute",
-      new Date().getTime()
-    );
-
-    this.store.subscribe((v) => {
-      const store = this.registry.setValue("KERNEL.processHandler.store", {});
-      [...v]
-        .map(([k, v]) => ({
-          seq: k,
-          pid: v._pid,
-          name: v.name,
-          parent: v.parentPid,
-        }))
-        .forEach((p) => {
-          this.registry.setValue(`KERNEL.processHandler.store.#${p.pid}`, p);
-        });
-    });
-
     Log("ProcessHandler.constructor", "Constructing");
   }
 
   async startRenderer(renderTarget, initPid) {
     Log("ProcessHandler.startRenderer", "Starting renderer");
-
-    this.registry.setValue(
-      "KERNEL.loadTime.processHandler.startRenderer",
-      new Date().getTime()
-    );
 
     this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
   }
@@ -146,7 +122,7 @@ export class ProcessHandler extends KernelModule {
 
   getPid() {
     this.lastPid++;
-    this.registry.setValue("KERNEL.processHandler.lastPid", this.lastPid);
+
     return this.lastPid;
   }
 

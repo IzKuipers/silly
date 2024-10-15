@@ -1,5 +1,6 @@
 import { KERNEL } from "../../env.js";
 import { Process } from "../process/instance.js";
+import { RegistryHives } from "../registry/store.js";
 import { UserData } from "./data.js";
 import { DefaultUserPreferences } from "./store.js";
 
@@ -19,8 +20,16 @@ export class UserDaemon extends Process {
   }
 
   async start() {
-    this.registry.setValue("UserDaemon.lastLoginName", this.username);
-    this.registry.setValue("UserDaemon.lastLoginTime", new Date().getTime());
+    this.registry.setValue(
+      RegistryHives.local,
+      "UserDaemon.lastLoginName",
+      this.username
+    );
+    this.registry.setValue(
+      RegistryHives.local,
+      "UserDaemon.lastLoginTime",
+      new Date().getTime()
+    );
 
     this.preferencesPath = `./Users/${this.username}/preferences.json`;
 
@@ -30,7 +39,7 @@ export class UserDaemon extends Process {
 
     UserData.subscribe((v) => {
       if (!this._disposed) {
-        this.registry.setValue("CurrentUser", v);
+        this.registry.setValue(RegistryHives.local, "CurrentUser", v);
       }
     });
   }

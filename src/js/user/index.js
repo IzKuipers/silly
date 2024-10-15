@@ -1,4 +1,5 @@
 import { KernelModule } from "../kernel/module/index.js";
+import { RegistryHives } from "../registry/store.js";
 import { Store } from "../store.js";
 import { DefaultUserData, DefaultUserPreferences } from "./store.js";
 
@@ -17,16 +18,6 @@ export class UserLogic extends KernelModule {
     this.registry = this._kernel.getModule("registry");
 
     await this.initialize();
-
-    this.registry.setValue(
-      "KERNEL.loadTime.userlogic.relative",
-      this._kernel.startMs
-    );
-
-    this.registry.setValue(
-      "KERNEL.loadTime.userlogic.absolute",
-      new Date().getTime()
-    );
   }
 
   async initialize() {
@@ -35,20 +26,20 @@ export class UserLogic extends KernelModule {
   }
 
   async _loadStore() {
-    try {
-      const contents = this.fs.readFile("./users.json");
+    const contents = this.registry.getValue(RegistryHives.users, "store");
 
-      this.store.set(JSON.parse(contents.toString()));
-    } catch {
+    if (!contents) {
       this.store.set({});
 
-      this.fs.writeFile("./users.json", JSON.stringify({}));
+      this.registry.setValue(RegistryHives.users, "store", {});
+    } else {
+      this.store.set(contents);
     }
   }
 
   _startStoreSync() {
     this.store.subscribe((v) => {
-      this.fs.writeFile("./users.json", JSON.stringify(v));
+      this.registry.setValue(RegistryHives.users, "store", v);
     });
   }
 

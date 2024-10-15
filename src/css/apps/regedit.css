@@ -5,8 +5,23 @@ div.window.regEditApp div.body {
 
 div.window.regEditApp div.panes {
   display: flex;
-  height: calc(100% - 30px);
+  height: calc(100% - 25px);
   border-bottom: var(--border);
+}
+
+div.window.regEditApp div.status-bar {
+  height: 25px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+div.window.regEditApp div.status-bar div.part {
+  height: inherit;
+  line-height: 24px;
+  border-right: var(--border);
+  width: fit-content;
+  padding-right: 20px;
 }
 
 div.window.regEditApp div.panes > #directoryView > div.branch > button::before {
