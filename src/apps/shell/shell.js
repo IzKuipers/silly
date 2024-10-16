@@ -119,8 +119,16 @@ export default class ShellProcess extends AppProcess {
       if (!app || !app.data || app.data.hidden || app.data.core) continue;
 
       const button = document.createElement("button");
+      const icon = document.createElement("img");
+      const caption = document.createElement("span");
 
-      button.innerText = app.data.metadata.name;
+      caption.innerText = app.data.metadata.name;
+      caption.className = "caption";
+
+      icon.className = "icon";
+      icon.src = app.data.metadata.icon || "./assets/apps/application.svg";
+
+      button.append(icon, caption);
 
       button.addEventListener(
         "click",

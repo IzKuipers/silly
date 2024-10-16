@@ -57,10 +57,19 @@ div#startMenu div.middle div.left {
 div#startMenu div.middle button {
   display: block;
   width: 100%;
-  padding: 8px;
+  padding: 0 8px;
+  height: 30px;
   text-align: left;
   border: none;
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+}
+
+div#startMenu div.middle button img {
+  height: 16px;
 }
 
 div#startMenu div.middle button:hover {
@@ -97,6 +106,14 @@ div#startMenu div.bottom button {
   border: none;
   font-size: 16px;
   font-weight: normal;
+}
+
+div#startMenu div.bottom button:hover {
+  color: var(--accent);
+}
+
+div#startMenu div.bottom button:active {
+  color: var(--accent-darker);
 }
 
 div#startMenu div.bottom button img {
