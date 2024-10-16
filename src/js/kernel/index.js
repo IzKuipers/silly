@@ -7,6 +7,8 @@ import { StateHandler } from "../state/index.js";
 import { InitProcess } from "./init.js";
 import { CoreKernelModules } from "./module/store.js";
 
+const { readFile } = require("fs/promises");
+
 export class IneptaKernel {
   fs;
   state;
@@ -15,6 +17,7 @@ export class IneptaKernel {
   initPid;
   startMs;
   modules = [];
+  BUILD = "";
 
   constructor() {
     Log("KERNEL", "Starting kernel");
@@ -58,7 +61,9 @@ export class IneptaKernel {
   async _init() {
     Log("KERNEL", "Called _init");
 
+    await this.getBuildHash();
     await this.initializeCoreModules();
+
     this.params = new URLSearchParams();
 
     this.init = await this.stack.spawn(InitProcess);
@@ -100,5 +105,15 @@ export class IneptaKernel {
       reason: obj,
       error: obj,
     });
+  }
+
+  async getBuildHash() {
+    try {
+      this.BUILD = (await readFile("./env/HASH", { encoding: "utf-8" })).split(
+        "\n"
+      )[0];
+    } catch {
+      this.BUILD = "";
+    }
   }
 }

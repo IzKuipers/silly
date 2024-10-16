@@ -1,12 +1,17 @@
 import remote from "@electron/remote/main/index.js";
 import { app, BrowserWindow, globalShortcut, nativeTheme } from "electron";
 import { VERSION } from "./src/env.js";
+import { exec, execSync } from "child_process";
+import { mkdir, writeFile } from "fs/promises";
+import { existsSync } from "fs";
 
 remote.initialize();
 
 let window;
 
-app.on("ready", () => {
+app.on("ready", async () => {
+  await writeCommitHash();
+
   window = new BrowserWindow({
     width: 1280,
     height: 720,
@@ -69,4 +74,16 @@ function toggleNativeTheme() {
   setTimeout(() => {
     nativeTheme.themeSource = "dark";
   }, 100); // 100ms delay; adjust if necessary
+}
+
+async function writeCommitHash() {
+  try {
+    const hash = execSync(`git rev-parse HEAD`);
+
+    if (!existsSync("env")) await mkdir("env");
+
+    await writeFile("./env/HASH", hash);
+  } catch (e) {
+    console.log(e);
+  }
 }

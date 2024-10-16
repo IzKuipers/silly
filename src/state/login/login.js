@@ -14,9 +14,7 @@ export default async function render() {
     "#stateLoader.login #versionNumber"
   );
 
-  versionNumber.innerText = `Inepta v${VERSION.join(".")}-unknown\n${
+  versionNumber.innerText = `Inepta v${VERSION.join(".")}-${KERNEL.BUILD}\n${
     Object.entries(KERNEL.state.store).length
-  } states | ${KERNEL.modules.length} modules | started ${
-    KERNEL.startMs
-  } | init #${KERNEL.initPid}`;
+  } States | ${KERNEL.modules.length} Kernel Modules`;
 }
