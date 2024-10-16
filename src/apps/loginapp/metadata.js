@@ -8,7 +8,7 @@ export const LoginApp = {
   size: { w: 420, h: 310 },
   minSize: { w: 420, h: 310 },
   maxSize: { w: 420, h: 310 },
-  position: { centered: true },
+  position: { y: 200, centered: true },
   state: {
     resizable: false,
     minimized: false,

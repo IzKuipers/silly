@@ -14,6 +14,13 @@ import { InitialSetupApp } from "../initialsetup/metadata.js";
 import { RegistryHives } from "../../js/registry/store.js";
 
 export default class LoginAppProcess extends AppProcess {
+  usernameField;
+  passwordField;
+  loginButton;
+  cancelButton;
+  shutdownButton;
+  versionNumber;
+
   fs;
   state;
   userlogic;
@@ -83,39 +90,51 @@ export default class LoginAppProcess extends AppProcess {
   _prepare() {
     if (this._disposed) return;
 
-    const usernameField = this.getElement("#usernameField", true);
-    const passwordField = this.getElement("#passwordField", true);
-    const loginButton = this.getElement("#loginButton", true);
-    const cancelButton = this.getElement("#cancelButton", true);
-    const shutdownButton = this.getElement("#shutdownButton", true);
-    const versionNumber = this.getElement("#versionNumber", true);
+    this.usernameField = this.getElement("#usernameField", true);
+    this.passwordField = this.getElement("#passwordField", true);
+    this.loginButton = this.getElement("#loginButton", true);
+    this.cancelButton = this.getElement("#cancelButton", true);
+    this.shutdownButton = this.getElement("#shutdownButton", true);
+    this.versionNumber = this.getElement("#versionNumber", true);
 
-    usernameField.focus();
-    usernameField.autofocus = true;
+    const lastUser = this.registry.getValue(
+      RegistryHives.local,
+      "LoginApp.lastUser"
+    );
 
-    versionNumber.innerText = `${VERSION[0]}.${VERSION[1]}`;
-
-    function onValuesChange() {
-      loginButton.disabled = !usernameField.value || !passwordField.value;
+    if (lastUser) {
+      this.usernameField.value = lastUser;
+      this.passwordField.focus();
+      this.passwordField.autofocus = true;
+    } else {
+      this.usernameField.focus();
+      this.usernameField.autofocus = true;
     }
 
-    loginButton.addEventListener(
+    this.versionNumber.innerText = `${VERSION[0]}.${VERSION[1]}`;
+
+    const onValuesChange = () => {
+      this.loginButton.disabled =
+        !this.usernameField.value || !this.passwordField.value;
+    };
+
+    this.loginButton.addEventListener(
       "click",
       this.safe(async () => {
-        loginButton.disabled = true;
+        this.loginButton.disabled = true;
 
-        await this.proceed(usernameField.value, passwordField.value);
+        await this.proceed(this.usernameField.value, this.passwordField.value);
 
-        loginButton.disabled = false;
+        this.loginButton.disabled = false;
       })
     );
 
-    shutdownButton.addEventListener(
+    this.shutdownButton.addEventListener(
       "click",
       this.safe(() => this.powerLogic.shutdown())
     );
 
-    cancelButton.addEventListener(
+    this.cancelButton.addEventListener(
       "click",
       this.safe(() => {
         cancelButton.disabled = true;
@@ -127,34 +146,37 @@ export default class LoginAppProcess extends AppProcess {
       })
     );
 
-    cancelButton.disabled = false;
-    loginButton.disabled = true;
+    this.cancelButton.disabled = false;
+    this.loginButton.disabled = true;
 
-    usernameField.addEventListener(
+    this.usernameField.addEventListener(
       "input",
       this.safe(() => onValuesChange())
     );
 
-    passwordField.addEventListener(
+    this.passwordField.addEventListener(
       "input",
       this.safe(() => onValuesChange())
     );
 
-    passwordField.addEventListener(
+    this.passwordField.addEventListener(
       "keydown",
       this.safe(async (e) => {
         if (e.key === "Enter") {
-          if (!usernameField.value || !passwordField.value) return;
+          if (!this.usernameField.value || !this.passwordField.value) return;
 
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
 
-          loginButton.disabled = true;
+          this.loginButton.disabled = true;
 
-          await this.proceed(usernameField.value, passwordField.value);
+          await this.proceed(
+            this.usernameField.value,
+            this.passwordField.value
+          );
 
-          loginButton.disabled = false;
+          this.loginButton.disabled = false;
         }
       })
     );
@@ -170,7 +192,19 @@ export default class LoginAppProcess extends AppProcess {
         title: "Failed to log you on",
         message:
           "Either the username or password you provided is incorrect. Please check your credentials and try again. If you forgot your credentials, contact your system administrator.",
-        buttons: [{ caption: "Okay", action() {} }],
+        buttons: [
+          {
+            caption: "Okay",
+            action: async () => {
+              await Sleep(10);
+              const focusedPid = this.handler.renderer.focusedPid;
+
+              focusedPid.set(this._pid);
+              this.passwordField.value = "";
+              this.passwordField.focus();
+            },
+          },
+        ],
         icon: MessageIcons.warning,
       });
 
@@ -198,6 +232,8 @@ export default class LoginAppProcess extends AppProcess {
 
       if (proc.closeWindow) await proc.closeWindow();
     }
+
+    this.registry.setValue(RegistryHives.local, "LoginApp.lastUser", username);
 
     this.displayStatus(`Navigating to desktop`);
     await Sleep(100);

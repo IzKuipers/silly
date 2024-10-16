@@ -159,8 +159,10 @@ export class AppRenderer extends Process {
       window.style.height = `${data.size.h}px`;
 
       if (data.position.centered) {
-        const x = (document.body.offsetWidth - data.size.w) / 2;
-        const y = (document.body.offsetHeight - data.size.h) / 2;
+        const x =
+          data.position.x || (document.body.offsetWidth - data.size.w) / 2;
+        const y =
+          data.position.y || (document.body.offsetHeight - data.size.h) / 2;
 
         window.style.top = `${y}px`;
         window.style.left = `${x}px`;
