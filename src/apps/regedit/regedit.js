@@ -1,6 +1,7 @@
 import { AppProcess } from "../../js/apps/process.js";
 import { getJsonHierarchy } from "../../js/hierarchy.js";
 import { Store } from "../../js/store.js";
+import { FILE_ICONS } from "./store.js";
 
 export default class RegEditProcess extends AppProcess {
   hierarchy = Store("");
@@ -148,7 +149,7 @@ export default class RegEditProcess extends AppProcess {
       const nameCaption = document.createElement("span");
       const icon = document.createElement("img");
 
-      icon.src = "./assets/fs/" + (isFolder ? "folder.svg" : "file.svg");
+      icon.src = FILE_ICONS[Array.isArray(element) ? "array" : typeof element];
       nameCaption.innerText = key;
       nameWrapper.append(icon, nameCaption);
 
