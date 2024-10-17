@@ -1,5 +1,6 @@
 .crash-screen {
-  background-color: rgb(13, 28, 43);
+  background-color: #000;
+  /* background-color: rgb(13, 28, 43); */
   font-family: "unifont";
   white-space: pre;
   opacity: 0;

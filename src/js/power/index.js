@@ -24,21 +24,9 @@ export class PowerLogic extends KernelModule {
       this.alreadyInLogin()
     );
 
-    this.registry.setValue(
-      RegistryHives.kernel,
-      "PowerLogic.shutdownProperly",
-      true
-    );
-    this.registry.setValue(
-      RegistryHives.kernel,
-      "PowerLogic.lastShutdownTime",
-      new Date().getTime()
-    );
-    this.registry.setValue(
-      RegistryHives.kernel,
-      "PowerLogic.lastShutdownMode",
-      "shutdown"
-    );
+    this.setRegistryValue("shutdownProperly", true);
+    this.setRegistryValue("lastShutdownTime", new Date().getTime());
+    this.setRegistryValue("lastShutdownMode", "shutdown");
 
     setTimeout(async () => {
       await this.closeAllWindows();
@@ -60,21 +48,9 @@ export class PowerLogic extends KernelModule {
       this.alreadyInLogin()
     );
 
-    this.registry.setValue(
-      RegistryHives.kernel,
-      "PowerLogic.shutdownProperly",
-      true
-    );
-    this.registry.setValue(
-      RegistryHives.kernel,
-      "PowerLogic.lastShutdownTime",
-      new Date().getTime()
-    );
-    this.registry.setValue(
-      RegistryHives.kernel,
-      "PowerLogic.lastShutdownMode",
-      "restart"
-    );
+    this.setRegistryValue("shutdownProperly", true);
+    this.setRegistryValue("lastShutdownTime", new Date().getTime());
+    this.setRegistryValue("lastShutdownMode", "restart");
 
     setTimeout(async () => {
       await this.closeAllWindows();

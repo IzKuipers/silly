@@ -12,10 +12,16 @@ export class KernelModule {
     this._kernel = kernel;
   }
 
-  async setRegistryValue(key, value) {
+  setRegistryValue(key, value) {
     const path = `${this._id}.${key}`;
 
     this._kernel.registry.setValue(RegistryHives.kernel, path, value);
+  }
+
+  getRegistryValue(key) {
+    const path = `${this._id}.${key}`;
+
+    return this._kernel.registry.getValue(RegistryHives.kernel, path);
   }
 
   async __init() {

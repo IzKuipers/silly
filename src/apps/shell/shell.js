@@ -219,17 +219,11 @@ export default class ShellProcess extends AppProcess {
   }
 
   checkSafeShutdown() {
-    const shutdownProperly = this.registry.getValue(
-      RegistryHives.kernel,
-      "PowerLogic.shutdownProperly"
-    );
+    const shutdownProperly =
+      this.powerLogic.getRegistryValue("shutdownProperly");
 
     if (shutdownProperly) {
-      this.registry.setValue(
-        RegistryHives.kernel,
-        "PowerLogic.shutdownProperly",
-        undefined
-      );
+      this.powerLogic.setRegistryValue("shutdownProperly", undefined);
 
       return;
     }
