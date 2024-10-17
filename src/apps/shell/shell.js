@@ -230,7 +230,7 @@ export default class ShellProcess extends AppProcess {
 
     MessageBox({
       title: "Inepta wasn't shut down correctly",
-      message: `It looks like Inepta wasn't shut down properly. To prevent a loss of data in the future, please shut down Inepta via the start menu.<br><br>If Inepta crashed, try unloading any sideloaded applications or user-mode Kernel Modules to see if that solves the problem.`,
+      message: `It looks like Inepta wasn't shut down properly. To prevent a loss of data in the future, please shut down Inepta via the start menu.<br><br>If Inepta crashed, try unloading any sideloaded applications (it's a future thing) or user-mode Kernel Modules (also a future thing) to see if that solves the problem.`,
       buttons: [{ caption: "Okay", action() {} }],
       icon: MessageIcons.warning,
     });
