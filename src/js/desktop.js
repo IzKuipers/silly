@@ -21,22 +21,18 @@ export default async function render() {
     stateLoader.setAttribute("data-theme", v.theme || "dark");
   });
 
-  window.rcss = async () => {
-    const links = document.querySelectorAll(`link[rel="stylesheet"]`);
-
-    for (const link of links) {
-      const href = `${link.href}`;
-
-      link.href = "";
-      await Sleep(100);
-      link.href = href;
-    }
-  };
-
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener("keydown", async (e) => {
     if (e.key.toLowerCase() === "f8") {
       e.preventDefault();
-      window.rcss();
+      const links = document.querySelectorAll(`link[rel="stylesheet"]`);
+
+      for (const link of links) {
+        const href = `${link.href}`;
+
+        link.href = "";
+        await Sleep(100);
+        link.href = href;
+      }
     }
   });
 

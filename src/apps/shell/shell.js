@@ -4,6 +4,9 @@ import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { AppStore } from "../../js/apps/store.js";
 import { strftime } from "../../js/desktop/date.js";
+import { MessageBox } from "../../js/desktop/message.js";
+import { MessageIcons } from "../../js/images/msgbox.js";
+import { RegistryHives } from "../../js/registry/store.js";
 import { Store } from "../../js/store.js";
 import { UserData } from "../../js/user/data.js";
 
@@ -25,6 +28,8 @@ export default class ShellProcess extends AppProcess {
   }
 
   render() {
+    this.checkSafeShutdown();
+
     this.userData = UserData.get();
     this.usernameField = this.getElement("#startMenu #username", true);
     this.shutdownButton = this.getElement("#startMenu #shutdown", true);
@@ -210,6 +215,30 @@ export default class ShellProcess extends AppProcess {
     });
     this.logoutButton.addEventListener("click", () => {
       this.powerLogic.logoff();
+    });
+  }
+
+  checkSafeShutdown() {
+    const shutdownProperly = this.registry.getValue(
+      RegistryHives.kernel,
+      "PowerLogic.shutdownProperly"
+    );
+
+    if (shutdownProperly) {
+      this.registry.setValue(
+        RegistryHives.kernel,
+        "PowerLogic.shutdownProperly",
+        undefined
+      );
+
+      return;
+    }
+
+    MessageBox({
+      title: "Inepta wasn't shut down correctly",
+      message: `It looks like Inepta wasn't shut down properly. To prevent a loss of data in the future, please shut down Inepta via the start menu.<br><br>If Inepta crashed, try unloading any sideloaded applications or user-mode Kernel Modules to see if that solves the problem.`,
+      buttons: [{ caption: "Okay", action() {} }],
+      icon: MessageIcons.warning,
     });
   }
 }

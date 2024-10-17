@@ -1,4 +1,5 @@
 import { KernelModule } from "../kernel/module/index.js";
+import { RegistryHives } from "../registry/store.js";
 import { Sleep } from "../sleep.js";
 
 export class PowerLogic extends KernelModule {
@@ -8,7 +9,9 @@ export class PowerLogic extends KernelModule {
     this.registry = kernel.getModule("registry");
   }
 
-  _init() {}
+  _init() {
+    this.setRegistryValue("lastLoadTime", new Date().getTime());
+  }
 
   async shutdown() {
     await this.closeAllWindows();
@@ -19,6 +22,22 @@ export class PowerLogic extends KernelModule {
         type: "shutdown",
       },
       this.alreadyInLogin()
+    );
+
+    this.registry.setValue(
+      RegistryHives.kernel,
+      "PowerLogic.shutdownProperly",
+      true
+    );
+    this.registry.setValue(
+      RegistryHives.kernel,
+      "PowerLogic.lastShutdownTime",
+      new Date().getTime()
+    );
+    this.registry.setValue(
+      RegistryHives.kernel,
+      "PowerLogic.lastShutdownMode",
+      "shutdown"
     );
 
     setTimeout(async () => {
@@ -39,6 +58,22 @@ export class PowerLogic extends KernelModule {
         type: "restart",
       },
       this.alreadyInLogin()
+    );
+
+    this.registry.setValue(
+      RegistryHives.kernel,
+      "PowerLogic.shutdownProperly",
+      true
+    );
+    this.registry.setValue(
+      RegistryHives.kernel,
+      "PowerLogic.lastShutdownTime",
+      new Date().getTime()
+    );
+    this.registry.setValue(
+      RegistryHives.kernel,
+      "PowerLogic.lastShutdownMode",
+      "restart"
     );
 
     setTimeout(async () => {

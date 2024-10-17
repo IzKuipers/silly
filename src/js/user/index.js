@@ -18,6 +18,7 @@ export class UserLogic extends KernelModule {
     this.registry = this._kernel.getModule("registry");
 
     await this.initialize();
+    this.setRegistryValue("lastLoadTime", new Date().getTime());
   }
 
   async initialize() {

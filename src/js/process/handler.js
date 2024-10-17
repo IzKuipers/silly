@@ -17,6 +17,10 @@ export class ProcessHandler extends KernelModule {
     Log("ProcessHandler.constructor", "Constructing");
   }
 
+  _init() {
+    this.setRegistryValue("lastLoadTime", new Date().getTime());
+  }
+
   async startRenderer(renderTarget, initPid) {
     Log("ProcessHandler.startRenderer", "Starting renderer");
 

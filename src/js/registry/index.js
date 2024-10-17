@@ -18,6 +18,7 @@ export class IneptaRegistry extends KernelModule {
     await this.loadRegistry();
 
     this.registrySync();
+    this.setValue(RegistryHives.kernel, "Registry.lastLoadTime");
   }
 
   async loadRegistry() {
