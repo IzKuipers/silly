@@ -8,6 +8,7 @@ div.window {
 div.window:not(.core) {
   background-color: var(--bg);
   border: var(--border);
+  outline: var(--bg) 1px solid !important;
   color: var(--fg);
   overflow: hidden;
   border-radius: 10px;
@@ -28,11 +29,11 @@ div.window.closing {
 div.window.core.closing {
   scale: 1 !important;
 }
-
+/* 
 div.window:not(.core).focused {
   border: var(--border-accent);
 }
-
+ */
 div.window:not(.core).maximized {
   transform: none !important;
   translate: 0 0 !important;
@@ -48,14 +49,14 @@ div.window:not(.core).maximized {
 }
 
 div.window:not(.core).minimized {
-  pointer-events: none;
+  pointer-events: none !important;
   animation: minimize 250ms forwards;
   scale: 1;
 }
 
 div.window:not(.core) div.body {
   padding: 15px;
-  height: calc(100% - 30px);
+  height: calc(100% - 31px);
   background-color: var(--bg);
 }
 

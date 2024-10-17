@@ -1,5 +1,8 @@
 .login {
   background-color: var(--accent-darker);
+  background-image: url("../../assets/bg/login.svg");
+  background-size: cover;
+  background-position: center;
 }
 
 .login #versionNumber {

@@ -15,9 +15,9 @@ export const MsgBoxApp = {
     fullscreen: false,
   },
   controls: {
-    minimize: true,
+    minimize: false,
     maximize: false,
-    close: true,
+    close: false,
   },
   files: {
     js: "../../apps/messagebox/messagebox.js",

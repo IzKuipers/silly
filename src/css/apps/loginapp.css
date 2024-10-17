@@ -16,7 +16,6 @@ div.loginApp div#banner {
   align-items: center;
   gap: 20px;
   background-color: var(--button-active-bg);
-  border-top: var(--border);
   border-bottom: var(--accent-darker) 3px solid;
   position: relative;
 }

@@ -1,25 +1,30 @@
 <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1 7C1 5.89543 1.89543 5 3 5H28C29.1046 5 30 5.89543 30 7V26C30 27.1046 29.1046 28 28 28H3C1.89543 28 1 27.1046 1 26V7Z" fill="#151F2D"/>
-<g clip-path="url(#clip0_47_2)">
-<path d="M1 6C1 4.89543 1.89543 4 3 4H28C29.1046 4 30 4.89543 30 6V25C30 26.1046 29.1046 27 28 27H3C1.89543 27 1 26.1046 1 25V6Z" fill="#233042"/>
-<line x1="27.6" y1="4" x2="27.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="23.6" y1="4" x2="23.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="19.6" y1="4" x2="19.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="15.6" y1="4" x2="15.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="11.6" y1="4" x2="11.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="7.6" y1="4" x2="7.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="3.6" y1="4" x2="3.6" y2="27" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="1" y1="5.4" x2="30" y2="5.4" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="1" y1="9.4" x2="30" y2="9.4" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="1" y1="13.4" x2="30" y2="13.4" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="1" y1="17.4" x2="30" y2="17.4" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="1" y1="21.4" x2="30" y2="21.4" stroke="#4D6A8F" stroke-width="0.2"/>
-<line x1="1" y1="25.4" x2="30" y2="25.4" stroke="#4D6A8F" stroke-width="0.2"/>
-<path d="M17.9353 21.806L14.0647 10.194C14.0383 10.115 13.9327 10.1009 13.8866 10.1701L10.0297 15.9555C10.0111 15.9833 9.97992 16 9.94648 16H0.1C0.0447715 16 0 16.0448 0 16.1V27.9C0 27.9552 0.0447714 28 0.0999999 28H30.9C30.9552 28 31 27.9552 31 27.9V16.1C31 16.0448 30.9552 16 30.9 16H22.0535C22.0201 16 21.9889 16.0167 21.9703 16.0445L18.1134 21.8299C18.0673 21.8991 17.9617 21.885 17.9353 21.806Z" fill="#3A72BB" stroke="#6CACFF" stroke-miterlimit="16"/>
-</g>
-<defs>
-<clipPath id="clip0_47_2">
-<rect x="1" y="4" width="29" height="23" rx="2" fill="white"/>
-</clipPath>
-</defs>
+  <path
+    d="M1 7C1 5.89543 1.89543 5 3 5H28C29.1046 5 30 5.89543 30 7V26C30 27.1046 29.1046 28 28 28H3C1.89543 28 1 27.1046 1 26V7Z"
+    fill="#162F50" />
+  <g clip-path="url(#clip0_47_2)">
+    <path
+      d="M1 6C1 4.34315 2.34315 3 4 3H27C28.6569 3 30 4.34315 30 6V23C30 24.6569 28.6569 26 27 26H4C2.34315 26 1 24.6569 1 23V6Z"
+      fill="#233042" />
+    <path
+      d="M4 3.5H27C28.3807 3.5 29.5 4.61929 29.5 6V23C29.5 24.3807 28.3807 25.5 27 25.5H4C2.61929 25.5 1.5 24.3807 1.5 23V6C1.5 4.61929 2.61929 3.5 4 3.5Z"
+      stroke="#5F86BA" />
+    <rect x="5" y="4" width="1" height="22" fill="#415C80" />
+    <rect x="10" y="4" width="1" height="22" fill="#415C80" />
+    <rect x="15" y="4" width="1" height="22" fill="#415C80" />
+    <rect x="20" y="4" width="1" height="22" fill="#415C80" />
+    <rect x="25" y="4" width="1" height="22" fill="#415C80" />
+    <rect x="2" y="8" width="0.999999" height="27" transform="rotate(-90 2 8)" fill="#415C80" />
+    <rect x="2" y="13" width="0.999999" height="27" transform="rotate(-90 2 13)" fill="#415C80" />
+    <rect x="1" y="18" width="0.999999" height="29" transform="rotate(-90 1 18)" fill="#415C80" />
+    <rect x="1" y="23" width="0.999999" height="29" transform="rotate(-90 1 23)" fill="#415C80" />
+    <path
+      d="M17.9353 20.806L14.0647 9.19397C14.0383 9.11503 13.9327 9.10089 13.8866 9.17012L10.0297 14.9555C10.0111 14.9833 9.97992 15 9.94648 15H0.1C0.0447715 15 0 15.0448 0 15.1V26.9C0 26.9552 0.0447714 27 0.0999999 27H30.9C30.9552 27 31 26.9552 31 26.9V15.1C31 15.0448 30.9552 15 30.9 15H22.0535C22.0201 15 21.9889 15.0167 21.9703 15.0445L18.1134 20.8299C18.0673 20.8991 17.9617 20.885 17.9353 20.806Z"
+      fill="#3A72BB" stroke="#6CACFF" stroke-miterlimit="16" />
+  </g>
+  <defs>
+    <clipPath id="clip0_47_2">
+      <rect x="1" y="3" width="29" height="23" rx="2" fill="white" />
+    </clipPath>
+  </defs>
 </svg>
