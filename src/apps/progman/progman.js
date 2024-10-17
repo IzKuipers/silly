@@ -17,6 +17,8 @@ export default class ProgManProcess extends AppProcess {
   render() {
     if (this._disposed) return;
 
+    this.closeIfSecondInstance();
+
     const killButton = this.getElement("#killButton", true);
     const panicButton = this.getElement("#panicButton", true);
 

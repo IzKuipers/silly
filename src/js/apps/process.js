@@ -103,4 +103,18 @@ export class AppProcess extends Process {
   }
 
   render() {}
+
+  getSingleInstanceLock() {
+    const { renderer } = this.handler;
+
+    const instances = renderer.getAppInstances(this.app.data.id, this._pid);
+
+    return !instances.length;
+  }
+
+  closeIfSecondInstance() {
+    const hasLock = this.getSingleInstanceLock();
+
+    if (!hasLock) this.killSelf();
+  }
 }

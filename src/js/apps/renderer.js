@@ -372,4 +372,21 @@ export class AppRenderer extends Process {
 
     process.app.data.state.minimized = window.classList.contains("minimized");
   }
+
+  getAppInstances(id, origin = undefined) {
+    const result = [];
+
+    console.log(this.currentState, id);
+
+    for (const pid of this.currentState) {
+      if (pid === origin) continue;
+
+      const proc = this.handler.getProcess(pid);
+
+      if (proc && proc.app && proc.app.data && proc.app.data.id === id)
+        result.push(id);
+    }
+
+    return result;
+  }
 }
