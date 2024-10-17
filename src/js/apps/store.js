@@ -1,4 +1,5 @@
 import { DebugToolApp } from "../../apps/debugtool/metadata.js";
+import { InepVerApp } from "../../apps/inepver/metadata.js";
 import { MsgBoxApp } from "../../apps/messagebox/metadata.js";
 import { ProgManApp } from "../../apps/progman/metadata.js";
 import { RegEditApp } from "../../apps/regedit/metadata.js";
@@ -15,4 +16,5 @@ export const builtInApps = [
   DebugToolApp,
   ProgManApp,
   RegEditApp,
+  InepVerApp,
 ];
