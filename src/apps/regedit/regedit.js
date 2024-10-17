@@ -11,6 +11,8 @@ export default class RegEditProcess extends AppProcess {
   }
 
   render() {
+    this.closeIfSecondInstance();
+
     this.treeElement = this.getElement("#directoryView", true);
     this.contentElement = this.getElement("#contentView", true);
     this.pathElement = this.getElement("#path", true);
