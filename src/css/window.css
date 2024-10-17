@@ -12,12 +12,13 @@ div.window:not(.core) {
   color: var(--fg);
   overflow: hidden;
   border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   animation: show 250ms forwards;
   box-shadow: 0 5px 20px 5px #0008;
   scale: 0.95;
   opacity: 0;
   transform-origin: center center !important;
-  /* transition: all 0.3s; */
 }
 
 div.window.closing {
@@ -29,11 +30,7 @@ div.window.closing {
 div.window.core.closing {
   scale: 1 !important;
 }
-/* 
-div.window:not(.core).focused {
-  border: var(--border-accent);
-}
- */
+
 div.window:not(.core).maximized {
   transform: none !important;
   translate: 0 0 !important;

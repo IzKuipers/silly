@@ -3,7 +3,7 @@ export const InitialSetupApp = {
     name: "Set up Inepta",
     version: "1.0.0",
     author: "Izaak Kuipers",
-    icon: "./assets/inepta.png",
+    icon: "./assets/inepta.svg",
   },
   size: { w: 640, h: 480 },
   minSize: { w: 640, h: 480 },

@@ -7,7 +7,7 @@ div.window div.titlebar {
   padding: 0 5px;
   background-color: transparent;
   position: relative;
-  border-bottom: var(--border);
+  border-bottom: var(--button-hover-bg) 1px solid;
 }
 
 div.window.focused div.titlebar {
