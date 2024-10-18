@@ -18,6 +18,8 @@ div.window.shell div.taskbar #activeApps {
   overflow-x: scroll;
   overflow-y: hidden;
   display: flex;
+  gap: 3px;
+  padding-left: 5px;
 }
 
 div.window.shell div.taskbar #activeApps::-webkit-scrollbar {
@@ -25,7 +27,8 @@ div.window.shell div.taskbar #activeApps::-webkit-scrollbar {
 }
 
 div.window.shell div.taskbar #activeApps button {
-  height: 40px;
+  height: 30px;
+  margin: 5px 0;
   padding: 0 15px;
   border: none;
   background-color: transparent;
@@ -35,6 +38,7 @@ div.window.shell div.taskbar #activeApps button {
   max-width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-radius: 4px;
 }
 
 div.window.shell div.taskbar #activeApps button:hover {
@@ -47,8 +51,6 @@ div.window.shell div.taskbar #activeApps button:active {
 
 div.window.shell div.taskbar #activeApps button.focused {
   background-color: var(--shell-bg);
-  border-left: var(--border);
-  border-right: var(--border);
 }
 
 div.window.shell div.taskbar #activeApps button.closing {

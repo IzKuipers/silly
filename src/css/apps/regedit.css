@@ -5,10 +5,10 @@ div.window.regEditApp div.body {
 div.window.regEditApp div.panes {
   display: flex;
   height: calc(100% - 25px);
-  border-bottom: var(--border);
 }
 
 div.window.regEditApp div.status-bar {
+  border-top: var(--border);
   height: 25px;
   padding: 0 10px;
   display: flex;

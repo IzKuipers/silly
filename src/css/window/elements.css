@@ -20,7 +20,7 @@ div.window:not(.core) > div.body *:disabled {
 
 div.window:not(.core) > div.body input {
   padding: 0 10px;
-  height: 30px;
+  height: 32px;
   background-color: var(--button-active-bg);
   border: var(--button-bg) 1px solid;
   border-radius: 5px;
