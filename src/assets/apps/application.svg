@@ -7,9 +7,7 @@
   <rect x="3" y="5" width="2" height="2" fill="white" />
   <rect x="23" y="5" width="2" height="2" fill="white" />
   <rect x="26" y="5" width="2" height="2" fill="white" />
-  <rect x="20" y="15" width="6" height="6" rx="0.5" fill="#CC0101" />
-  <path
-    d="M8.02502 16.7389C8.23462 16.4128 8.71947 16.4389 8.89282 16.7856L11.6382 22.2764C11.8044 22.6088 11.5627 23 11.191 23H4.91583C4.52025 23 4.28133 22.5624 4.49524 22.2296L8.02502 16.7389Z"
-    fill="#B76EBF" />
+  <rect x="20" y="15" width="6" height="6" fill="#CC0101" />
+  <path d="M8.5 16L12 23H4L8.5 16Z" fill="#B76EBF" />
   <rect x="12" y="12" width="6" height="6" rx="3" fill="#3B86E8" />
 </svg>
