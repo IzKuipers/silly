@@ -7,11 +7,12 @@ div.window div.titlebar {
   padding: 0 5px;
   background-color: transparent;
   position: relative;
-  border-bottom: var(--button-hover-bg) 1px solid;
+  border-bottom: var(--border);
 }
 
 div.window.focused div.titlebar {
   background-color: var(--button-bg);
+  border-bottom: var(--button-active-bg) 1px solid;
 }
 
 div.window:not(.focused) div.titlebar > * {
@@ -31,9 +32,14 @@ div.window div.titlebar div.window-title {
   height: inherit;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   justify-content: center;
   pointer-events: none;
+  font-weight: bold;
+}
+
+div.window div.titlebar div.window-title > * {
+  color: var(--fg-secondary) !important;
 }
 
 div.window div.titlebar div.controls {
