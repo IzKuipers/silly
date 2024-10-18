@@ -37,8 +37,6 @@ export default class LoginAppProcess extends AppProcess {
   async render() {
     if (this._disposed) return;
 
-    this.closeIfSecondInstance();
-
     await this.satisfyDependencies();
 
     const stateHandler = this.kernel.getModule("state");

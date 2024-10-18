@@ -376,8 +376,6 @@ export class AppRenderer extends Process {
   getAppInstances(id, origin = undefined) {
     const result = [];
 
-    console.log(this.currentState, id);
-
     for (const pid of this.currentState) {
       if (pid === origin) continue;
 

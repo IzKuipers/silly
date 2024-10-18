@@ -115,13 +115,6 @@ export default class SetupHelperProcess extends AppProcess {
   }
 
   async createFirstUser() {
-    console.log(
-      "createFirstUser",
-      this.usernameField.value,
-      this.passwordField.value,
-      this.confirmField.value
-    );
-
     if (
       !this.usernameField.value ||
       !this.passwordField.value ||
