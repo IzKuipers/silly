@@ -24,7 +24,7 @@ div.window:not(.core) {
 div.window.closing {
   scale: 1;
   animation: hide 250ms forwards !important;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 div.window.core.closing {
