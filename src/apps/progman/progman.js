@@ -198,16 +198,16 @@ export default class ProgManProcess extends AppProcess {
     MessageBox(
       {
         title: `Kill ${process.name}?`,
-        message: `Are you sure you want to behead the innocent process with ID ${selectedPid}?`,
+        message: `Are you sure you want to kill the process with ID ${selectedPid}? Any unsaved information will be lost.`,
         buttons: [
           {
-            caption: "Do it.",
+            caption: "Kill",
             action: this.safe(() => {
               this.handler.kill(selectedPid);
             }),
           },
           {
-            caption: "Let it live.",
+            caption: "Cancel",
             action: () => {},
           },
         ],

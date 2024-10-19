@@ -17,8 +17,9 @@ export class AppProcess extends Process {
     this.app.meta = JSON.parse(JSON.stringify({ ...app.data }));
     this.app.id = app.data.id;
     this.windowTitle.set(app.data.metadata.name);
-
     this.name = app.data.id;
+
+    this.assignDispatchSubscribers();
   }
 
   getElement(querySelector, error = false) {
@@ -34,6 +35,7 @@ export class AppProcess extends Process {
 
     return element;
   }
+
   getElements(querySelector, error = false) {
     const element = document.querySelectorAll(
       `div.window[data-pid="${this._pid}"] > div.body ${querySelector}`
@@ -116,5 +118,28 @@ export class AppProcess extends Process {
     const hasLock = this.getSingleInstanceLock();
 
     if (!hasLock) this.killSelf();
+  }
+
+  assignDispatchSubscribers() {
+    this.dispatch.subscribe(
+      "close-window",
+      this.safe(() => {
+        this.closeWindow();
+      })
+    );
+
+    this.dispatch.subscribe(
+      "close-second-instance",
+      this.safe(() => {
+        this.closeIfSecondInstance();
+      })
+    );
+
+    this.dispatch.subscribe(
+      "panic-button",
+      this.safe(() => {
+        throw new Error("Panic!");
+      })
+    );
   }
 }

@@ -8,7 +8,7 @@ div.window {
 div.window:not(.core) {
   background-color: var(--bg);
   border: var(--border);
-  outline: var(--bg) 1px solid !important;
+  outline: var(--secondary-border) !important;
   color: var(--fg);
   overflow: hidden;
   border-radius: 10px;

@@ -133,4 +133,12 @@ export class ProcessHandler extends KernelModule {
   isPid(pid) {
     return this.store.get().has(pid) && !this.store.get().get(pid)._disposed;
   }
+
+  ConnectDispatch(pid) {
+    const proc = this.getProcess(pid);
+
+    if (!proc || !proc.dispatch) return {};
+
+    return proc.dispatch;
+  }
 }

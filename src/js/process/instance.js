@@ -1,10 +1,12 @@
 import { KERNEL } from "../../env.js";
+import { ProcessDispatch } from "./dispatch.js";
 
 export class Process {
   _pid;
   _disposed = false;
   _criticalProcess = false;
   handler;
+  dispatch;
   parentPid = undefined;
   name = "";
 
@@ -15,6 +17,13 @@ export class Process {
     this.handler = handler;
     this.kernel = KERNEL;
     this.registry = KERNEL.getModule("registry");
+    this.dispatch = new ProcessDispatch(this);
+
+    this.name ||= this.constructor.name;
+
+    this.dispatch.subscribe("kill-self", () => {
+      this.killSelf();
+    });
   }
 
   async killSelf() {
