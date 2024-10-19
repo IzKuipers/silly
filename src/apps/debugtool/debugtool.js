@@ -2,6 +2,7 @@ import { AppProcess } from "../../js/apps/process.js";
 import { spawnApp } from "../../js/apps/spawn.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
+import { ProgressBar } from "../../js/ui/progress.js";
 
 const { BrowserWindow } = require("@electron/remote");
 
@@ -15,6 +16,7 @@ export default class DebugToolProcess extends AppProcess {
     this.electronControls();
     this.pageReload();
     this.launcher();
+    this.progressBars();
   }
 
   cssHotFix() {
@@ -106,5 +108,27 @@ export default class DebugToolProcess extends AppProcess {
         window.close();
       })
     );
+  }
+
+  progressBars() {
+    const target = this.getElement("#progressBars");
+
+    const bar1 = new ProgressBar({
+      indeterminate: true,
+    }).bar;
+    const bar2 = new ProgressBar({
+      maxValue: 4,
+      value: 1,
+    }).bar;
+    const bar3 = new ProgressBar({
+      maxValue: 4,
+      value: 3,
+    }).bar;
+    const bar4 = new ProgressBar({
+      maxValue: 4,
+      value: 2,
+    }).bar;
+
+    target.append(bar1, bar2, bar3, bar4);
   }
 }
