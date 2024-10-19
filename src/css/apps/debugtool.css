@@ -37,19 +37,6 @@ div.window.debugTool div.body div.launcher input {
   flex-grow: 1;
 }
 
-div.window.debugTool div.get-kernel-mod div.bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-div.window.debugTool div.get-kernel-mod div.bar input {
-  flex-grow: 1;
-}
-
-div.window.debugTool #kernelModOut {
-  width: 100%;
-  /* aspect-ratio: 4/3; */
-  min-height: 100px;
-  max-height: 300px;
+div.window.debugTool div.body div.progress-bar {
+  margin-bottom: 10px;
 }

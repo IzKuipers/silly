@@ -11,45 +11,10 @@
 }
 
 .boot-screen div.progress-bar {
-  --start: 0%;
-  --end: 0%;
-  width: 250px;
-  height: 5px;
-  min-height: 5px;
-  background-color: #000;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--button-active-bg);
-  border-radius: 2.5px;
+  --bar-width: 250px;
+  --bar-height: 7px;
 }
 
-.boot-screen div.progress-bar::after {
-  content: "";
-  position: absolute;
-  top: 0px;
-  left: 100px;
-  width: 60px;
-  height: 5px;
-  background-color: var(--accent);
-  background-repeat: repeat-x;
-  background-size: 12px 18px;
-  animation: bar 2s linear infinite;
-  z-index: 50;
-  border-radius: 2.5px;
-}
-
-@keyframes bar {
-  0%,
-  20% {
-    left: -50px;
-  }
-
-  50%,
-  70% {
-    left: calc(100% - 10px);
-  }
-
-  100% {
-    left: -50px;
-  }
+.boot-screen div.progress-bar div.inner {
+  animation-duration: 2s;
 }

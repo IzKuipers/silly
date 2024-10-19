@@ -1,48 +1,8 @@
-div.window:not(.core) > div.body button {
-  border: none;
-  background-color: var(--button-bg);
-  padding: 0 15px;
-  border-radius: 5px;
-  height: 32px;
-}
-
-div.window:not(.core) > div.body button:hover {
-  background-color: var(--button-hover-bg);
-}
-
-div.window:not(.core) > div.body button:not(:disabled):active {
-  background-color: var(--button-active-bg);
-}
+@import url("./elements/button.css");
+@import url("./elements/input.css");
+@import url("./elements/code.css");
+@import url("./elements/progressbar.css");
 
 div.window:not(.core) > div.body *:disabled {
   opacity: 0.5;
-}
-
-div.window:not(.core) > div.body input {
-  padding: 0 10px;
-  height: 32px;
-  background-color: var(--button-active-bg);
-  border: var(--button-bg) 1px solid;
-  border-radius: 5px;
-}
-
-div.window:not(.core) > div.body input:focus {
-  border: var(--accent) 1px solid;
-}
-
-code {
-  font-family: "Source Code Pro";
-  white-space: pre;
-}
-
-pre {
-  font-family: "Source Code Pro";
-  white-space: pre;
-  font-size: 12px;
-  margin: 5px 0;
-  padding: 5px;
-  background-color: var(--button-active-bg);
-  border-radius: 4px;
-  max-width: 100%;
-  overflow-x: auto;
 }
