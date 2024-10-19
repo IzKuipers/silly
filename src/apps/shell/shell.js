@@ -6,8 +6,8 @@ import { AppStore } from "../../js/apps/store.js";
 import { strftime } from "../../js/desktop/date.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
-import { RegistryHives } from "../../js/registry/store.js";
 import { Store } from "../../js/store.js";
+import { getAccentColorVariations } from "../../js/ui/color.js";
 import { UserData } from "../../js/user/data.js";
 
 export default class ShellProcess extends AppProcess {
@@ -25,6 +25,8 @@ export default class ShellProcess extends AppProcess {
     super(handler, pid, parentPid, app);
 
     this.powerLogic = KERNEL.getModule("powerlogic");
+
+    console.log(getAccentColorVariations("#ff6200"));
   }
 
   render() {

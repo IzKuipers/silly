@@ -180,6 +180,11 @@ clone-response@^1.0.2:
   dependencies:
     mimic-response "^1.0.0"
 
+colorsea@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/colorsea/-/colorsea-1.2.2.tgz#19d88cf965efa27b93b99d24f5260cd2379c67d8"
+  integrity sha512-QkKZC82BqJOlzqhFdM12ASKHV7V1gUYNYNPMcyYcZYd+Eyipf+fflpCA2yqxhIP7zN26umUt34n8VqeOMiJu/A==
+
 content-disposition@0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.4.tgz#8b82b4efac82512a02bb0b1dcec9d2c5e8eb5bfe"

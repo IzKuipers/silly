@@ -1,0 +1,11 @@
+:root #main,
+:root #main * {
+  --accent: var(--user-accent) !important;
+  --accent-dark: var(--user-accent-dark) !important;
+  --accent-darker: var(--user-accent-darker) !important;
+  --accent-superdark: var(--user-accent-superdark) !important;
+  --accent-light: var(--user-accent-light) !important;
+  --start-button-bg: var(--user-start-button-bg) !important;
+  --start-button-hover-bg: var(--user-start-button-hover-bg) !important;
+  --start-button-active-bg: var(--user-start-button-active-bg) !important;
+}
