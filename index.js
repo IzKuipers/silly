@@ -4,6 +4,7 @@ import { VERSION } from "./src/env.js";
 import { exec, execSync } from "child_process";
 import { mkdir, writeFile } from "fs/promises";
 import { existsSync } from "fs";
+import { join } from "path";
 
 remote.initialize();
 
@@ -26,6 +27,7 @@ app.on("ready", async () => {
       contextIsolation: false,
       enableRemoteModule: true,
     },
+    icon: "./inepta.png",
   });
 
   remote.enable(window.webContents);

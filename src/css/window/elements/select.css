@@ -1,0 +1,14 @@
+div.window:not(.core) > div.body select {
+  padding: 0 10px;
+  height: 32px;
+  background-color: var(--button-active-bg);
+  border: none;
+  border-right: var(--button-active-bg) 10px solid;
+  outline: var(--button-bg) 1px solid !important;
+  outline-offset: -1px;
+  border-radius: 5px;
+}
+
+div.window:not(.core) > div.body select:focus {
+  outline-color: var(--accent) !important;
+}

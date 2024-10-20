@@ -42,3 +42,8 @@
   --button-active-bg: #dfdfdf;
   --secondary-border: none;
 }
+
+::selection {
+  background: var(--accent) !important;
+  color: var(--accent-superdark);
+}
