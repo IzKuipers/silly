@@ -11,3 +11,8 @@ div.window.shell {
 div.window.shell > div.body * {
   pointer-events: initial;
 }
+
+#main.colored-shell div.window.shell div.taskbar,
+#main.colored-shell div.window.shell div#startMenu {
+  background-color: var(--colored-shell-bg);
+}

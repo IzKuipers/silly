@@ -45,6 +45,10 @@ export class UserDaemon extends Process {
         this.registry.setValue(RegistryHives.local, "CurrentUser", v);
       }
     });
+
+    this.environment.setProperty("whoami", this.username);
+    this.environment.setProperty("preferences", this.preferencesPath);
+    this.environment.setProperty("userprofile", `./Users/${this.username}`);
   }
 
   async checkUserFolders() {
@@ -106,16 +110,21 @@ export class UserDaemon extends Process {
         start,
         startHover,
         startActive,
+        coloredShell,
       } = getAccentColorVariations(color);
 
-      main.style.setProperty("--user-accent", accent);
-      main.style.setProperty("--user-accent-light", light);
-      main.style.setProperty("--user-accent-dark", dark);
-      main.style.setProperty("--user-accent-darker", darker);
-      main.style.setProperty("--user-accent-superdark", superdark);
-      main.style.setProperty("--user-start-button-bg", start);
-      main.style.setProperty("--user-start-button-hover-bg", startHover);
-      main.style.setProperty("--user-start-button-active-bg", startActive);
+      this.main.style.setProperty("--user-accent", accent);
+      this.main.style.setProperty("--user-accent-light", light);
+      this.main.style.setProperty("--user-accent-dark", dark);
+      this.main.style.setProperty("--user-accent-darker", darker);
+      this.main.style.setProperty("--user-accent-superdark", superdark);
+      this.main.style.setProperty("--user-start-button-bg", start);
+      this.main.style.setProperty("--user-start-button-hover-bg", startHover);
+      this.main.style.setProperty("--user-start-button-active-bg", startActive);
+      this.main.style.setProperty("--user-colored-shell-bg", coloredShell);
+
+      if (v.coloredShell) this.main.classList.add("colored-shell");
+      else this.main.classList.remove("colored-shell");
     });
   }
 }

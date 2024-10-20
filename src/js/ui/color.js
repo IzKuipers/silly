@@ -10,6 +10,7 @@ export function getAccentColorVariations(accent) {
   const start = sea.transparentize(78, "relative").hex();
   const startHover = sea.transparentize(60, "relative").hex();
   const startActive = sea.transparentize(85, "relative").hex();
+  const coloredShell = colorsea(superdark).transparentize(30, "relative").hex();
 
   return {
     light,
@@ -20,5 +21,6 @@ export function getAccentColorVariations(accent) {
     start,
     startHover,
     startActive,
+    coloredShell,
   };
 }

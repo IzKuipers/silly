@@ -8,4 +8,5 @@
   --start-button-bg: var(--user-start-button-bg) !important;
   --start-button-hover-bg: var(--user-start-button-hover-bg) !important;
   --start-button-active-bg: var(--user-start-button-active-bg) !important;
+  --colored-shell-bg: var(--user-colored-shell-bg) !important;
 }

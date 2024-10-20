@@ -62,7 +62,6 @@ div.window.shell div.system-area {
   padding: 0 15px;
   min-width: fit-content;
   height: 100%;
-  border-left: var(--border);
   background-color: var(--button-bg);
 }
 
