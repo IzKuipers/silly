@@ -1,6 +1,8 @@
 import { AppProcess } from "../../js/apps/process.js";
+import { spawnApp, spawnAppExternal } from "../../js/apps/spawn.js";
 import { getJsonHierarchy } from "../../js/hierarchy.js";
 import { Store } from "../../js/store.js";
+import { RegEditMutatorApp } from "./mutator/metadata.js";
 import { FILE_ICONS } from "./store.js";
 
 export default class RegEditProcess extends AppProcess {
@@ -169,8 +171,11 @@ export default class RegEditProcess extends AppProcess {
       }`;
 
       row.addEventListener("click", () => {
+        const path = hierarchy ? `${hierarchy}.${key}` : key;
         if (typeof element === "object" && !Array.isArray(element)) {
-          this.select(hierarchy ? `${hierarchy}.${key}` : key);
+          this.select(path);
+        } else {
+          this.editValue(path, element);
         }
       });
 
@@ -178,5 +183,18 @@ export default class RegEditProcess extends AppProcess {
 
       this.contentElement.append(row);
     }
+  }
+
+  async editValue(hierarchy, value) {
+    const split = hierarchy.split(".");
+    const hive = split[0];
+
+    await spawnAppExternal(
+      RegEditMutatorApp,
+      this.parentPid,
+      hive,
+      hierarchy.replace(`${hive}.`, ""),
+      value
+    );
   }
 }

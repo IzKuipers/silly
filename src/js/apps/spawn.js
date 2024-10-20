@@ -36,3 +36,14 @@ export async function spawnApp(id, parent = undefined, ...args) {
     (await KERNEL.stack.spawn(app.process, parent, app, ...args)) === "success"
   );
 }
+
+export async function spawnAppExternal(metadata, parent = undefined, ...args) {
+  const meta = { ...metadata };
+  const stack = KERNEL.getModule("stack");
+  const rendererPid = RendererPid.get();
+  const { default: process } = await import(meta.files.js);
+
+  if (!parent && rendererPid) parent = rendererPid;
+
+  return await stack.spawn(process, parent, { process, data: meta }, ...args);
+}

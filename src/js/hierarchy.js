@@ -28,7 +28,8 @@ export function setJsonHierarchy(object, hierarchy, value) {
     currentObj = currentObj[key];
   }
 
-  if (!value) delete currentObj[parts[lastIndex]];
+  if (value === undefined || value === null)
+    delete currentObj[parts[lastIndex]];
   else currentObj[parts[lastIndex]] = value;
 
   return getJsonHierarchy(object, hierarchy);
