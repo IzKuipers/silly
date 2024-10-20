@@ -28,4 +28,5 @@ export const RegEditApp = {
   hidden: false,
   core: false,
   id: "regEditApp",
+  children: ["../../apps/regedit/mutator/metadata.js"],
 };

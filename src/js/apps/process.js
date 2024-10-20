@@ -3,11 +3,13 @@ import { Process } from "../process/instance.js";
 import { Sleep } from "../sleep.js";
 import { Store } from "../store.js";
 import { AppRuntimeError } from "./error.js";
+import { spawnAppExternal } from "./spawn.js";
 
 export class AppProcess extends Process {
   crashReason = "";
   app;
   windowTitle = Store("");
+  children = {};
 
   constructor(handler, pid, parentPid, app) {
     super(handler, pid, parentPid, app);
@@ -20,6 +22,10 @@ export class AppProcess extends Process {
     this.name = app.data.id;
 
     this.assignDispatchSubscribers();
+  }
+
+  async start() {
+    await this.registerChildren();
   }
 
   getElement(querySelector, error = false) {
@@ -141,5 +147,47 @@ export class AppProcess extends Process {
         throw new Error("Panic!");
       })
     );
+  }
+
+  async registerChildren() {
+    Log(
+      `AppProcess::'${this._pid}'.registerChildren`,
+      `Locating and loading contents of app.data.children`
+    );
+
+    const children = this.app.data.children;
+
+    if (!children) return;
+
+    for (const childMetaPath of children) {
+      Log(
+        `AppProcess::'${this._pid}'.registerChildren`,
+        `Attempting import of ${childMetaPath}`
+      );
+
+      try {
+        const { default: meta } = await import(childMetaPath);
+
+        if (!meta) continue;
+
+        this.children[meta.id] = meta;
+      } catch {
+        Log(
+          `AppProcess::'${this._pid}'.registerChildren`,
+          `Attempting import of ${childMetaPath} failed!`,
+          LogType.error
+        );
+
+        continue;
+      }
+    }
+  }
+
+  async spawnChild(id, ...args) {
+    const child = this.children[id];
+
+    if (!child) return false;
+
+    await spawnAppExternal(child, this._pid, ...args);
   }
 }

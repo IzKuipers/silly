@@ -1,5 +1,5 @@
 /* ! NOTE: External application, don't EVER load into the app store */
-export const RegEditMutatorApp = {
+const RegEditMutatorApp = {
   metadata: {
     name: "Edit Value",
     version: "1.0.0",
@@ -30,3 +30,5 @@ export const RegEditMutatorApp = {
   core: false,
   id: "regEditMutatorApp",
 };
+
+export default RegEditMutatorApp;

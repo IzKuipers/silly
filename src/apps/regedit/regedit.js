@@ -1,8 +1,6 @@
 import { AppProcess } from "../../js/apps/process.js";
-import { spawnApp, spawnAppExternal } from "../../js/apps/spawn.js";
 import { getJsonHierarchy } from "../../js/hierarchy.js";
 import { Store } from "../../js/store.js";
-import { RegEditMutatorApp } from "./mutator/metadata.js";
 import { FILE_ICONS } from "./store.js";
 
 export default class RegEditProcess extends AppProcess {
@@ -189,9 +187,8 @@ export default class RegEditProcess extends AppProcess {
     const split = hierarchy.split(".");
     const hive = split[0];
 
-    await spawnAppExternal(
-      RegEditMutatorApp,
-      this.parentPid,
+    this.spawnChild(
+      "regEditMutatorApp",
       hive,
       hierarchy.replace(`${hive}.`, ""),
       value
