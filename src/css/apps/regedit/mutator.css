@@ -1,0 +1,29 @@
+div.window.regEditMutatorApp div.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: end; */
+}
+
+div.window.regEditMutatorApp table {
+  width: 100%;
+}
+
+div.window.regEditMutatorApp td {
+  padding-bottom: 5px;
+}
+
+div.window.regEditMutatorApp tr td:first-child {
+  padding-right: 20px;
+}
+
+div.window.regEditMutatorApp input {
+  width: 250px;
+}
+
+div.window.regEditMutatorApp div.body div.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: end;
+}

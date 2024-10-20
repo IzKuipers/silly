@@ -1,5 +1,6 @@
 import { AppRuntimeError } from "../../js/apps/error.js";
 import { AppProcess } from "../../js/apps/process.js";
+import { AppStore } from "../../js/apps/store.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
 import { Store } from "../../js/store.js";
@@ -108,6 +109,12 @@ export default class ProgManProcess extends AppProcess {
       nameSegment.innerText = process.name;
       titleSegment.innerText = process.app.data.metadata.name;
       idSegment.innerText = process.app.id;
+
+      if (!AppStore.get()[process.app.id]) {
+        idSegment.classList.add("external");
+        idSegment.innerText += "*";
+        idSegment.title = "Application is from outside the app store";
+      }
     } catch {
       titleSegment.innerText = "-";
       titleSegment.classList.add("empty");

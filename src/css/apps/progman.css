@@ -102,6 +102,10 @@ div.window.progMan div.row div.segment.empty {
   opacity: 0.5;
 }
 
+div.window.progMan div.row div.segment.external {
+  font-style: italic;
+}
+
 div.window.progMan div.indent {
   padding-left: 10px;
 }

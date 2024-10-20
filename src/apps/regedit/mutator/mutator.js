@@ -18,6 +18,7 @@ export default class RegEditMutatorProcess extends AppProcess {
   }
 
   render() {
+    this.closeIfSecondInstance();
     this.cancelButton = this.getElement("#cancelButton", true);
     this.saveButton = this.getElement("#saveButton", true);
     this.keyInput = this.getElement("#keyInput", true);
