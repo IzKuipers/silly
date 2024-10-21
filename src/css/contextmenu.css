@@ -1,0 +1,41 @@
+div.context-menu {
+  position: fixed;
+  top: var(--y, -1000px);
+  left: var(--x, -1000px);
+  z-index: 1000000000000000000000000000000000000000000000000;
+  padding: 3px;
+  border: var(--border);
+  background-color: var(--bg);
+  min-width: 180px;
+  border-radius: 3px;
+}
+
+div.context-menu button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  color: var(--fg);
+}
+
+div.context-menu button:hover {
+  background-color: var(--button-bg);
+}
+
+div.context-menu button:active {
+  background-color: var(--button-active-bg);
+}
+
+div.context-menu button.default {
+  font-weight: bold;
+}
+
+div.context-menu.hidden {
+  display: none;
+}
+
+div.context-menu hr {
+  margin: 5px 2px;
+  border: var(--border);
+  border-bottom: none;
+}

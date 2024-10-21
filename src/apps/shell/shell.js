@@ -82,6 +82,21 @@ export default class ShellProcess extends AppProcess {
           })
         );
 
+        button.addEventListener("contextmenu", (e) => {
+          const { clientX: x, clientY: y } = e;
+
+          this.context.showMenu(x, y, [
+            {
+              caption: "Close Window",
+              action: () => {
+                const dispatch = this.handler.ConnectDispatch(pid);
+
+                dispatch.dispatch("close-window");
+              },
+            },
+          ]);
+        });
+
         proc.windowTitle.subscribe((v) => {
           button.innerText = v;
         });

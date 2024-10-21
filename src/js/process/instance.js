@@ -18,6 +18,7 @@ export class Process {
     this.kernel = KERNEL;
     this.registry = KERNEL.getModule("registry");
     this.environment = KERNEL.getModule("environment");
+    this.context = KERNEL.getModule("context");
     this.dispatch = new ProcessDispatch(this);
 
     this.name ||= this.constructor.name;

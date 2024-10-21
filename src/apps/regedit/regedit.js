@@ -177,6 +177,39 @@ export default class RegEditProcess extends AppProcess {
         }
       });
 
+      row.addEventListener("contextmenu", (e) => {
+        const path = hierarchy ? `${hierarchy}.${key}` : key;
+
+        const options = [];
+
+        if (typeof element === "object" && !Array.isArray(element)) {
+          options.push(
+            {
+              caption: "Navigate here",
+              action: () => {
+                this.select(path);
+              },
+              separator: true,
+              default: true,
+            },
+            {
+              caption: "Rename...",
+              action: () => {},
+            }
+          );
+        } else {
+          options.push({
+            caption: "Edit value...",
+            action: () => {
+              this.editValue(path, element);
+            },
+            default: true,
+          });
+        }
+
+        this.context.showMenu(e.clientX, e.clientY, options);
+      });
+
       row.append(name, value, valuelength, type);
 
       this.contentElement.append(row);
