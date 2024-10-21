@@ -20,6 +20,10 @@ export default async function render() {
   progressBar.setIndeterminate(true);
 
   if (clone.needsClone) {
+    status.innerText = "Cloning filesystem";
+
+    await Sleep(2000);
+
     progressBar.setIndeterminate(false);
     progressBar.setMax(clone.paths.length);
     progressBar.setValue(0);
@@ -32,6 +36,12 @@ export default async function render() {
 
       progressBar.setValue(elapsed);
     });
+
+    status.innerText = "Loading...";
+
+    await Sleep(1000);
+
+    location.reload();
 
     return;
   }

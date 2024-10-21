@@ -74,7 +74,5 @@ export class CloneModule extends KernelModule {
 
     this.setRegistryValue("clonedVersion", VERSION.join("."));
     this.setRegistryValue("cloneLog", logs);
-    await Sleep(100);
-    location.reload();
   }
 }
