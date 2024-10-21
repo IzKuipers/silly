@@ -1,3 +1,4 @@
+import { CloneModule } from "../../clone/index.js";
 import { ToolbarModule } from "../../electron/toolbar.js";
 import { Environment } from "../../environment/index.js";
 import { PowerLogic } from "../../power/index.js";
@@ -10,6 +11,7 @@ import { FileSystem } from "../../vfs.js";
 export const CoreKernelModules = {
   fs: FileSystem,
   registry: IneptaRegistry,
+  clone: CloneModule,
   powerlogic: PowerLogic,
   toolbar: ToolbarModule,
   context: ContextMenuLogic,

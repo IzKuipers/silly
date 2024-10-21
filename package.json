@@ -15,6 +15,7 @@
     "colorsea": "^1.2.2",
     "electron": "^32.1.2",
     "express": "^4.21.0",
+    "glob": "^11.0.0",
     "sql.js": "^1.11.0",
     "tcp-port-used": "^1.0.2"
   }
