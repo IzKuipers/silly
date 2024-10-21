@@ -1,6 +1,6 @@
 import { VERSION } from "../../env.js";
 import { KernelModule } from "../kernel/module/index.js";
-import { Log } from "../logging.js";
+import { Log, LogStore, LogType } from "../logging.js";
 import { Sleep } from "../sleep.js";
 
 const { glob } = require("glob");
@@ -53,14 +53,30 @@ export class CloneModule extends KernelModule {
     for (const path of paths) {
       Log("CloneModule.doClone", path);
 
-      this.fs.writeFile(path, await readFile(path));
+      try {
+        this.fs.writeFile(path, await readFile(path));
 
-      cb(path);
+        cb(path);
+      } catch {
+        Log(
+          "CloneModule.doClone",
+          `FAILURE: ${path}! Inepta might not work properly`,
+          LogType.error
+        );
+        cb(`${path} (FAILED)`);
+      }
 
       await Sleep(0);
     }
 
+    const logs = {};
+
+    for (let i = 0; i < LogStore.length; i++) {
+      logs[`LogItem#${i}`] = LogStore[i];
+    }
+
     this.setRegistryValue("clonedVersion", VERSION.join("."));
+    this.setRegistryValue("cloneLog", logs);
     await Sleep(100);
     location.reload();
   }
