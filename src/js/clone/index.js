@@ -9,6 +9,7 @@ const { statSync } = require("fs");
 
 export class CloneModule extends KernelModule {
   fs;
+  needsClone = false;
 
   constructor(kernel, id) {
     super(kernel, id);
@@ -17,19 +18,32 @@ export class CloneModule extends KernelModule {
   }
 
   async _init() {
+    const runningClone = location.href
+      .toLowerCase()
+      .includes("local/inepta/src");
+    const isLive = navigator.userAgent.includes("LIVEMODE");
+
+    if (runningClone || isLive) {
+      this.setRegistryValue("isLive", isLive);
+      this.setRegistryValue("runningClone", runningClone);
+
+      return;
+    }
+
     const currentVersion = this.getRegistryValue("clonedVersion");
 
-    if (!currentVersion) return this.doClone();
+    if (!currentVersion) return (this.needsClone = true);
 
-    if (currentVersion === VERSION.join(".")) return;
+    if (currentVersion === VERSION.join(".")) {
+      location.href = this.fs.join(this.fs.root, "src/index.html");
+      return;
+    }
 
-    this.doClone();
+    this.needsClone = true;
   }
 
-  async doClone() {
-    const paths = (await glob("src/**/*")).filter(
-      (p) => !p.includes("node_modules") && statSync(p).isFile()
-    );
+  async doClone(cb = () => {}) {
+    const paths = (await glob("./**/*")).filter((p) => statSync(p).isFile());
 
     Log(
       "CloneModule.doClone",
@@ -39,10 +53,11 @@ export class CloneModule extends KernelModule {
     for (const path of paths) {
       Log("CloneModule.doClone", path);
 
-      this.fs.writeFile(
-        path.replace("src", "System"),
-        await readFile(path, "utf-8")
-      );
+      this.fs.writeFile(path, await readFile(path));
+
+      cb(path);
+
+      await Sleep(0);
     }
 
     this.setRegistryValue("clonedVersion", VERSION.join("."));

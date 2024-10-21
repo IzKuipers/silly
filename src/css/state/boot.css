@@ -4,6 +4,7 @@
   align-items: center;
   padding: 25vh 0;
   flex-direction: column;
+  text-align: center;
 }
 
 .boot-screen img {
@@ -17,4 +18,16 @@
 
 .boot-screen div.progress-bar div.inner {
   animation-duration: 2s;
+}
+
+.boot-screen p#status {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.boot-screen div.bottom {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }

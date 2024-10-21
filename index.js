@@ -5,6 +5,10 @@ import { existsSync } from "fs";
 import { mkdir, writeFile } from "fs/promises";
 import { VERSION } from "./src/env.js";
 
+import dotenv from "dotenv";
+
+const { parsed } = dotenv.config({ debug: true });
+
 remote.initialize();
 
 let window;
@@ -30,6 +34,9 @@ app.on("ready", async () => {
   });
 
   remote.enable(window.webContents);
+
+  if (parsed.LIVE_MODE == "1" || process.argv.includes("live"))
+    window.webContents.userAgent += " LIVEMODE";
 
   window.removeMenu();
   window.loadFile("src/index.html");

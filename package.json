@@ -6,13 +6,15 @@
   "author": "Izaak Kuipers <izaak.kuipers@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "live": "electron . live"
   },
   "type": "module",
   "dependencies": {
     "@electron/remote": "^2.1.2",
     "argon2": "^0.41.1",
     "colorsea": "^1.2.2",
+    "dotenv": "^16.4.5",
     "electron": "^32.1.2",
     "express": "^4.21.0",
     "glob": "^11.0.0",
