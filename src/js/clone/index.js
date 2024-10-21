@@ -63,7 +63,7 @@ export class CloneModule extends KernelModule {
         cb(`${path} (FAILED)`);
       }
 
-      await Sleep(0);
+      await Sleep(3);
     }
 
     const logs = {};
