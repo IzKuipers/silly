@@ -31,7 +31,10 @@ export class ContextMenuLogic extends KernelModule {
       const button = document.createElement("button");
 
       button.className = option.className || "";
+
+      if (option.disabled) button.disabled = true;
       if (option.default) button.classList.add("default");
+
       button.innerText = option.caption;
       button.addEventListener("click", () => {
         this.hideMenu();

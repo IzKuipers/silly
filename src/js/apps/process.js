@@ -190,4 +190,10 @@ export class AppProcess extends Process {
 
     await spawnAppExternal(child, this._pid, ...args);
   }
+
+  contextMenu(element, optionsCallback) {
+    element.addEventListener("contextmenu", (e) => {
+      this.context.showMenu(e.clientX, e.clientY, optionsCallback());
+    });
+  }
 }

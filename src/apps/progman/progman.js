@@ -191,6 +191,13 @@ export default class ProgManProcess extends AppProcess {
         this.panicSelected();
       })
     );
+
+    runButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.runPrompt();
+      })
+    );
   }
 
   killSelected() {
@@ -255,5 +262,9 @@ export default class ProgManProcess extends AppProcess {
       },
       this._pid
     );
+  }
+
+  runPrompt() {
+    this.spawnChild("progManRunPromptApp");
   }
 }

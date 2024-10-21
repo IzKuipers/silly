@@ -304,6 +304,36 @@ export class AppRenderer extends Process {
       titleCaption.innerText = v;
     });
 
+    process.contextMenu(titlebar, () => [
+      {
+        caption: data.metadata.name,
+        disabled: true,
+        action: () => {},
+        separator: true,
+      },
+      {
+        caption: "Minimize",
+        disabled: !data.controls.minimize,
+        action: () => {
+          this.toggleMinimize(process._pid);
+        },
+      },
+      {
+        caption: "Maximize",
+        disabled: !data.controls.maximize,
+        action: () => {
+          this.toggleMaximize(process._pid);
+        },
+      },
+      {
+        caption: "Close",
+        disabled: !data.controls.close,
+        action: () => {
+          process.closeWindow();
+        },
+      },
+    ]);
+
     title.className = "window-title";
     title.append(titleIcon, titleCaption);
 

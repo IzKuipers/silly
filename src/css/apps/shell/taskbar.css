@@ -29,12 +29,14 @@ div.window.shell div.taskbar #activeApps::-webkit-scrollbar {
 div.window.shell div.taskbar #activeApps button {
   height: 30px;
   margin: 5px 0;
-  padding: 0 15px;
+  padding: 0 10px;
   border: none;
   background-color: transparent;
   /* min-width: fit-content; */
   white-space: nowrap;
-  min-width: 100px;
+  width: 170px;
+  min-width: 50px;
+  text-align: left;
   max-width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;

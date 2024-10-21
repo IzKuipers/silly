@@ -30,4 +30,5 @@ export const ProgManApp = {
   hidden: false,
   core: false,
   id: "progMan",
+  children: ["../../apps/progman/runprompt/metadata.js"],
 };

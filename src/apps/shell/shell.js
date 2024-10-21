@@ -24,6 +24,7 @@ export default class ShellProcess extends AppProcess {
     super(handler, pid, parentPid, app);
 
     this.powerLogic = KERNEL.getModule("powerlogic");
+    this.environment.setProperty("SHELLPID", this._pid);
   }
 
   render() {
