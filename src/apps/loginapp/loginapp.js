@@ -1,17 +1,17 @@
 import { VERSION } from "../../env.js";
+import { AppRuntimeError } from "../../js/apps/error.js";
 import { isLoaded, loadApp } from "../../js/apps/load.js";
 import { AppProcess } from "../../js/apps/process.js";
+import { spawnApp } from "../../js/apps/spawn.js";
 import { AppStore } from "../../js/apps/store.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
-import { UserDaemon } from "../../js/user/daemon.js";
-import { MsgBoxApp } from "../messagebox/metadata.js";
-import { AppRuntimeError } from "../../js/apps/error.js";
-import { Sleep } from "../../js/sleep.js";
-import { spawnApp } from "../../js/apps/spawn.js";
-import { getStateProps, StateProps } from "../../js/state/store.js";
-import { InitialSetupApp } from "../initialsetup/metadata.js";
 import { RegistryHives } from "../../js/registry/store.js";
+import { Sleep } from "../../js/sleep.js";
+import { getStateProps, StateProps } from "../../js/state/store.js";
+import { UserDaemon } from "../../js/user/daemon.js";
+import { InitialSetupApp } from "../initialsetup/metadata.js";
+import { MsgBoxApp } from "../messagebox/metadata.js";
 
 export default class LoginAppProcess extends AppProcess {
   usernameField;

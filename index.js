@@ -1,10 +1,9 @@
 import remote from "@electron/remote/main/index.js";
+import { execSync } from "child_process";
 import { app, BrowserWindow, globalShortcut, nativeTheme } from "electron";
-import { VERSION } from "./src/env.js";
-import { exec, execSync } from "child_process";
-import { mkdir, writeFile } from "fs/promises";
 import { existsSync } from "fs";
-import { join } from "path";
+import { mkdir, writeFile } from "fs/promises";
+import { VERSION } from "./src/env.js";
 
 remote.initialize();
 

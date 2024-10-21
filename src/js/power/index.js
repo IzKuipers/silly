@@ -1,5 +1,4 @@
 import { KernelModule } from "../kernel/module/index.js";
-import { RegistryHives } from "../registry/store.js";
 import { Sleep } from "../sleep.js";
 
 export class PowerLogic extends KernelModule {
