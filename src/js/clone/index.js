@@ -10,6 +10,7 @@ const { statSync } = require("fs");
 export class CloneModule extends KernelModule {
   fs;
   needsClone = false;
+  paths = [];
 
   constructor(kernel, id) {
     super(kernel, id);
@@ -30,6 +31,8 @@ export class CloneModule extends KernelModule {
       return;
     }
 
+    this.paths = (await glob("./**/*")).filter((p) => statSync(p).isFile());
+
     const currentVersion = this.getRegistryValue("clonedVersion");
 
     if (!currentVersion) return (this.needsClone = true);
@@ -43,14 +46,12 @@ export class CloneModule extends KernelModule {
   }
 
   async doClone(cb = () => {}) {
-    const paths = (await glob("./**/*")).filter((p) => statSync(p).isFile());
-
     Log(
       "CloneModule.doClone",
-      `Cloning ${paths.length} system files to the filesystem`
+      `Cloning ${this.paths.length} system files to the filesystem`
     );
 
-    for (const path of paths) {
+    for (const path of this.paths) {
       Log("CloneModule.doClone", path);
 
       try {
@@ -58,11 +59,7 @@ export class CloneModule extends KernelModule {
 
         cb(path);
       } catch {
-        Log(
-          "CloneModule.doClone",
-          `FAILURE: ${path}! Inepta might not work properly`,
-          LogType.error
-        );
+        Log("CloneModule.doClone", `FAILURE: ${path}`, LogType.error);
         cb(`${path} (FAILED)`);
       }
 

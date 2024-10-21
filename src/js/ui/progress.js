@@ -54,6 +54,13 @@ export class ProgressBar {
     this.updateInner();
   }
 
+  setIndeterminate(indeterminate) {
+    if (indeterminate) this.bar.classList.add("indeterminate");
+    else this.bar.classList.remove("indeterminate");
+
+    this.updateInner();
+  }
+
   setValue(value) {
     this.options.value = value ?? this.options.value;
 

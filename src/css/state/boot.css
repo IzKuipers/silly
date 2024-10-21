@@ -11,12 +11,7 @@
   height: 150px;
 }
 
-.boot-screen div.progress-bar {
-  --bar-width: 250px;
-  --bar-height: 7px;
-}
-
-.boot-screen div.progress-bar div.inner {
+.boot-screen div.progress-bar.indeterminate div.inner {
   animation-duration: 2s;
 }
 
