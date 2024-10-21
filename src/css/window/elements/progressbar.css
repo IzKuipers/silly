@@ -20,8 +20,6 @@ div.progress-bar div.inner {
 
 div.progress-bar.indeterminate div.inner {
   width: 20%;
-  /* left: calc(110% - 10px); */
-
   animation: progress-bar-indeterminate 2.5s linear infinite;
 }
 

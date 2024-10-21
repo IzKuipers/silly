@@ -49,8 +49,6 @@ div.window.progMan div.toolbar button span.material-symbols-outlined {
 div.window.progMan div.row {
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
-  /* gap: 20px; */
   height: 28px;
   padding: 0 10px;
   width: 100%;

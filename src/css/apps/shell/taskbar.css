@@ -32,7 +32,6 @@ div.window.shell div.taskbar #activeApps button {
   padding: 0 10px;
   border: none;
   background-color: transparent;
-  /* min-width: fit-content; */
   white-space: nowrap;
   width: 170px;
   min-width: 50px;
@@ -41,6 +40,7 @@ div.window.shell div.taskbar #activeApps button {
   overflow: hidden;
   text-overflow: ellipsis;
   border-radius: 4px;
+  background-color: var(--button-bg);
 }
 
 div.window.shell div.taskbar #activeApps button:hover {
@@ -81,8 +81,6 @@ div.window.shell div.taskbar button#startButton {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  /* background-color: var(--start-button-bg); */
-  /* padding-right: 10px; */
   min-width: 41px;
   border-right: var(--button-bg) 1px solid;
 }

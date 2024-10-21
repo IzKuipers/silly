@@ -31,7 +31,4 @@ div.window.msgBox div.body div.top h1 {
 
 div.window.msgBox div.body div.top p {
   margin: 0;
-  /* white-space: wrap; */
-  /* min-width: fit-content; */
-  /* flex-grow: 1; */
 }

@@ -11,10 +11,12 @@ export default class ProgManRunPromptProcess extends AppProcess {
 
     const input = this.getElement("#idInput", true);
     const goButton = this.getElement("#goButton", true);
-    const cancelButton = this.getElement("#goButton", true);
+    const cancelButton = this.getElement("#cancelButton", true);
+
+    goButton.disabled = true;
 
     input.addEventListener(
-      "keydown",
+      "input",
       this.safe(() => {
         const value = input.value;
 
@@ -24,7 +26,7 @@ export default class ProgManRunPromptProcess extends AppProcess {
 
     goButton.addEventListener(
       "click",
-      this.safe(() => {
+      this.safe(async () => {
         this.go(input.value);
       })
     );
@@ -37,9 +39,10 @@ export default class ProgManRunPromptProcess extends AppProcess {
     );
   }
 
-  go(id) {
+  async go(id) {
     const shellPid = this.environment.getProperty("SHELLPID");
 
-    spawnApp(id, shellPid);
+    await spawnApp(id, shellPid);
+    this.closeWindow();
   }
 }
