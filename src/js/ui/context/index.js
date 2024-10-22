@@ -2,6 +2,7 @@ import { KernelModule } from "../../kernel/module/index.js";
 
 export class ContextMenuLogic extends KernelModule {
   menu;
+  locked;
 
   constructor(kernel, id) {
     super(kernel, id);
@@ -22,6 +23,8 @@ export class ContextMenuLogic extends KernelModule {
   }
 
   showMenu(x, y, options) {
+    this.locked = true;
+
     this.menu.classList.add("hidden");
     this.menu.innerHTML = "";
     this.menu.style.setProperty("--x", "");
@@ -56,6 +59,7 @@ export class ContextMenuLogic extends KernelModule {
 
       this.menu.style.setProperty("--x", `${x}px`);
       this.menu.style.setProperty("--y", `${y}px`);
+      this.locked = false;
     }, 10);
   }
 
@@ -80,7 +84,7 @@ export class ContextMenuLogic extends KernelModule {
   }
 
   checkOutsideClick(e) {
-    if (e.composedPath().includes(this.menu)) return;
+    if (e.composedPath().includes(this.menu) || this.locked) return;
 
     this.hideMenu();
   }

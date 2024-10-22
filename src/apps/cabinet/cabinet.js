@@ -1,4 +1,5 @@
 import { AppProcess } from "../../js/apps/process.js";
+import { spawnApp } from "../../js/apps/spawn.js";
 import { strftime } from "../../js/desktop/date.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
@@ -40,6 +41,8 @@ export default class CabinetProcess extends AppProcess {
 
     this.updateStatusbar();
     this.populateDirectory();
+
+    this.windowTitle.set(this.path);
   }
 
   updateStatusbar() {
@@ -132,6 +135,10 @@ export default class CabinetProcess extends AppProcess {
     );
     created.innerText = strftime("%e %b %G %H:%M", new Date(file.dateCreated));
     size.innerText = file.size;
+
+    item.addEventListener("click", () => {
+      spawnApp("napkin", undefined, this.fs.join(this.path, file.name));
+    });
 
     return item;
   }

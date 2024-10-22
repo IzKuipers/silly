@@ -56,7 +56,15 @@ export class AppProcess extends Process {
     return element;
   }
 
+  async onClose() {
+    return true;
+  }
+
   async closeWindow() {
+    const canClose = this._disposed || (await this.onClose());
+
+    if (!canClose) return;
+
     const elements = [
       ...document.querySelectorAll(`div.window[data-pid="${this._pid}"]`),
       ...(document.querySelectorAll(
@@ -192,8 +200,25 @@ export class AppProcess extends Process {
   }
 
   contextMenu(element, optionsCallback) {
-    element.addEventListener("contextmenu", (e) => {
-      this.context.showMenu(e.clientX, e.clientY, optionsCallback());
-    });
+    element.addEventListener(
+      "contextmenu",
+      this.safe(async (e) => {
+        this.context.showMenu(e.clientX, e.clientY, await optionsCallback());
+      })
+    );
+  }
+
+  clickMenu(element, optionsCallback) {
+    element.addEventListener(
+      "click",
+      this.safe(async (e) => {
+        const { x, y: clientY, height } = e.target.getBoundingClientRect();
+        const y = clientY + height + 2;
+
+        console.log(e, e.target);
+
+        this.context.showMenu(x, y, await optionsCallback());
+      })
+    );
   }
 }
