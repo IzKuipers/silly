@@ -92,6 +92,8 @@ async function writeCommitHash() {
 
     await writeFile("./env/HASH", hash);
   } catch (e) {
-    console.log(e);
+    console.warn(
+      "[FAILURE] Couldn't write commit hash. Maybe no Git or no permission."
+    );
   }
 }

@@ -215,8 +215,6 @@ export class AppProcess extends Process {
         const { x, y: clientY, height } = e.target.getBoundingClientRect();
         const y = clientY + height + 2;
 
-        console.log(e, e.target);
-
         this.context.showMenu(x, y, await optionsCallback());
       })
     );

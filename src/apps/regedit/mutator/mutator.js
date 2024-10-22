@@ -49,7 +49,6 @@ export default class RegEditMutatorProcess extends AppProcess {
   async saveChanges() {
     const value = convertToType(this.valueInput.value, this.dataType);
 
-    console.log(value);
     this.registry.setValue(this.hive, this.hierarchy, value);
 
     this.handler.renderer.focusedPid.set(this.parentPid);

@@ -15,7 +15,6 @@ export default class CabinetProcess extends AppProcess {
 
     this.path = path || this.environment.getProperty("userprofile");
     this.fs = this.kernel.getModule("fs");
-    console.log(this.path);
   }
 
   render() {
