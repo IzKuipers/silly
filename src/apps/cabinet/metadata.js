@@ -1,11 +1,11 @@
-export const RegEditApp = {
+export const CabinetApp = {
   metadata: {
-    name: "Registry Editor",
+    name: "File Cabinet",
     version: "1.0.0",
     author: "Izaak Kuipers",
-    icon: "./assets/apps/regedit.svg",
+    icon: "./assets/fs/folder.svg",
   },
-  size: { w: 850, h: 560 },
+  size: { w: 900, h: 650 },
   minSize: { w: 500, h: 500 },
   maxSize: { w: 1600, h: 1000 },
   position: { centered: true },
@@ -21,12 +21,11 @@ export const RegEditApp = {
     close: true,
   },
   files: {
-    js: "../../apps/regedit/regedit.js",
-    css: "./css/apps/regedit.css",
-    html: "./apps/regedit/regedit.html",
+    js: "../../apps/cabinet/cabinet.js",
+    css: "./css/apps/cabinet.css",
+    html: "./apps/cabinet/cabinet.html",
   },
   hidden: false,
   core: false,
-  id: "regEditApp",
-  children: ["../../apps/regedit/mutator/metadata.js"],
+  id: "cabinet",
 };

@@ -1,0 +1,55 @@
+<div class="top">
+  <div class="navigation">
+    <button class="material-symbols-outlined" id="backButton">
+      arrow_back
+    </button>
+    <button class="material-symbols-outlined" id="forwardButton">
+      arrow_forward
+    </button>
+    <button class="material-symbols-outlined" id="parentButton">
+      keyboard_arrow_up
+    </button>
+  </div>
+  <div class="address-bar-wrapper">
+    <input type="text" id="addressBar" placeholder="Where do you want to go?" />
+    <button id="goButton">
+      <span class="material-symbols-outlined">search</span>
+      <span>Go</span>
+    </button>
+  </div>
+</div>
+
+<div class="panes">
+  <div class="sidebar">
+    <section class="favourites">
+      <p class="caption">Favourites</p>
+      <div class="items" id="favourites">
+        <button class="item">
+          <img src="./assets/fs/folder.svg" alt="" />
+          <span>Documents</span>
+        </button>
+        <button class="item">
+          <img src="./assets/fs/folder.svg" alt="" />
+          <span>Pictures</span>
+        </button>
+        <button class="item">
+          <img src="./assets/fs/folder.svg" alt="" />
+          <span>Apps</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="locations">
+      <p class="caption">Locations</p>
+      <div class="items" id="locations"></div>
+    </section>
+  </div>
+  <div class="right" id="container"></div>
+</div>
+
+<div class="status-bar">
+  <div class="part" id="fileCount">0 files</div>
+  <div class="part" id="folderCount">0 folders</div>
+  <div class="part" id="folderName">User</div>
+  <div class="part" id="parentName">in Users</div>
+</div>

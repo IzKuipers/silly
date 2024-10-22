@@ -1,3 +1,4 @@
+import { CabinetApp } from "../../apps/cabinet/metadata.js";
 import { DebugToolApp } from "../../apps/debugtool/metadata.js";
 import { InepVerApp } from "../../apps/inepver/metadata.js";
 import { MsgBoxApp } from "../../apps/messagebox/metadata.js";
@@ -17,4 +18,5 @@ export const builtInApps = [
   ProgManApp,
   RegEditApp,
   InepVerApp,
+  CabinetApp,
 ];

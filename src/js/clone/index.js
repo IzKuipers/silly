@@ -11,6 +11,7 @@ export class CloneModule extends KernelModule {
   fs;
   needsClone = false;
   paths = [];
+  IGNORE_LIST = ["yarn.lock", "index.js", "package.json"];
 
   constructor(kernel, id) {
     super(kernel, id);
@@ -55,11 +56,20 @@ export class CloneModule extends KernelModule {
       Log("CloneModule.doClone", path);
 
       try {
+        if (this.IGNORE_LIST.includes(path)) {
+          Log("CloneModule.doClone", `IGNORED: ${path}`, LogType.warning);
+
+          cb(`${path} (IGNORED)`);
+
+          continue;
+        }
+
         this.fs.writeFile(path, await readFile(path));
 
         cb(path);
       } catch {
         Log("CloneModule.doClone", `FAILURE: ${path}`, LogType.error);
+
         cb(`${path} (FAILED)`);
       }
 

@@ -38,7 +38,10 @@ export class Environment extends KernelModule {
   }
 
   getProperty(key) {
-    return this.registry.getValue(RegistryHives.local, `Environment.${key}`);
+    return this.registry.getValue(
+      RegistryHives.local,
+      `Environment.${key.toUpperCase()}`
+    );
   }
 
   getAll() {
