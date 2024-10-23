@@ -35,8 +35,7 @@ app.on("ready", async () => {
 
   remote.enable(window.webContents);
 
-  if (parsed.LIVE_MODE == "1" || process.argv.includes("live"))
-    window.webContents.userAgent += " LIVEMODE";
+  if (parsed.LIVE_MODE == "1" || process.argv.includes("live")) window.webContents.userAgent += " LIVEMODE";
 
   window.removeMenu();
   window.loadFile("src/index.html");
@@ -52,18 +51,15 @@ app.on("ready", async () => {
     toggleNativeTheme();
   });
 
-  window.webContents.session.webRequest.onHeadersReceived(
-    { urls: ["*://*/*"] },
-    (d, c) => {
-      if (d.responseHeaders["X-Frame-Options"]) {
-        delete d.responseHeaders["X-Frame-Options"];
-      } else if (d.responseHeaders["x-frame-options"]) {
-        delete d.responseHeaders["x-frame-options"];
-      }
-
-      c({ cancel: false, responseHeaders: d.responseHeaders });
+  window.webContents.session.webRequest.onHeadersReceived({ urls: ["*://*/*"] }, (d, c) => {
+    if (d.responseHeaders["X-Frame-Options"]) {
+      delete d.responseHeaders["X-Frame-Options"];
+    } else if (d.responseHeaders["x-frame-options"]) {
+      delete d.responseHeaders["x-frame-options"];
     }
-  );
+
+    c({ cancel: false, responseHeaders: d.responseHeaders });
+  });
 
   globalShortcut.register("Ctrl+Shift+Alt+I", () => {
     if (window.isFocused()) window.toggleDevTools();
@@ -92,8 +88,6 @@ async function writeCommitHash() {
 
     await writeFile("./env/HASH", hash);
   } catch (e) {
-    console.warn(
-      "[FAILURE] Couldn't write commit hash. Maybe no Git or no permission."
-    );
+    console.warn("[FAILURE] Couldn't write commit hash. Maybe no Git or no permission.");
   }
 }

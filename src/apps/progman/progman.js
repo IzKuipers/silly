@@ -50,9 +50,7 @@ export default class ProgManProcess extends AppProcess {
 
     const counter = this.getElement("#runningAppsCounter", true);
 
-    counter.innerText = `${
-      [...processes].filter(([_, proc]) => !proc._disposed).length
-    } running process(es)`;
+    counter.innerText = `${[...processes].filter(([_, proc]) => !proc._disposed).length} running process(es)`;
 
     this.content.innerHTML = "";
 
@@ -72,8 +70,7 @@ export default class ProgManProcess extends AppProcess {
 
     row.className = "row header";
 
-    const { nameSegment, titleSegment, pidSegment, idSegment } =
-      this.segments();
+    const { nameSegment, titleSegment, pidSegment, idSegment } = this.segments();
 
     nameSegment.innerText = "Name";
     titleSegment.innerText = "Title";
@@ -102,8 +99,7 @@ export default class ProgManProcess extends AppProcess {
 
     row.className = "row";
 
-    const { nameSegment, titleSegment, pidSegment, idSegment } =
-      this.segments();
+    const { nameSegment, titleSegment, pidSegment, idSegment } = this.segments();
 
     try {
       nameSegment.innerText = process.name;

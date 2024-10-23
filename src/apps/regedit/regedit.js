@@ -70,8 +70,7 @@ export default class RegEditProcess extends AppProcess {
     const elements = [];
 
     for (const [key, value] of Object.entries(object)) {
-      const isLeaf =
-        typeof value !== "object" || Array.isArray(value) || value === null;
+      const isLeaf = typeof value !== "object" || Array.isArray(value) || value === null;
 
       if (isLeaf) continue;
 
@@ -94,11 +93,7 @@ export default class RegEditProcess extends AppProcess {
       const currentPath = path ? `${path}.${key}` : key;
 
       button.addEventListener("click", () => {
-        if (
-          currentPath === this.hierarchy.get() &&
-          indent.childElementCount > 0
-        )
-          branch.classList.toggle("expanded");
+        if (currentPath === this.hierarchy.get() && indent.childElementCount > 0) branch.classList.toggle("expanded");
         else {
           branch.classList.add("expanded");
         }
@@ -164,9 +159,7 @@ export default class RegEditProcess extends AppProcess {
 
       value.innerText = isFolder ? "(folder)" : JSON.stringify(element);
       valuelength.innerText = `${JSON.stringify(element).length} bytes`;
-      type.innerText = `REG_${
-        Array.isArray(element) ? "ARRAY" : (typeof element).toUpperCase()
-      }`;
+      type.innerText = `REG_${Array.isArray(element) ? "ARRAY" : (typeof element).toUpperCase()}`;
 
       row.addEventListener("click", () => {
         const path = hierarchy ? `${hierarchy}.${key}` : key;
@@ -220,11 +213,6 @@ export default class RegEditProcess extends AppProcess {
     const split = hierarchy.split(".");
     const hive = split[0];
 
-    this.spawnChild(
-      "regEditMutatorApp",
-      hive,
-      hierarchy.replace(`${hive}.`, ""),
-      value
-    );
+    this.spawnChild("regEditMutatorApp", hive, hierarchy.replace(`${hive}.`, ""), value);
   }
 }

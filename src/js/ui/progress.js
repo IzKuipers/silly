@@ -24,8 +24,7 @@ export class ProgressBar {
   }
 
   createBar() {
-    const { barWidth, barHeight, indeterminate, className } =
-      this.options || this.defaultOptions;
+    const { barWidth, barHeight, indeterminate, className } = this.options || this.defaultOptions;
 
     const bar = document.createElement("div");
     const inner = document.createElement("div");
@@ -35,14 +34,8 @@ export class ProgressBar {
 
     if (indeterminate) bar.classList.add("indeterminate");
 
-    bar.style.setProperty(
-      "--bar-width",
-      typeof barWidth === "number" ? `${barWidth}px` : barWidth
-    );
-    bar.style.setProperty(
-      "--bar-height",
-      typeof barHeight === "number" ? `${barHeight}px` : barHeight
-    );
+    bar.style.setProperty("--bar-width", typeof barWidth === "number" ? `${barWidth}px` : barWidth);
+    bar.style.setProperty("--bar-height", typeof barHeight === "number" ? `${barHeight}px` : barHeight);
 
     inner.className = "inner";
 
@@ -74,9 +67,6 @@ export class ProgressBar {
   }
 
   updateInner() {
-    this.inner.style.setProperty(
-      "--width",
-      `${Math.floor((100 / this.options.maxValue) * this.options.value)}%`
-    );
+    this.inner.style.setProperty("--width", `${Math.floor((100 / this.options.maxValue) * this.options.value)}%`);
   }
 }

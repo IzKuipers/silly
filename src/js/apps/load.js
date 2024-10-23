@@ -18,18 +18,14 @@ export async function loadApp(data = {}) {
   }
 
   // Make note of the load process
-  Log(
-    `loadApp`,
-    `${data.id}: ${data.metadata.name} by ${data.metadata.author} (v${data.metadata.version})`
-  );
+  Log(`loadApp`, `${data.id}: ${data.metadata.name} by ${data.metadata.author} (v${data.metadata.version})`);
 
   try {
     // Import the AppProcess
     const { default: process } = await import(data.files.js);
 
     // No process? No load.
-    if (!process)
-      throw new AppLoadError(`Tried to load an app without an AppProcess`);
+    if (!process) throw new AppLoadError(`Tried to load an app without an AppProcess`);
 
     // Get the current app store
     const store = AppStore.get();
@@ -47,9 +43,7 @@ export async function loadApp(data = {}) {
     KERNEL.registry.setValue(RegistryHives.apps, `${data.id}`, data);
   } catch (e) {
     // Throw an error if anything went wrong
-    throw new AppLoadError(
-      `Failed to import "${data.files.js}" for ${data.id}: ${e.message}`
-    );
+    throw new AppLoadError(`Failed to import "${data.files.js}" for ${data.id}: ${e.message}`);
   }
 }
 

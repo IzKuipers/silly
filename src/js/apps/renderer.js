@@ -20,10 +20,7 @@ export class AppRenderer extends Process {
 
     const targetDiv = document.getElementById(target);
 
-    if (!targetDiv)
-      throw new AppRendererError(
-        "Tried to create an app renderer on a non existent element"
-      );
+    if (!targetDiv) throw new AppRendererError("Tried to create an app renderer on a non existent element");
 
     this.target = targetDiv;
     RendererPid.set(this._pid);
@@ -31,9 +28,7 @@ export class AppRenderer extends Process {
 
   disposedCheck() {
     if (this._disposed) {
-      throw new AppRendererError(
-        `AppRenderer with PID ${this._pid} was killed`
-      );
+      throw new AppRendererError(`AppRenderer with PID ${this._pid} was killed`);
     }
   }
 
@@ -53,9 +48,7 @@ export class AppRenderer extends Process {
     }
 
     for (const process of appProcesses) {
-      const presentInstances = this.currentState.filter(
-        (p) => p == process._pid
-      );
+      const presentInstances = this.currentState.filter((p) => p == process._pid);
 
       if (!presentInstances.length && process.app) {
         this.currentState.push(process._pid);
@@ -120,13 +113,7 @@ export class AppRenderer extends Process {
     } catch (e) {
       if (!process._disposed) {
         // if (true) {
-        const lines = [
-          `<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`,
-          `If you were in the middle of something, the information you were working on might be lost. You can choose to view the call stack, which may contain the reason for the crash.`,
-          `<details><summary>Show call stack</summary><pre>${htmlspecialchars(
-            e.stack.replaceAll(location.href, "")
-          )}</pre></details>`,
-        ];
+        const lines = [`<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`, `If you were in the middle of something, the information you were working on might be lost. You can choose to view the call stack, which may contain the reason for the crash.`, `<details><summary>Show call stack</summary><pre>${htmlspecialchars(e.stack.replaceAll(location.href, ""))}</pre></details>`];
 
         MessageBox({
           title: `${data.metadata.name} - Application Error`,
@@ -159,10 +146,8 @@ export class AppRenderer extends Process {
       window.style.height = `${data.size.h}px`;
 
       if (data.position.centered) {
-        const x =
-          data.position.x || (document.body.offsetWidth - data.size.w) / 2;
-        const y =
-          data.position.y || (document.body.offsetHeight - data.size.h) / 2;
+        const x = data.position.x || (document.body.offsetWidth - data.size.w) / 2;
+        const y = data.position.y || (document.body.offsetHeight - data.size.h) / 2;
 
         window.style.top = `${y}px`;
         window.style.left = `${x}px`;
@@ -264,9 +249,7 @@ export class AppRenderer extends Process {
 
       minimize.className = "minimize material-symbols-outlined";
       minimize.innerText = "keyboard_arrow_down";
-      minimize.addEventListener("click", () =>
-        this.toggleMinimize(process._pid)
-      );
+      minimize.addEventListener("click", () => this.toggleMinimize(process._pid));
 
       controls.append(minimize);
     }
@@ -276,9 +259,7 @@ export class AppRenderer extends Process {
 
       maximize.className = "maximize material-symbols-outlined";
       maximize.innerText = "keyboard_arrow_up";
-      maximize.addEventListener("click", () =>
-        this.toggleMaximize(process._pid)
-      );
+      maximize.addEventListener("click", () => this.toggleMaximize(process._pid));
 
       controls.append(maximize);
     }
@@ -411,8 +392,7 @@ export class AppRenderer extends Process {
 
       const proc = this.handler.getProcess(pid);
 
-      if (proc && proc.app && proc.app.data && proc.app.data.id === id)
-        result.push(id);
+      if (proc && proc.app && proc.app.data && proc.app.data.id === id) result.push(id);
     }
 
     return result;

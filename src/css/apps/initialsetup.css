@@ -20,11 +20,7 @@ div.window.initialSetup div.top div.banner {
   padding: 25px;
   display: flex;
   justify-content: end;
-  background: linear-gradient(
-    to bottom right,
-    var(--accent) 0%,
-    var(--accent-darker) 100%
-  );
+  background: linear-gradient(to bottom right, var(--accent) 0%, var(--accent-darker) 100%);
   border-right: var(--border);
 }
 
@@ -68,11 +64,7 @@ div.window.initialSetup div.bottom div.actions button {
   align-items: center;
 }
 
-div.window.initialSetup
-  div.bottom
-  div.actions
-  button
-  span.material-symbols-outlined {
+div.window.initialSetup div.bottom div.actions button span.material-symbols-outlined {
   font-size: 16px;
 }
 div.window.initialSetup div.bottom div.actions div.sep {

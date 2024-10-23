@@ -90,10 +90,8 @@ export default class CabinetProcess extends AppProcess {
     fileCount.innerText = `${this.contents.files.length} file(s)`;
     folderCount.innerText = `${this.contents.dirs.length} folder(s)`;
 
-    folderName.innerText =
-      split.length > 1 ? split[split.length - 1] : split[0];
-    parentName.innerText =
-      split.length > 1 ? `In ${split[split.length - 2]}` : "Inepta HD";
+    folderName.innerText = split.length > 1 ? split[split.length - 1] : split[0];
+    parentName.innerText = split.length > 1 ? `In ${split[split.length - 2]}` : "Inepta HD";
   }
 
   populateDirectory() {
@@ -137,14 +135,8 @@ export default class CabinetProcess extends AppProcess {
     icon.src = "./assets/fs/folder.svg";
 
     name.innerText = directory.name;
-    modified.innerText = strftime(
-      "%e %b %G %H:%M",
-      new Date(directory.dateModified)
-    );
-    created.innerText = strftime(
-      "%e %b %G %H:%M",
-      new Date(directory.dateCreated)
-    );
+    modified.innerText = strftime("%e %b %G %H:%M", new Date(directory.dateModified));
+    created.innerText = strftime("%e %b %G %H:%M", new Date(directory.dateCreated));
     size.innerText = "-";
 
     item.addEventListener("click", () => {
@@ -161,10 +153,7 @@ export default class CabinetProcess extends AppProcess {
     icon.src = "./assets/fs/file.svg";
 
     name.innerText = file.name;
-    modified.innerText = strftime(
-      "%e %b %G %H:%M",
-      new Date(file.dateModified)
-    );
+    modified.innerText = strftime("%e %b %G %H:%M", new Date(file.dateModified));
     created.innerText = strftime("%e %b %G %H:%M", new Date(file.dateCreated));
     size.innerText = file.size;
 

@@ -13,11 +13,7 @@ export function Crash(reason) {
 
   // Make note of the crash
   Log(`Crash`, `### ---![ WE ARE CRASHING! ]!--- ###`, LogType.critical);
-  Log(
-    `Crash`,
-    reason.error ? reason.error.message : reason.reason.message,
-    LogType.critical
-  );
+  Log(`Crash`, reason.error ? reason.error.message : reason.reason.message, LogType.critical);
 
   // Get the currently loaded StateHandler
   const state = KERNEL.getModule("state");

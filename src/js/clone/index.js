@@ -20,9 +20,7 @@ export class CloneModule extends KernelModule {
   }
 
   async _init() {
-    const runningClone = location.href
-      .toLowerCase()
-      .includes("local/inepta/src");
+    const runningClone = location.href.toLowerCase().includes("local/inepta/src");
     const isLive = navigator.userAgent.includes("LIVEMODE");
 
     if (runningClone || isLive) {
@@ -47,10 +45,7 @@ export class CloneModule extends KernelModule {
   }
 
   async doClone(cb = () => {}) {
-    Log(
-      "CloneModule.doClone",
-      `Cloning ${this.paths.length} system files to the filesystem`
-    );
+    Log("CloneModule.doClone", `Cloning ${this.paths.length} system files to the filesystem`);
 
     for (const path of this.paths) {
       Log("CloneModule.doClone", path);

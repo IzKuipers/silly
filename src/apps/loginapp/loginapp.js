@@ -51,9 +51,7 @@ export default class LoginAppProcess extends AppProcess {
     this.type ||= getStateProps({ identifier: "login" }).type;
 
     if (!this.type) {
-      if (
-        !this.registry.getValue(RegistryHives.local, "initialSetup.completed")
-      ) {
+      if (!this.registry.getValue(RegistryHives.local, "initialSetup.completed")) {
         this.displayStatus(`Welcome to Inepta`);
         await loadApp(InitialSetupApp);
         await spawnApp("initialSetup", this._pid);
@@ -97,10 +95,7 @@ export default class LoginAppProcess extends AppProcess {
     this.shutdownButton = this.getElement("#shutdownButton", true);
     this.versionNumber = this.getElement("#versionNumber", true);
 
-    const lastUser = this.registry.getValue(
-      RegistryHives.local,
-      "LoginApp.lastUser"
-    );
+    const lastUser = this.registry.getValue(RegistryHives.local, "LoginApp.lastUser");
 
     if (lastUser) {
       this.usernameField.value = lastUser;
@@ -114,8 +109,7 @@ export default class LoginAppProcess extends AppProcess {
     this.versionNumber.innerText = `${VERSION[0]}.${VERSION[1]}`;
 
     const onValuesChange = () => {
-      this.loginButton.disabled =
-        !this.usernameField.value || !this.passwordField.value;
+      this.loginButton.disabled = !this.usernameField.value || !this.passwordField.value;
     };
 
     this.loginButton.addEventListener(
@@ -171,10 +165,7 @@ export default class LoginAppProcess extends AppProcess {
 
           this.loginButton.disabled = true;
 
-          await this.proceed(
-            this.usernameField.value,
-            this.passwordField.value
-          );
+          await this.proceed(this.usernameField.value, this.passwordField.value);
 
           this.loginButton.disabled = false;
         }
@@ -190,8 +181,7 @@ export default class LoginAppProcess extends AppProcess {
     if (!valid) {
       MessageBox({
         title: "Failed to log you on",
-        message:
-          "Either the username or password you provided is incorrect. Please check your credentials and try again. If you forgot your credentials, contact your system administrator.",
+        message: "Either the username or password you provided is incorrect. Please check your credentials and try again. If you forgot your credentials, contact your system administrator.",
         buttons: [
           {
             caption: "Okay",
@@ -248,10 +238,7 @@ export default class LoginAppProcess extends AppProcess {
 
     if (!user) return false;
 
-    const passwordValid = await this.userlogic.verifyPassword(
-      password,
-      user.password
-    );
+    const passwordValid = await this.userlogic.verifyPassword(password, user.password);
 
     if (!passwordValid) return false;
 
@@ -261,11 +248,7 @@ export default class LoginAppProcess extends AppProcess {
   async startDaemon(username) {
     if (this._disposed) return;
 
-    await this.handler.spawn(
-      UserDaemon,
-      this.handler._kernel.initPid,
-      username
-    );
+    await this.handler.spawn(UserDaemon, this.handler._kernel.initPid, username);
   }
 
   displayStatus(status) {

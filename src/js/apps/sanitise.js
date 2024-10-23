@@ -1,34 +1,6 @@
 import { getJsonHierarchy } from "../hierarchy.js";
 
-export const REQUIRED_PATHS = [
-  "metadata",
-  "metadata.name",
-  "metadata.version",
-  "metadata.author",
-  "size",
-  "size.w",
-  "size.h",
-  "minSize",
-  "minSize.h",
-  "maxSize",
-  "maxSize.w",
-  "maxSize.h",
-  "position",
-  "state",
-  "state.resizable",
-  "state.minimized",
-  "state.maximized",
-  "state.fullscreen",
-  "controls",
-  "controls.minimize",
-  "controls.maximize",
-  "controls.close",
-  "files",
-  "files.js",
-  "files.css",
-  "files.html",
-  "id",
-];
+export const REQUIRED_PATHS = ["metadata", "metadata.name", "metadata.version", "metadata.author", "size", "size.w", "size.h", "minSize", "minSize.h", "maxSize", "maxSize.w", "maxSize.h", "position", "state", "state.resizable", "state.minimized", "state.maximized", "state.fullscreen", "controls", "controls.minimize", "controls.maximize", "controls.close", "files", "files.js", "files.css", "files.html", "id"];
 
 export function appDataComplete(data) {
   data = { ...data };

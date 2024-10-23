@@ -25,12 +25,7 @@ export default async function render() {
 
   await Sleep(0);
 
-  crashText.innerText += `\n\n${LogStore.map(
-    ({ type, kernelTime, source, message }) =>
-      `[${kernelTime.toString().padStart(8, "0")}] ${
-        LogType[type]
-      } ${source}: ${message}`
-  )
+  crashText.innerText += `\n\n${LogStore.map(({ type, kernelTime, source, message }) => `[${kernelTime.toString().padStart(8, "0")}] ${LogType[type]} ${source}: ${message}`)
     .reverse()
     .join("\n")}`;
 

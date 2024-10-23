@@ -19,16 +19,8 @@ export class IneptaRegistry extends KernelModule {
     await this.loadRegistry();
 
     this.registrySync();
-    this.setValue(
-      RegistryHives.kernel,
-      "Registry.lastLoadTime",
-      new Date().getTime()
-    );
-    this.setValue(
-      RegistryHives.kernel,
-      "Registry.initialSize",
-      JSON.stringify(this.store.get()).length
-    );
+    this.setValue(RegistryHives.kernel, "Registry.lastLoadTime", new Date().getTime());
+    this.setValue(RegistryHives.kernel, "Registry.initialSize", JSON.stringify(this.store.get()).length);
   }
 
   async loadRegistry() {
@@ -57,10 +49,7 @@ export class IneptaRegistry extends KernelModule {
     const absolutePath = `${hive}.${path}`;
     const store = this.store.get();
 
-    Log(
-      `IneptaRegistry.setValue`,
-      `Registry/${absolutePath.replaceAll(".", "/")}`
-    );
+    Log(`IneptaRegistry.setValue`, `Registry/${absolutePath.replaceAll(".", "/")}`);
 
     setJsonHierarchy(store, absolutePath, value);
 

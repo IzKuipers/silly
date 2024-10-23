@@ -23,19 +23,11 @@ export function stringifyObject(obj, indent = 2) {
       seen.add(value); // Mark object as seen
 
       if (Array.isArray(value)) {
-        const arrayItems = value
-          .map((item) => `${nextIndent}${stringify(item, level + 1)}`)
-          .join(",\n");
+        const arrayItems = value.map((item) => `${nextIndent}${stringify(item, level + 1)}`).join(",\n");
         return `[\n${arrayItems}\n${currentIndent}]`;
       } else {
         const entries = Object.entries(value)
-          .map(
-            ([key, val]) =>
-              `${nextIndent}${JSON.stringify(key)}: ${stringify(
-                val,
-                level + 1
-              )}`
-          )
+          .map(([key, val]) => `${nextIndent}${JSON.stringify(key)}: ${stringify(val, level + 1)}`)
           .join(",\n");
         return `{\n${entries}\n${currentIndent}}`;
       }
@@ -102,9 +94,7 @@ export function stringifyClassSource(instance) {
   const constructorSource = instance.constructor.toString();
 
   // Extract constructor body if the constructor exists
-  const constructorBody = constructorSource.includes("constructor")
-    ? getInstanceProperties(instance)
-    : "";
+  const constructorBody = constructorSource.includes("constructor") ? getInstanceProperties(instance) : "";
 
   // Get prototype methods (non-static)
   const prototypeMethods = getMethods(Object.getPrototypeOf(instance));

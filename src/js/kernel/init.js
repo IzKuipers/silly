@@ -12,10 +12,6 @@ export class InitProcess extends Process {
 
   jumpstart() {
     // USER SPACE STARTS HERE
-    KERNEL.state.loadState(
-      KERNEL.state.store[KERNEL.params.get("state") || "boot"],
-      {},
-      false
-    );
+    KERNEL.state.loadState(KERNEL.state.store[KERNEL.params.get("state") || "boot"], {}, false);
   }
 }

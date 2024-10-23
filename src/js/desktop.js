@@ -1,4 +1,3 @@
-import { KERNEL } from "../env.js";
 import { loadBuiltinApps } from "./apps/builtin.js";
 import { loadApp } from "./apps/load.js";
 import { spawnApp } from "./apps/spawn.js";

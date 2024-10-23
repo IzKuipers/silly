@@ -37,10 +37,7 @@ export class ProcessHandler extends KernelModule {
     const pid = this.getPid();
     const proc = new process(this, pid, parentPid, ...args);
 
-    Log(
-      "ProcessHandler.spawn",
-      `Spawning new ${proc.constructor.name} (PID ${pid})`
-    );
+    Log("ProcessHandler.spawn", `Spawning new ${proc.constructor.name} (PID ${pid})`);
 
     if (proc.start) {
       const result = await proc.start();

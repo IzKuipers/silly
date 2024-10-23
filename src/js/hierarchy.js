@@ -40,8 +40,7 @@ export function setJsonHierarchy(object, hierarchy, value) {
   }
 
   // If the value is either null or undefined, delete the value in the target object
-  if (value === undefined || value === null)
-    delete currentObj[parts[lastIndex]];
+  if (value === undefined || value === null) delete currentObj[parts[lastIndex]];
   // Otherwise, set the value in the target object
   else currentObj[parts[lastIndex]] = value;
 

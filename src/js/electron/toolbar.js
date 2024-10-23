@@ -76,10 +76,7 @@ export class ToolbarModule extends KernelModule {
   }
 
   fullscreenListener() {
-    Log(
-      "ToolbarModule.fullscreenListener",
-      "Assigning listeners for fullscreen changes"
-    );
+    Log("ToolbarModule.fullscreenListener", "Assigning listeners for fullscreen changes");
 
     try {
       const window = BrowserWindow.getAllWindows()[0];
@@ -94,11 +91,7 @@ export class ToolbarModule extends KernelModule {
 
       this.fullscreen.set(window.fullScreen);
     } catch {
-      Log(
-        "ToolbarModule.fullscreenListener",
-        "Failed to start fullscreen listener",
-        LogType.warning
-      );
+      Log("ToolbarModule.fullscreenListener", "Failed to start fullscreen listener", LogType.warning);
 
       this.fullscreen.set(true);
     }
@@ -140,11 +133,7 @@ export class ToolbarModule extends KernelModule {
     try {
       BrowserWindow.getFocusedWindow().minimize();
     } catch {
-      Log(
-        "ToolbarModule.minimize",
-        "Failed to call minimize on focused BrowserWindow",
-        LogType.error
-      );
+      Log("ToolbarModule.minimize", "Failed to call minimize on focused BrowserWindow", LogType.error);
     }
   }
 
@@ -158,11 +147,7 @@ export class ToolbarModule extends KernelModule {
         focusedWindow.fullScreen = true;
       }
     } catch {
-      Log(
-        "ToolbarModule.fullscreen",
-        "Failed to access focused BrowserWindow to toggle fullscreen",
-        LogType.error
-      );
+      Log("ToolbarModule.fullscreen", "Failed to access focused BrowserWindow to toggle fullscreen", LogType.error);
     }
   }
 
@@ -172,20 +157,12 @@ export class ToolbarModule extends KernelModule {
 
       window.toggleDevTools();
     } catch {
-      Log(
-        "ToolbarModule.toggleDevTools",
-        "Failed to access BrowserWindow to toggle developer tools",
-        LogType.error
-      );
+      Log("ToolbarModule.toggleDevTools", "Failed to access BrowserWindow to toggle developer tools", LogType.error);
     }
   }
 
   close() {
-    if (
-      kernel.state.currentState === "desktop" ||
-      kernel.state.currentState === "login"
-    )
-      this.powerLogic.shutdown();
+    if (kernel.state.currentState === "desktop" || kernel.state.currentState === "login") this.powerLogic.shutdown();
     else window.close();
   }
 }

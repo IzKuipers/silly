@@ -21,8 +21,7 @@ export default class MsgBoxProcess extends AppProcess {
 
     const { buttons, icon, title, message } = this.data;
 
-    if (!buttons || !icon || !title || !message)
-      throw new AppRuntimeError(`Got invalid MsgBox data`);
+    if (!buttons || !icon || !title || !message) throw new AppRuntimeError(`Got invalid MsgBox data`);
 
     iconElement.src = icon;
     messageField.innerHTML = message;

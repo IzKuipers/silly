@@ -9,10 +9,7 @@ export class ProcessDispatch {
   }
 
   subscribe(event, callback) {
-    Log(
-      `ProcessDispatch::'${this.parent.name}'`,
-      `Subscribing to event "${event}"`
-    );
+    Log(`ProcessDispatch::'${this.parent.name}'`, `Subscribing to event "${event}"`);
 
     if (!this.store[event]) this.store[event] = [];
 
@@ -20,10 +17,7 @@ export class ProcessDispatch {
   }
 
   dispatch(event, ...data) {
-    Log(
-      `ProcessDispatch::'${this.parent.name}'`,
-      `Dispatching event "${event}"`
-    );
+    Log(`ProcessDispatch::'${this.parent.name}'`, `Dispatching event "${event}"`);
 
     const callbacks = this.store[event];
 

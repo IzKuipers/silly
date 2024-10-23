@@ -61,8 +61,7 @@ export default class ShellProcess extends AppProcess {
   startActiveAppsPopulator() {
     const activeApps = this.getElement("#activeApps");
 
-    if (!activeApps)
-      throw new AppRuntimeError("Failed to find #activeApps div");
+    if (!activeApps) throw new AppRuntimeError("Failed to find #activeApps div");
 
     const populate = this.safe((v = this.handler.store.get()) => {
       activeApps.innerHTML = "";
@@ -112,8 +111,7 @@ export default class ShellProcess extends AppProcess {
   updateActiveAppsFocus(focusedPid = this.handler.renderer.focusedPid.get()) {
     const activeApps = this.getElement("#activeApps");
 
-    if (!activeApps)
-      throw new AppRuntimeError("Failed to find #activeApps div");
+    if (!activeApps) throw new AppRuntimeError("Failed to find #activeApps div");
 
     for (const button of activeApps.children) {
       const pid = button.getAttribute("data-pid");
@@ -211,10 +209,7 @@ export default class ShellProcess extends AppProcess {
         e.stopPropagation();
         e.stopImmediatePropagation();
 
-        if (
-          !e.composedPath().includes(startMenu) &&
-          !e.composedPath().includes(startButton)
-        ) {
+        if (!e.composedPath().includes(startMenu) && !e.composedPath().includes(startButton)) {
           this.startOpened.set(false);
         }
       })
@@ -234,8 +229,7 @@ export default class ShellProcess extends AppProcess {
   }
 
   checkSafeShutdown() {
-    const shutdownProperly =
-      this.powerLogic.getRegistryValue("shutdownProperly");
+    const shutdownProperly = this.powerLogic.getRegistryValue("shutdownProperly");
 
     if (shutdownProperly) {
       this.powerLogic.setRegistryValue("shutdownProperly", undefined);

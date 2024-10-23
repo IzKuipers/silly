@@ -45,14 +45,8 @@ export default class InepVerProcess extends AppProcess {
   _setupBy() {
     const initialSetupBy = this.getElement("#initialSetupBy", true);
 
-    const { finishedAt, doneBy } = this.registry.getValue(
-      RegistryHives.local,
-      "initialSetup"
-    );
+    const { finishedAt, doneBy } = this.registry.getValue(RegistryHives.local, "initialSetup");
 
-    initialSetupBy.innerText = `${doneBy} on ${strftime(
-      "%A %e %B %Y at %k:%M",
-      new Date(finishedAt)
-    )}`;
+    initialSetupBy.innerText = `${doneBy} on ${strftime("%A %e %B %Y at %k:%M", new Date(finishedAt))}`;
   }
 }

@@ -5,8 +5,7 @@ import { AppLoadError } from "./error.js";
 import { AppStore } from "./store.js";
 
 export async function spawnApp(id, parent = undefined, ...args) {
-  if (!KERNEL.stack)
-    throw new AppLoadError(`Tried to spawn an app without a handler`);
+  if (!KERNEL.stack) throw new AppLoadError(`Tried to spawn an app without a handler`);
 
   const stored = AppStore.get()[id];
 
@@ -32,9 +31,7 @@ export async function spawnApp(id, parent = undefined, ...args) {
 
   app.data = JSON.parse(JSON.stringify(app.data));
 
-  return (
-    (await KERNEL.stack.spawn(app.process, parent, app, ...args)) === "success"
-  );
+  return (await KERNEL.stack.spawn(app.process, parent, app, ...args)) === "success";
 }
 
 export async function spawnAppExternal(metadata, parent = undefined, ...args) {

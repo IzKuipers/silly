@@ -21,32 +21,10 @@ export function strftime(sFormat, date) {
   const nYear = date.getFullYear();
   const nHour = date.getHours();
   const nTime = date.getTime();
-  const aDays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const aMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  const aDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const aMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-  const isLeapYear = () =>
-    (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
+  const isLeapYear = () => (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
   const getThursday = () => {
     const target = new Date(date);
     target.setDate(nDate - ((nDay + 6) % 7) + 3);
@@ -65,17 +43,12 @@ export function strftime(sFormat, date) {
         "%C": Math.floor(nYear / 100),
         "%d": zeroPad(nDate, 2),
         "%e": nDate,
-        "%F": new Date(nTime - date.getTimezoneOffset() * 60000)
-          .toISOString()
-          .slice(0, 10),
+        "%F": new Date(nTime - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10),
         "%G": getThursday().getFullYear(),
         "%g": (getThursday().getFullYear() + "").slice(2),
         "%H": zeroPad(nHour, 2),
         "%I": zeroPad(((nHour + 11) % 12) + 1, 2),
-        "%j": zeroPad(
-          aDayCount[nMonth] + nDate + (nMonth > 1 && isLeapYear() ? 1 : 0),
-          3
-        ),
+        "%j": zeroPad(aDayCount[nMonth] + nDate + (nMonth > 1 && isLeapYear() ? 1 : 0), 3),
         "%k": nHour,
         "%l": ((nHour + 11) % 12) + 1,
         "%m": zeroPad(nMonth + 1, 2),

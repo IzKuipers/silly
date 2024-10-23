@@ -76,10 +76,7 @@ export class UserLogic extends KernelModule {
 
     const preferencesPath = join(user.userFolder, "preferences.json");
 
-    await this.fs.writeFile(
-      preferencesPath,
-      JSON.stringify(DefaultUserPreferences)
-    );
+    await this.fs.writeFile(preferencesPath, JSON.stringify(DefaultUserPreferences));
   }
 
   async hashPassword(password) {

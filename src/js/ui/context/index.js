@@ -65,8 +65,7 @@ export class ContextMenuLogic extends KernelModule {
 
   correctMenuPosition(x, y) {
     const { offsetWidth: width, offsetHeight: height } = this.menu;
-    const { width: screenWidth, height: screenHeight } =
-      document.body.getBoundingClientRect();
+    const { width: screenWidth, height: screenHeight } = document.body.getBoundingClientRect();
 
     if (x + width >= screenWidth) {
       x = screenWidth - width - 10;

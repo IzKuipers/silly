@@ -46,9 +46,6 @@ div.window.cabinet div.address-bar-wrapper #goButton {
   line-height: 16px;
 }
 
-div.window.cabinet
-  div.address-bar-wrapper
-  #goButton
-  > span.material-symbols-outlined {
+div.window.cabinet div.address-bar-wrapper #goButton > span.material-symbols-outlined {
   font-size: 16px;
 }

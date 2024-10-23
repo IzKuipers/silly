@@ -115,16 +115,11 @@ export default class SetupHelperProcess extends AppProcess {
   }
 
   async createFirstUser() {
-    if (
-      !this.usernameField.value ||
-      !this.passwordField.value ||
-      !this.confirmField.value
-    ) {
+    if (!this.usernameField.value || !this.passwordField.value || !this.confirmField.value) {
       MessageBox(
         {
           title: "Missing values",
-          message:
-            "You forgot to fill out one of the fields! Please fill out all fields before continuing.",
+          message: "You forgot to fill out one of the fields! Please fill out all fields before continuing.",
           buttons: [{ caption: "Okay", action() {} }],
           icon: MessageIcons.warning,
         },
@@ -156,28 +151,12 @@ export default class SetupHelperProcess extends AppProcess {
   }
 
   async finish() {
-    await this.userlogic.createUser(
-      this.usernameField.value,
-      this.passwordField.value,
-      true
-    );
+    await this.userlogic.createUser(this.usernameField.value, this.passwordField.value, true);
 
-    this.registry.setValue(
-      RegistryHives.local,
-      "initialSetup.finishedAt",
-      new Date().getTime()
-    );
-    this.registry.setValue(
-      RegistryHives.local,
-      "initialSetup.doneBy",
-      this.usernameField.value
-    );
+    this.registry.setValue(RegistryHives.local, "initialSetup.finishedAt", new Date().getTime());
+    this.registry.setValue(RegistryHives.local, "initialSetup.doneBy", this.usernameField.value);
     this.registry.setValue(RegistryHives.local, "initialSetup.completed", true);
-    this.registry.setValue(
-      RegistryHives.local,
-      "initialSetup.installVersion",
-      VERSION
-    );
+    this.registry.setValue(RegistryHives.local, "initialSetup.installVersion", VERSION);
 
     this.powerLogic.restart();
   }
