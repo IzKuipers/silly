@@ -1,3 +1,9 @@
+/**
+ * UNDOCUMENTED -- Copied from the Neodrag codebase.
+ *
+ * https://github.com/PuruVJ/neodrag
+ */
+
 // ../core/dist/index.js
 let DEFAULT_RECOMPUTE_BOUNDS = {
   dragStart: true,

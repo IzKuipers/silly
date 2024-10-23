@@ -7,19 +7,29 @@ import { Sleep } from "./sleep.js";
 import { StateError } from "./state/error.js";
 import { UserData } from "./user/data.js";
 
+// Renderer function invoked when the Desktop state is being loaded
 export default async function render() {
+  // Get the state loader (note the "desktop" class at the end)
   const stateLoader = document.querySelector("#stateLoader.desktop");
 
+  // Are we being loaded properly?
   if (!stateLoader)
+    // Nope; stop.
     throw new StateError("Desktop render invocation outside StateLoader!");
 
+  // Load all built-in applications
   await loadBuiltinApps();
 
+  // Subscribing to the user preferences...
   UserData.subscribe((v) => {
+    // No preferences? Stop.
     if (!v) return;
 
+    // Set the theme attribute of the state loader according to the user's preferences
     stateLoader.setAttribute("data-theme", v.theme || "dark");
   });
+
+  // DEBUG AREA STARTS HERE ///////////////////////////////////////////////////////////////////////
 
   document.addEventListener("keydown", async (e) => {
     if (e.key.toLowerCase() === "f8") {
@@ -36,7 +46,6 @@ export default async function render() {
     }
   });
 
-  window.kernel = KERNEL;
   window.spawnApp = spawnApp;
   window.loadApp = loadApp;
   window.userData = UserData;

@@ -3,11 +3,15 @@ import { Log, LogType } from "./logging.js";
 
 export let CRASHING = false;
 
+// Crash processes global errors & unhandled rejections to send the user to the crash screen
 export function Crash(reason) {
-  if (CRASHING) return;
+  // Are we crashing?
+  if (CRASHING) return; // yes; stop.
 
+  // We sure are crashing now
   CRASHING = true;
 
+  // Make note of the crash
   Log(`Crash`, `### ---![ WE ARE CRASHING! ]!--- ###`, LogType.critical);
   Log(
     `Crash`,
@@ -15,5 +19,9 @@ export function Crash(reason) {
     LogType.critical
   );
 
-  KERNEL.state.loadState(KERNEL.state.store.crash, { reason }, true);
+  // Get the currently loaded StateHandler
+  const state = KERNEL.getModule("state");
+
+  // Load the crash state
+  state.loadState(state.store.crash, { reason }, true);
 }
