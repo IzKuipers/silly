@@ -3,12 +3,15 @@ import { spawnApp } from "../../js/apps/spawn.js";
 import { strftime } from "../../js/desktop/date.js";
 import { MessageBox } from "../../js/desktop/message.js";
 import { MessageIcons } from "../../js/images/msgbox.js";
+import { Store } from "../../js/store.js";
 
 const { sep } = require("path");
 
 export default class CabinetProcess extends AppProcess {
   path;
   contents;
+  historyIndex = Store(-1);
+  history = Store([]);
 
   constructor(handler, pid, parentPid, app, path) {
     super(handler, pid, parentPid, app);
@@ -21,9 +24,39 @@ export default class CabinetProcess extends AppProcess {
     this.navigate(this.path);
     this.updateLocations();
     this.updateFavourites();
+    this.navigationControls();
+
+    this.historyIndex.subscribe((v) => {
+      const backButton = this.getElement("#backButton", true);
+      const forwardButton = this.getElement("#forwardButton", true);
+
+      const historyLength = this.history.get().length;
+
+      backButton.disabled = v <= 0;
+      forwardButton.disabled = v >= historyLength - 1;
+    });
   }
 
   navigate(path) {
+    const history = this.history.get();
+    let index = this.historyIndex.get();
+
+    if (index === history.length - 1) {
+      if (history[history.length - 1] !== path) history.push(path);
+    } else {
+      history.splice(this.historyIndex.get());
+      history.push(path);
+    }
+
+    index = history.length - 1;
+
+    this.history.set(history);
+    this.historyIndex.set(index);
+
+    this.goHere(path);
+  }
+
+  goHere(path) {
     try {
       const contents = this.fs.readDirectory(path);
 
@@ -190,5 +223,56 @@ export default class CabinetProcess extends AppProcess {
 
     driveItem.append(driveIcon, driveCaption);
     locations.append(driveItem);
+  }
+
+  parentDir() {
+    this.navigate(this.fs.getParentDirectory(this.path));
+  }
+
+  navigationControls() {
+    const backButton = this.getElement("#backButton", true);
+    const forwardButton = this.getElement("#forwardButton", true);
+    const parentButton = this.getElement("#parentButton", true);
+
+    backButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.back();
+      })
+    );
+
+    forwardButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.forward();
+      })
+    );
+
+    parentButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.parentDir();
+      })
+    );
+  }
+
+  back() {
+    let index = this.historyIndex.get();
+
+    index--;
+
+    this.historyIndex.set(index);
+
+    this.goHere(this.history.get()[index]);
+  }
+
+  forward() {
+    let index = this.historyIndex.get();
+
+    index++;
+
+    this.historyIndex.set(index);
+
+    this.goHere(this.history.get()[index]);
   }
 }

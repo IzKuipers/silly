@@ -122,4 +122,18 @@ export class FileSystem extends KernelModule {
     }
     fs.mkdirSync(this.root, { recursive: true });
   }
+
+  // Method to find the parent directory of a path
+  getParentDirectory(p) {
+    const split = p.split(path.sep);
+
+    if (p == "." || !split.length) return p;
+    if (split.length == 1) return ".";
+
+    split.splice(-1);
+
+    const newPath = split.join(path.sep);
+
+    return newPath;
+  }
 }
