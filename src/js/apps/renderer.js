@@ -1,3 +1,17 @@
+/**
+ * App Renderer class
+ *
+ * Created by Izaak Kuipers.
+ *
+ * The class responsible for putting all windows on the screen, regardless of what state we're in. This class
+ * should be initialized once by the Process Handler when it is constructed by the Kernel, nowhere else.
+ *
+ * Original Filename: src/js/apps/renderer.js
+ *
+ * - Izaak Kuipers <izaak.kuipers@gmail.com>
+ *   24-Oct-2024, 6:02 PM
+ */
+
 import { RendererPid } from "../../env.js";
 import { MessageBox } from "../desktop/message.js";
 import { AppIcons } from "../images/apps.js";
@@ -16,103 +30,136 @@ export class AppRenderer extends Process {
   focusedPid = Store(-1);
 
   constructor(handler, pid, parentPid, target) {
-    super(handler, pid, parentPid);
+    super(handler, pid, parentPid); // Let's first initialize the Process
 
+    // Get the element where apps should be rendered
     const targetDiv = document.getElementById(target);
 
+    // No target? No apps. It's just that simple.
     if (!targetDiv) throw new AppRendererError("Tried to create an app renderer on a non existent element");
 
-    this.target = targetDiv;
-    RendererPid.set(this._pid);
+    this.target = targetDiv; // Move the target to a class property
+    RendererPid.set(this._pid); // Set the global Renderer PID to this process
   }
 
+  // disposedCheck: a function used to determine whether or not the renderer was killed. This function
+  // has to be called in every other function to stop the rendering as soon as possible.
   disposedCheck() {
     if (this._disposed) {
       throw new AppRendererError(`AppRenderer with PID ${this._pid} was killed`);
     }
   }
 
+  // Sync function: used to check for windows that have been spawned, and windows that are destroyed.
   sync() {
-    this.disposedCheck();
-    this.syncNewbies();
-    this.syncDisposed();
+    this.disposedCheck(); // Are we disposed?
+    this.syncNewbies(); // Render any newly spawned processes
+    this.syncDisposed(); // Destroy any disposed processes
   }
 
+  // Function to render any newly spawned processes
   syncNewbies() {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
+    // The array that contains all new app processes
     const appProcesses = [];
 
+    // For every process in the ProcessHandler...
     for (const [_, proc] of [...this.handler.store.get()]) {
+      // If it's an app and it's not disposed, add it
       if (proc.app && !proc._disposed) appProcesses.push(proc);
     }
 
+    // For every app process...
     for (const process of appProcesses) {
+      // Get the instances of the app process from the current renderer state
       const presentInstances = this.currentState.filter((p) => p == process._pid);
 
+      // Are there no instances, and is the process an app?
       if (!presentInstances.length && process.app) {
+        // Then add the instance PID to the current state ...
         this.currentState.push(process._pid);
 
+        // ... and render the app.
         this.render(process);
       }
     }
   }
 
   syncDisposed() {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
+    // For every process in the current renderer state...
     for (const pid of this.currentState) {
+      // Get the process via its PID...
       const process = this.handler.getProcess(pid);
 
+      // Does it still exist? Stop.
       if (process) continue;
 
+      // It's gone! Get rid of the window.
       this.remove(pid);
     }
   }
 
+  /**
+   * render: the main renderer function of the App Renderer.
+   *
+   * This function is called for every app to get its window rendered on the screen for the user to
+   * interact with. It's arguably the most important function of the Inepta UI. It takes the AppProcess
+   * instance of the app, and renders out an HTML window, after which it adds that window to the renderer's
+   * target (with a bunch of stuff in between).
+   *
+   * It's also responsible for handling errors in the app runtime, and making sure those errors are displayed
+   * to the user in a dialog.
+   */
   async render(process) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    if (process._disposed) return;
+    if (process._disposed) return; // Is the process disposed?
 
-    const window = document.createElement("div");
-    const titlebar = this._renderTitlebar(process);
-    const body = document.createElement("div");
-    const styling = document.createElement("link");
+    const window = document.createElement("div"); // The main window div
+    const titlebar = this._renderTitlebar(process); // The titlebar
+    const body = document.createElement("div"); // The body of the window
+    const styling = document.createElement("link"); // The <link> used to load the CSS
 
-    const { app } = process;
-    const { data } = app;
+    const { app } = process; // The app data
+    const { data } = app; // The metadata from the app dat
 
-    styling.rel = "stylesheet";
-    styling.href = data.files.css;
-    styling.id = `$${process._pid}`;
+    styling.rel = "stylesheet"; // Set the <link> type to stylesheet
+    styling.href = data.files.css; // Set the href of the <link> to the URL from the metadata
+    styling.id = `$${process._pid}`; // Add the PID of the process to the <link>'s ID
 
-    document.body.append(styling);
+    document.body.append(styling); // Append the <link> to the body of the page
 
-    await Sleep(100);
+    await Sleep(100); // Wait for the CSS to load (CSS issues? try increasing this value.)
 
-    await this._windowHtml(body, data);
+    await this._windowHtml(body, data); // Add the app's body HTML to the window
 
-    body.className = "body";
+    body.className = "body"; // Set the body class
 
-    window.className = "window";
-    window.setAttribute("data-pid", process._pid);
-    window.setAttribute("data-id", data.id);
-    window.append(titlebar, body);
-    window.classList.add(data.id);
+    window.className = "window"; // Set the window class
+    window.setAttribute("data-pid", process._pid); // Add the process PID to the window
+    window.setAttribute("data-id", data.id); // add the app Id to the window
+    window.append(titlebar, body); // Append the titlebar and body to the window
+    window.classList.add(data.id); // Add the app ID to the window class
 
+    // Add additional classes and style attributes to the window based on the metadata
     this._windowClasses(window, data);
+    // Drag the window and listen for `focusedPid` changes
     this._windowEvents(process._pid, window, titlebar, data);
 
+    // Finally, add the window HTML to the body before letting the JS loose.
     this.target.append(window);
 
     try {
-      await process.render();
-      this.focusPid(process._pid);
-      await process.CrashDetection();
+      await process.render(); // Call the render() function of the process
+      this.focusPid(process._pid); // Focus the window
+      await process.CrashDetection(); // Start the Crash Detection
     } catch (e) {
+      // Only show the error message if the app isn't disposed
       if (!process._disposed) {
-        // if (true) {
+        // The HTML of the error message
         const lines = [`<b><code>${data.id}::'${data.metadata.name}'</code> (PID ${process._pid}) has encountered a problem and needs to close. I am sorry for the inconvenience.</b>`, `If you were in the middle of something, the information you were working on might be lost. You can choose to view the call stack, which may contain the reason for the crash.`, `<details><summary>Show call stack</summary><pre>${htmlspecialchars(e.stack.replaceAll(location.href, ""))}</pre></details>`];
 
         MessageBox({
@@ -275,8 +322,6 @@ export class AppRenderer extends Process {
 
       titlebar.append(close);
     }
-
-    // TODO: app icons and window specific icons; inject into titlebar here.
 
     titleCaption.innerText = `${data.metadata.name}`;
     titleIcon.src = data.metadata.icon || AppIcons.default;

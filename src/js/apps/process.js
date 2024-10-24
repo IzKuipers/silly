@@ -144,8 +144,10 @@ export class AppProcess extends Process {
     );
   }
 
+  // Function called by the renderer when the HTML of the app is loaded. Intended to be overridden by child classes.
   render() {}
 
+  // SingleInstance: makes sure that an app can only be launched once at a time
   getSingleInstanceLock() {
     const { renderer } = this.handler;
 
@@ -154,16 +156,19 @@ export class AppProcess extends Process {
     return !instances.length;
   }
 
+  // Function to terminate the process if it's not the first (and therefor only) instance
   closeIfSecondInstance() {
     const hasLock = this.getSingleInstanceLock();
 
     if (!hasLock) this.killSelf();
   }
 
+  // Assign default dispatch calls to the process' dispatch
   assignDispatchSubscribers() {
     this.dispatch.subscribe(
       "close-window",
       this.safe(() => {
+        // When received: closes the window
         this.closeWindow();
       })
     );
@@ -171,6 +176,7 @@ export class AppProcess extends Process {
     this.dispatch.subscribe(
       "close-second-instance",
       this.safe(() => {
+        // When received: terminates if second instance
         this.closeIfSecondInstance();
       })
     );
@@ -178,59 +184,76 @@ export class AppProcess extends Process {
     this.dispatch.subscribe(
       "panic-button",
       this.safe(() => {
+        // When received: causes the app to crash on command
         throw new Error("Panic!");
       })
     );
   }
 
+  // Application children: child metadata listed in `app.data.children`, which contains supportive applications that
+  // add to the functionality of the app. Children are loaded when the app process is spawned, and do not reside in
+  // the global App Store, rather in this class instance.
   async registerChildren() {
     Log(`AppProcess::'${this._pid}'.registerChildren`, `Locating and loading contents of app.data.children`);
 
+    // Get the children from the app metadata
     const children = this.app.data.children;
 
+    // No children? No problem. (that's not me implying anything, hol' up)
     if (!children) return;
 
+    // For every found child...
     for (const childMetaPath of children) {
       Log(`AppProcess::'${this._pid}'.registerChildren`, `Attempting import of ${childMetaPath}`);
 
       try {
-        const { default: meta } = await import(childMetaPath);
+        const { default: meta } = await import(childMetaPath); // Import the child's metadata
 
-        if (!meta) continue;
+        if (!meta) continue; // No meta? skip it.
 
+        // Add the metadata of the child to the Child Store
         this.children[meta.id] = meta;
       } catch {
+        // Make note if anything went wrong
         Log(`AppProcess::'${this._pid}'.registerChildren`, `Attempting import of ${childMetaPath} failed!`, LogType.error);
 
-        continue;
+        continue; // Error? Continue.
       }
     }
   }
 
+  // Function to spawn a child that's loaded by registerChildren()
   async spawnChild(id, ...args) {
+    // Get the child
     const child = this.children[id];
 
+    // No child? stop.
     if (!child) return false;
 
-    await spawnAppExternal(child, this._pid, ...args);
+    // Spawn the child
+    return await spawnAppExternal(child, this._pid, ...args);
   }
 
+  // Wrapper function for quickly assigning a right-click (context) menu to an element
   contextMenu(element, optionsCallback) {
     element.addEventListener(
       "contextmenu",
       this.safe(async (e) => {
+        // Spawn the menu, awaiting optionsCallback for the options to display
         this.context.showMenu(e.clientX, e.clientY, await optionsCallback());
       })
     );
   }
 
+  // Wrapper function for quickly assigning a right-click (context) menu to an element
   clickMenu(element, optionsCallback) {
     element.addEventListener(
       "click",
       this.safe(async (e) => {
-        const { x, y: clientY, height } = e.target.getBoundingClientRect();
-        const y = clientY + height + 2;
+        const { x, y: clientY, height } = e.target.getBoundingClientRect(); // Get the required bounding rect values
+        const y = clientY + height + 2; // Menu Y position: the Y position of the element, plus the height of the element, plus 2
 
+        // Spawn the menu, awaiting optionsCallback for the options to display
         this.context.showMenu(x, y, await optionsCallback());
       })
     );
