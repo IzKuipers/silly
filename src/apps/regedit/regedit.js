@@ -99,7 +99,7 @@ export default class RegEditProcess extends AppProcess {
           branch.classList.add("expanded");
         }
 
-        this.select(currentPath);
+        if (this.hierarchy.get() !== currentPath) this.select(currentPath);
       });
 
       this.hierarchy.subscribe((v) => {

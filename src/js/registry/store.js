@@ -4,4 +4,5 @@ export const RegistryHives = {
   users: "USERS",
   kernel: "KERNEL",
   config: "CONFIG",
+  security: "FSSEC",
 };

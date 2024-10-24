@@ -25,6 +25,24 @@ export class IneptaRegistry extends KernelModule {
       "Registry.initialSize",
       JSON.stringify(this.store.get()).length
     );
+
+    this.populateHives();
+  }
+
+  populateHives() {
+    for (const [id, hive] of Object.entries(RegistryHives)) {
+      const existingHive = getJsonHierarchy(this.store.get(), hive);
+
+      if (existingHive) continue;
+
+      const store = this.store.get();
+
+      Log(`IneptaRegistry.populateHives`, `Creating hive ${id} (Registry/${hive})`);
+
+      setJsonHierarchy(store, hive, {});
+
+      this.store.set(store);
+    }
   }
 
   async loadRegistry() {
