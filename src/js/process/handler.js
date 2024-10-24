@@ -24,7 +24,11 @@ export class ProcessHandler extends KernelModule {
   async startRenderer(renderTarget, initPid) {
     Log("ProcessHandler.startRenderer", "Starting renderer");
 
-    this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
+    try {
+      this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   /**
@@ -90,7 +94,7 @@ export class ProcessHandler extends KernelModule {
       if (proc._disposed) continue;
 
       if (proc.closeWindow) {
-        await proc.closeWindow();
+        proc.closeWindow();
 
         continue;
       }

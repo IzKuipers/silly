@@ -188,9 +188,9 @@ export default class LoginAppProcess extends AppProcess {
             caption: "Okay",
             action: async () => {
               await Sleep(10);
-              const focusedPid = this.handler.renderer.focusedPid;
 
-              focusedPid.set(this._pid);
+              this.handler.renderer.focusPid(this._pid);
+
               this.passwordField.value = "";
               this.passwordField.focus();
             },

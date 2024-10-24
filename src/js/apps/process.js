@@ -17,7 +17,7 @@ export class AppProcess extends Process {
   children = {};
 
   constructor(handler, pid, parentPid, app) {
-    super(handler, pid, parentPid, app);
+    super(handler, pid, parentPid);
 
     // Initialize base variables
     this.app = app;

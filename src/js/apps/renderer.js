@@ -245,11 +245,13 @@ export class AppRenderer extends Process {
     window.style.left = `${x}px`;
   }
 
+  // Window events: stuff like dragging and focusedPid
   _windowEvents(pid, window, titlebar, data) {
     this.disposedCheck();
 
     if (data.core) return; // Core applications don't need any fancy things
 
+    // Intialize Neodrag, legacyTranslate and gpuAcceleration are turned off because they break CSS scale animations
     new Draggable(window, {
       bounds: { top: 0, left: 0, right: 0 },
       handle: titlebar,
@@ -258,10 +260,12 @@ export class AppRenderer extends Process {
       gpuAcceleration: false,
     });
 
+    // Focus the window if it's interacted with
     window.addEventListener("mousedown", () => {
       this.focusPid(pid);
     });
 
+    // Subscribe to the focused pid, focusing the window as it changes
     this.focusedPid.subscribe((v) => {
       window.classList.remove("focused");
 
@@ -269,50 +273,57 @@ export class AppRenderer extends Process {
     });
   }
 
+  // Finds a window based on ID and focuses it
   focusPid(pid) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    const currentFocus = this.focusedPid.get();
-    const window = document.querySelector(`div.window[data-pid="${pid}"]`);
+    const currentFocus = this.focusedPid.get(); // Get the current focused PID
+    const window = document.querySelector(`div.window[data-pid="${pid}"]`); // Get the target window
 
+    // Unminimize the target PID
     this.unMinimize(pid);
 
+    // No window or already focused? stop.
     if (!window || currentFocus === pid) return;
 
-    this.maxZIndex++;
-    window.style.zIndex = this.maxZIndex;
+    this.maxZIndex++; // Increment the z-index threshold
+    window.style.zIndex = this.maxZIndex; // Apply the new z-index threshold
 
-    this.focusedPid.set(pid);
+    this.focusedPid.set(pid); // Update the store
   }
 
+  // Gets the HTML of an app and applies it to the body of the window
   async _windowHtml(body, data) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
     try {
-      const html = await (await fetch(data.files.html)).text();
+      const html = await (await fetch(data.files.html)).text(); // Get the HTML by fetching it
 
-      body.innerHTML = html;
+      body.innerHTML = html; // Apply it to the body
     } catch {
+      // Error? File doesn't exist.
       throw new AppRendererError(`Failed to get HTML of ${data.id}`);
     }
   }
 
+  // Creates and returns the window titlebar
   _renderTitlebar(process) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    if (process.app.data.core) return ""; // Again, core apps don't need a titlebar
+    if (process.app.data.core) return ""; // Core apps don't need a titlebar
 
-    const titlebar = document.createElement("div");
-    const title = document.createElement("div");
-    const titleIcon = document.createElement("img");
-    const titleCaption = document.createElement("span");
-    const controls = document.createElement("div");
+    const titlebar = document.createElement("div"); // The titlebar
+    const title = document.createElement("div"); // titlebar > window title
+    const titleIcon = document.createElement("img"); // titlebar > window title > icon
+    const titleCaption = document.createElement("span"); // titlebar > window title > caption
+    const controls = document.createElement("div"); // titlebar > controls
 
-    controls.className = "controls";
+    controls.className = "controls"; // Set the controls class
 
-    const { app } = process;
-    const { data } = app;
+    const { app } = process; // Get the app data from the process
+    const { data } = app; // Get the metadata from the app data
 
+    // minimize button
     if (data.controls.minimize) {
       const minimize = document.createElement("button");
 
@@ -323,6 +334,7 @@ export class AppRenderer extends Process {
       controls.append(minimize);
     }
 
+    // maximize button
     if (data.controls.maximize) {
       const maximize = document.createElement("button");
 
@@ -333,6 +345,7 @@ export class AppRenderer extends Process {
       controls.append(maximize);
     }
 
+    // close button
     if (data.controls.close) {
       const close = document.createElement("button");
 
@@ -345,20 +358,24 @@ export class AppRenderer extends Process {
       titlebar.append(close);
     }
 
-    titleCaption.innerText = `${data.metadata.name}`;
-    titleIcon.src = data.metadata.icon || AppIcons.default;
+    titleCaption.innerText = `${data.metadata.name}`; // Set the window title caption
+    titleIcon.src = data.metadata.icon || AppIcons.default; // Set the window icon
 
+    // If the window title changes, reflect those changes in the titlebar
     process.windowTitle.subscribe((v) => {
       titleCaption.innerText = v;
     });
 
+    // Context menu options for a titlebar
     process.contextMenu(titlebar, () => [
+      // Just the app's name
       {
         caption: data.metadata.name,
         disabled: true,
         action: () => {},
         separator: true,
       },
+      // Minimize action
       {
         caption: "Minimize",
         disabled: !data.controls.minimize,
@@ -366,6 +383,7 @@ export class AppRenderer extends Process {
           this.toggleMinimize(process._pid);
         },
       },
+      // Maximize action
       {
         caption: "Maximize",
         disabled: !data.controls.maximize,
@@ -373,6 +391,7 @@ export class AppRenderer extends Process {
           this.toggleMaximize(process._pid);
         },
       },
+      // Close action
       {
         caption: "Close",
         disabled: !data.controls.close,
@@ -382,86 +401,97 @@ export class AppRenderer extends Process {
       },
     ]);
 
+    // Set the window title class
     title.className = "window-title";
     title.append(titleIcon, titleCaption);
 
+    // Set the titlebar class
     titlebar.className = "titlebar";
     titlebar.append(title, controls);
 
+    // Return the titlebar
     return titlebar;
   }
 
   async remove(pid) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    if (!pid) return;
+    if (!pid) return; // No pid? No removal.
 
-    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
-    const styling = document.body.querySelector(`link[id="$${pid}"`);
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`); // The window
+    const styling = document.body.querySelector(`link[id="$${pid}"`); // The imported CSS <link>
 
-    if (window) window.remove();
-    if (styling) styling.remove();
+    if (window) window.remove(); // Remove the window
+    if (styling) styling.remove(); // Unload the CSS
   }
 
+  // Toggles the maximized state of the specified PID
   toggleMaximize(pid) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`); // Get the window by its PID
 
-    if (!window) return;
+    if (!window) return; // No window? No problem.
 
-    window.classList.toggle("maximized");
+    window.classList.toggle("maximized"); // Toggle the maximized state
 
-    const process = this.handler.getProcess(+pid);
+    const process = this.handler.getProcess(+pid); // Get the process
 
-    if (!process || !process.app) return;
+    if (!process || !process.app) return; // No process or is the process not an app? Don't bother.
 
+    // Update the maximized state of the app metadata
     process.app.data.state.maximized = window.classList.contains("maximized");
   }
 
   unMinimize(pid) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`); // Get the window by its PID
 
-    if (!window) return;
+    if (!window) return; // No window? No problem.
 
-    window.classList.remove("minimized");
+    window.classList.remove("minimized"); // Remove the minimized class
 
-    const process = this.handler.getProcess(+pid);
+    const process = this.handler.getProcess(+pid); // Get the process
 
-    if (!process || !process.app) return;
+    if (!process || !process.app) return; // No process or is the process not an app? Don't bother.
 
+    // Update the minimized state of the app metadata
     process.app.data.state.minimized = false;
   }
 
   toggleMinimize(pid) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
-    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
+    const window = this.target.querySelector(`div.window[data-pid="${pid}"]`); // Get the window by its PID
 
-    if (!window) return;
+    if (!window) return; // No window? No problem.
 
-    window.classList.toggle("minimized");
+    window.classList.toggle("minimized"); // Toggle the minimized state
 
-    const process = this.handler.getProcess(+pid);
+    const process = this.handler.getProcess(+pid); // Get the process
 
-    if (!process || !process.app) return;
+    if (!process || !process.app) return; // No process or is the process not an app? Don't bother.
 
+    // Update the minimized state of the app metadata
     process.app.data.state.minimized = window.classList.contains("minimized");
   }
 
+  // Gets the instances of the provided app
   getAppInstances(id, origin = undefined) {
-    const result = [];
+    const result = []; // The resulting instances
 
+    // For every PID in the current state...
     for (const pid of this.currentState) {
-      if (pid === origin) continue;
+      if (pid === origin) continue; // If the PID is equal to the originating PID, skip it.
 
-      const proc = this.handler.getProcess(pid);
+      const proc = this.handler.getProcess(pid); // Get the process
 
+      // Check if 1) the process is an app and 2) if the ID matches. If it matches, add it to the result
       if (proc && proc.app && proc.app.data && proc.app.data.id === id) result.push(id);
     }
 
+    // Return the result
     return result;
   }
 }
