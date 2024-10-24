@@ -1,25 +1,24 @@
 div.electron-toolbar {
   position: fixed;
-  top: 0;
+  top: 10px;
   left: 50%;
   translate: -50% 0;
   width: 500px;
-  background-color: #0006;
+  background-color: #222;
   height: 40px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 10px;
   padding: 0 10px;
-  padding-right: 15px;
-  transition: translate 0.3s, box-shadow 0.3s;
+  transition: translate 0.3s, box-shadow 0.3s, opacity 0.3s;
   z-index: 1000000000000000000000000000000000000000000000000000000000000;
   backdrop-filter: blur(10px);
-  border: #fff4 1px solid;
-  border-top: 0;
-  box-shadow: 0 0 20px 0 #0006;
+  border: #666 1px solid;
+  box-shadow: 0 5px 20px 5px #0008;
+  outline: #222 1px solid !important;
+  color: #fff;
 }
 
 div.electron-toolbar-trigger {
@@ -33,22 +32,6 @@ div.electron-toolbar-trigger {
   z-index: 100000000000000000000000000000000000000000000000000000000000;
 }
 
-div.electron-toolbar button.devtools-toggle {
-  border: none;
-  color: #fff;
-  padding: 2px 5px;
-  border-radius: 5px;
-  background-color: transparent;
-}
-
-div.electron-toolbar button.devtools-toggle:hover {
-  background-color: #0004;
-}
-
-div.electron-toolbar button.devtools-toggle:active {
-  background-color: #0008;
-}
-
 div.electron-toolbar p.caption {
   position: absolute;
   left: 0;
@@ -58,15 +41,18 @@ div.electron-toolbar p.caption {
   height: 100%;
   line-height: 40px;
   pointer-events: none;
+  color: #ddd;
+  font-weight: bold;
 }
 
 div.electron-toolbar div.controls-wrapper {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
-div.electron-toolbar div.controls-wrapper button {
+div.electron-toolbar div.controls-wrapper button,
+div.electron-toolbar button.devtools-toggle {
   font-size: 16px;
   border: none;
   background-color: transparent;
@@ -83,6 +69,7 @@ div.electron-toolbar-trigger.hidden {
 }
 
 div.electron-toolbar.retracted {
-  translate: -50% -40px;
+  translate: -50% -60px;
   box-shadow: none;
+  opacity: 0;
 }

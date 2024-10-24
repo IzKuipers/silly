@@ -43,8 +43,8 @@ export class ToolbarModule extends KernelModule {
 
     this.assignHoverEvents(trigger, toolbar);
 
-    devtoolsToggle.className = "devtools-toggle";
-    devtoolsToggle.innerText = "DevTools";
+    devtoolsToggle.className = "devtools-toggle material-symbols-outlined";
+    devtoolsToggle.innerText = "bug_report";
     devtoolsToggle.addEventListener("click", () => this.toggleDevTools());
 
     minimizeButton.innerText = "minimize";
@@ -52,7 +52,7 @@ export class ToolbarModule extends KernelModule {
     minimizeButton.addEventListener("click", () => this.minimize());
 
     maximizeButton.className = "maximize material-symbols-outlined";
-    maximizeButton.innerText = "crop_square";
+    maximizeButton.innerText = "fullscreen_exit";
     maximizeButton.addEventListener("click", () => this.toggleFullscreen());
 
     closeButton.className = "close material-symbols-outlined";
