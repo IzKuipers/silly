@@ -6,6 +6,11 @@ div.window:not(.core) > div.body button {
   height: 32px;
 }
 
+div.window:not(.core) > div.body button:focus {
+  outline: var(--button-hover-bg) 1px solid !important;
+  outline-offset: -2px;
+}
+
 div.window:not(.core) > div.body button:hover {
   background-color: var(--button-hover-bg);
 }
