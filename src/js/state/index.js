@@ -10,7 +10,10 @@ export class StateHandler extends Process {
   currentState;
 
   constructor(handler, pid, parentPid, store = States) {
-    Log("StateHandler.constructor", `Constructing new StateHandler with a store containing ${Object.entries(store).length} states`);
+    Log(
+      "StateHandler.constructor",
+      `Constructing new StateHandler with a store containing ${Object.entries(store).length} states`
+    );
 
     super(handler, pid, parentPid);
     this.store = store;
@@ -23,7 +26,8 @@ export class StateHandler extends Process {
   async loadState({ html, css, js, name, identifier } = {}, props = {}, instant = false) {
     if (CRASHING && identifier != "crash-screen") return;
 
-    if (!html || !css || !js || !name || !identifier) throw new StateError("Attempted state load invocation without valid metadata");
+    if (!html || !css || !js || !name || !identifier)
+      throw new StateError("Attempted state load invocation without valid metadata");
 
     const { htmlLoader, cssLoader, main } = this.getStateLoaders();
 
@@ -78,7 +82,8 @@ export class StateHandler extends Process {
     const cssLoader = document.getElementById("stateCSSLoader");
     const htmlLoader = document.getElementById("stateLoader");
 
-    if (!cssLoader || !htmlLoader || !main) throw new StateError("Missing elements of state handling.");
+    if (!cssLoader || !htmlLoader || !main)
+      throw new StateError("Missing elements of state handling.");
 
     return { htmlLoader, cssLoader, main };
   }

@@ -51,7 +51,8 @@ export class IneptaKernel {
   loadUserModule(id, data) {
     Log("KERNEL", `Loading user module "${id}"`);
 
-    if (!data || typeof data !== "object" || this[id]) throw new Error(`Attempted to load invalid Kernel Module "${id}"`);
+    if (!data || typeof data !== "object" || this[id])
+      throw new Error(`Attempted to load invalid Kernel Module "${id}"`);
 
     this[id] = data;
     this.modules.push(id);

@@ -22,7 +22,20 @@ export function strftime(sFormat, date) {
   const nHour = date.getHours();
   const nTime = date.getTime();
   const aDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const aMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const aMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
   const isLeapYear = () => (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
   const getThursday = () => {

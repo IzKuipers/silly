@@ -12,5 +12,7 @@ export default async function render() {
 
   const versionNumber = document.querySelector("#stateLoader.login #versionNumber");
 
-  versionNumber.innerText = `Inepta v${VERSION.join(".")}-${KERNEL.BUILD}\n${Object.entries(KERNEL.state.store).length} States | ${KERNEL.modules.length} Kernel Modules`;
+  versionNumber.innerText = `Inepta v${VERSION.join(".")}-${KERNEL.BUILD}\n${
+    Object.entries(KERNEL.state.store).length
+  } States | ${KERNEL.modules.length} Kernel Modules`;
 }

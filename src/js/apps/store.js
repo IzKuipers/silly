@@ -11,4 +11,14 @@ import { Store } from "../store.js";
 
 export const AppStore = Store({});
 
-export const builtInApps = [MsgBoxApp, ShellApp, WallpaperApp, DebugToolApp, ProgManApp, RegEditApp, InepVerApp, NapkinApp, CabinetApp];
+export const builtInApps = [
+  MsgBoxApp,
+  ShellApp,
+  WallpaperApp,
+  DebugToolApp,
+  ProgManApp,
+  RegEditApp,
+  InepVerApp,
+  NapkinApp,
+  CabinetApp,
+];

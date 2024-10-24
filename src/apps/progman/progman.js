@@ -50,7 +50,9 @@ export default class ProgManProcess extends AppProcess {
 
     const counter = this.getElement("#runningAppsCounter", true);
 
-    counter.innerText = `${[...processes].filter(([_, proc]) => !proc._disposed).length} running process(es)`;
+    counter.innerText = `${
+      [...processes].filter(([_, proc]) => !proc._disposed).length
+    } running process(es)`;
 
     this.content.innerHTML = "";
 

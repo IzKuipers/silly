@@ -20,7 +20,11 @@ export class IneptaRegistry extends KernelModule {
 
     this.registrySync();
     this.setValue(RegistryHives.kernel, "Registry.lastLoadTime", new Date().getTime());
-    this.setValue(RegistryHives.kernel, "Registry.initialSize", JSON.stringify(this.store.get()).length);
+    this.setValue(
+      RegistryHives.kernel,
+      "Registry.initialSize",
+      JSON.stringify(this.store.get()).length
+    );
   }
 
   async loadRegistry() {

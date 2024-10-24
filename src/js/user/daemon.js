@@ -60,7 +60,10 @@ export class UserDaemon extends Process {
     } catch {
       UserData.set(DefaultUserPreferences);
 
-      this.fs.writeFile(this.preferencesPath, JSON.stringify({ ...DefaultUserPreferences, username: this.username }));
+      this.fs.writeFile(
+        this.preferencesPath,
+        JSON.stringify({ ...DefaultUserPreferences, username: this.username })
+      );
     }
   }
 
@@ -90,7 +93,17 @@ export class UserDaemon extends Process {
 
       const color = `#${v.accent || "ff6200"}`.replace("##", "#");
 
-      const { accent, light, dark, darker, superdark, start, startHover, startActive, coloredShell } = getAccentColorVariations(color);
+      const {
+        accent,
+        light,
+        dark,
+        darker,
+        superdark,
+        start,
+        startHover,
+        startActive,
+        coloredShell,
+      } = getAccentColorVariations(color);
 
       this.main.style.setProperty("--user-accent", accent);
       this.main.style.setProperty("--user-accent-light", light);

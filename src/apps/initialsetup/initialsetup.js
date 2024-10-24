@@ -119,7 +119,8 @@ export default class SetupHelperProcess extends AppProcess {
       MessageBox(
         {
           title: "Missing values",
-          message: "You forgot to fill out one of the fields! Please fill out all fields before continuing.",
+          message:
+            "You forgot to fill out one of the fields! Please fill out all fields before continuing.",
           buttons: [{ caption: "Okay", action() {} }],
           icon: MessageIcons.warning,
         },

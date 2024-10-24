@@ -93,7 +93,8 @@ export default class RegEditProcess extends AppProcess {
       const currentPath = path ? `${path}.${key}` : key;
 
       button.addEventListener("click", () => {
-        if (currentPath === this.hierarchy.get() && indent.childElementCount > 0) branch.classList.toggle("expanded");
+        if (currentPath === this.hierarchy.get() && indent.childElementCount > 0)
+          branch.classList.toggle("expanded");
         else {
           branch.classList.add("expanded");
         }

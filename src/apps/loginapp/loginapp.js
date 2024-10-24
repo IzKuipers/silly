@@ -181,7 +181,8 @@ export default class LoginAppProcess extends AppProcess {
     if (!valid) {
       MessageBox({
         title: "Failed to log you on",
-        message: "Either the username or password you provided is incorrect. Please check your credentials and try again. If you forgot your credentials, contact your system administrator.",
+        message:
+          "Either the username or password you provided is incorrect. Please check your credentials and try again. If you forgot your credentials, contact your system administrator.",
         buttons: [
           {
             caption: "Okay",

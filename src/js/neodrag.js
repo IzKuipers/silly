@@ -9,7 +9,28 @@ let DEFAULT_RECOMPUTE_BOUNDS = {
   dragStart: true,
 };
 let draggable = (node, options = {}) => {
-  let { bounds, axis = "both", gpuAcceleration = true, legacyTranslate = true, transform, applyUserSelectHack = true, disabled = false, ignoreMultitouch = false, recomputeBounds = DEFAULT_RECOMPUTE_BOUNDS, grid, position, cancel, handle, defaultClass = "neodrag", defaultClassDragging = "neodrag-dragging", defaultClassDragged = "neodrag-dragged", defaultPosition = { x: 0, y: 0 }, onDragStart, onDrag, onDragEnd } = options;
+  let {
+    bounds,
+    axis = "both",
+    gpuAcceleration = true,
+    legacyTranslate = true,
+    transform,
+    applyUserSelectHack = true,
+    disabled = false,
+    ignoreMultitouch = false,
+    recomputeBounds = DEFAULT_RECOMPUTE_BOUNDS,
+    grid,
+    position,
+    cancel,
+    handle,
+    defaultClass = "neodrag",
+    defaultClassDragging = "neodrag-dragging",
+    defaultClassDragged = "neodrag-dragged",
+    defaultPosition = { x: 0, y: 0 },
+    onDragStart,
+    onDrag,
+    onDragEnd,
+  } = options;
   let active = false;
   let translateX = 0,
     translateY = 0;
@@ -17,7 +38,9 @@ let draggable = (node, options = {}) => {
     initialY = 0;
   let clientToNodeOffsetX = 0,
     clientToNodeOffsetY = 0;
-  let { x: xOffset, y: yOffset } = position ? { x: position?.x ?? 0, y: position?.y ?? 0 } : defaultPosition;
+  let { x: xOffset, y: yOffset } = position
+    ? { x: position?.x ?? 0, y: position?.y ?? 0 }
+    : defaultPosition;
   setTranslate(xOffset, yOffset);
   let canMoveInX;
   let canMoveInY;
@@ -35,7 +58,11 @@ let draggable = (node, options = {}) => {
     if (!transform) {
       if (legacyTranslate) {
         let common = `${+xPos}px, ${+yPos}px`;
-        return setStyle(node, "transform", gpuAcceleration ? `translate3d(${common}, 0)` : `translate(${common})`);
+        return setStyle(
+          node,
+          "transform",
+          gpuAcceleration ? `translate3d(${common}, 0)` : `translate(${common})`
+        );
       }
       return setStyle(node, "translate", `${+xPos}px ${+yPos}px ${gpuAcceleration ? "1px" : ""}`);
     }
@@ -64,15 +91,22 @@ let draggable = (node, options = {}) => {
     activePointers.add(e.pointerId);
     if (ignoreMultitouch && activePointers.size > 1) return e.preventDefault();
     if (recomputeBounds.dragStart) computedBounds = computeBoundRect(bounds, node);
-    if (isString(handle) && isString(cancel) && handle === cancel) throw new Error("`handle` selector can't be same as `cancel` selector");
+    if (isString(handle) && isString(cancel) && handle === cancel)
+      throw new Error("`handle` selector can't be same as `cancel` selector");
     nodeClassList.add(defaultClass);
     dragEls = getHandleEls(handle, node);
     cancelEls = getCancelElements(cancel, node);
     canMoveInX = /(both|x)/.test(axis);
     canMoveInY = /(both|y)/.test(axis);
-    if (cancelElementContains(cancelEls, dragEls)) throw new Error("Element being dragged can't be a child of the element on which `cancel` is applied");
+    if (cancelElementContains(cancelEls, dragEls))
+      throw new Error(
+        "Element being dragged can't be a child of the element on which `cancel` is applied"
+      );
     const eventTarget = e.composedPath()[0];
-    if (dragEls.some((el) => el.contains(eventTarget) || el.shadowRoot?.contains(eventTarget)) && !cancelElementContains(cancelEls, [eventTarget])) {
+    if (
+      dragEls.some((el) => el.contains(eventTarget) || el.shadowRoot?.contains(eventTarget)) &&
+      !cancelElementContains(cancelEls, [eventTarget])
+    ) {
       active = true;
     } else return;
     nodeRect = node.getBoundingClientRect();
@@ -121,8 +155,10 @@ let draggable = (node, options = {}) => {
     }
     if (Array.isArray(grid)) {
       let [xSnap, ySnap] = grid;
-      if (isNaN(+xSnap) || xSnap < 0) throw new Error("1st argument of `grid` must be a valid positive number");
-      if (isNaN(+ySnap) || ySnap < 0) throw new Error("2nd argument of `grid` must be a valid positive number");
+      if (isNaN(+xSnap) || xSnap < 0)
+        throw new Error("1st argument of `grid` must be a valid positive number");
+      if (isNaN(+ySnap) || ySnap < 0)
+        throw new Error("2nd argument of `grid` must be a valid positive number");
       let deltaX = finalX - initialX,
         deltaY = finalY - initialY;
       [deltaX, deltaY] = snapToGrid([xSnap / inverseScale, ySnap / inverseScale], deltaX, deltaY);
@@ -183,7 +219,10 @@ function getHandleEls(handle, node) {
   if (isHTMLElement(handle)) return [handle];
   if (Array.isArray(handle)) return handle;
   const handleEls = node.querySelectorAll(handle);
-  if (handleEls === null) throw new Error("Selector passed for `handle` option should be child of the element on which the action is applied");
+  if (handleEls === null)
+    throw new Error(
+      "Selector passed for `handle` option should be child of the element on which the action is applied"
+    );
   return Array.from(handleEls.values());
 }
 function getCancelElements(cancel, node) {
@@ -191,10 +230,14 @@ function getCancelElements(cancel, node) {
   if (isHTMLElement(cancel)) return [cancel];
   if (Array.isArray(cancel)) return cancel;
   const cancelEls = node.querySelectorAll(cancel);
-  if (cancelEls === null) throw new Error("Selector passed for `cancel` option should be child of the element on which the action is applied");
+  if (cancelEls === null)
+    throw new Error(
+      "Selector passed for `cancel` option should be child of the element on which the action is applied"
+    );
   return Array.from(cancelEls.values());
 }
-let cancelElementContains = (cancelElements, dragElements) => cancelElements.some((cancelEl) => dragElements.some((el) => cancelEl.contains(el)));
+let cancelElementContains = (cancelElements, dragElements) =>
+  cancelElements.some((cancelEl) => dragElements.some((el) => cancelEl.contains(el)));
 function computeBoundRect(bounds, rootNode) {
   if (bounds === void 0) return;
   if (isHTMLElement(bounds)) return bounds.getBoundingClientRect();
@@ -206,7 +249,8 @@ function computeBoundRect(bounds, rootNode) {
   }
   if (bounds === "parent") return rootNode.parentNode.getBoundingClientRect();
   const node = document.querySelector(bounds);
-  if (node === null) throw new Error("The selector provided for bound doesn't exists in the document.");
+  if (node === null)
+    throw new Error("The selector provided for bound doesn't exists in the document.");
   return node.getBoundingClientRect();
 }
 let setStyle = (el, style, value) => el.style.setProperty(style, value);

@@ -38,7 +38,9 @@ export class AppProcess extends Process {
 
   // Utility function for getting an element in the scope of the app's HTML
   getElement(querySelector, error = false) {
-    const element = document.querySelector(`div.window[data-pid="${this._pid}"] > div.body ${querySelector}`);
+    const element = document.querySelector(
+      `div.window[data-pid="${this._pid}"] > div.body ${querySelector}`
+    );
 
     if (error && !element) {
       throw new AppRuntimeError(`${this._pid}: No such element ${querySelector}`);
@@ -49,7 +51,9 @@ export class AppProcess extends Process {
 
   // Utility function for getting elements in the scope of the app's HTML
   getElements(querySelector, error = false) {
-    const element = document.querySelectorAll(`div.window[data-pid="${this._pid}"] > div.body ${querySelector}`);
+    const element = document.querySelectorAll(
+      `div.window[data-pid="${this._pid}"] > div.body ${querySelector}`
+    );
 
     if (error && !element.length) {
       throw new AppRuntimeError(`${this._pid}: No such elements ${querySelector}`);
@@ -72,7 +76,10 @@ export class AppProcess extends Process {
     if (!canClose) return;
 
     // Get the window and the taskbar button of the window
-    const elements = [...document.querySelectorAll(`div.window[data-pid="${this._pid}"]`), ...(document.querySelectorAll(`button.opened-app[data-pid="${this._pid}"]`) || [])];
+    const elements = [
+      ...document.querySelectorAll(`div.window[data-pid="${this._pid}"]`),
+      ...(document.querySelectorAll(`button.opened-app[data-pid="${this._pid}"]`) || []),
+    ];
 
     // No window and no taskbar button? Kill.
     if (!elements.length) return this.killSelf();
@@ -194,7 +201,10 @@ export class AppProcess extends Process {
   // add to the functionality of the app. Children are loaded when the app process is spawned, and do not reside in
   // the global App Store, rather in this class instance.
   async registerChildren() {
-    Log(`AppProcess::'${this._pid}'.registerChildren`, `Locating and loading contents of app.data.children`);
+    Log(
+      `AppProcess::'${this._pid}'.registerChildren`,
+      `Locating and loading contents of app.data.children`
+    );
 
     // Get the children from the app metadata
     const children = this.app.data.children;
@@ -215,7 +225,11 @@ export class AppProcess extends Process {
         this.children[meta.id] = meta;
       } catch {
         // Make note if anything went wrong
-        Log(`AppProcess::'${this._pid}'.registerChildren`, `Attempting import of ${childMetaPath} failed!`, LogType.error);
+        Log(
+          `AppProcess::'${this._pid}'.registerChildren`,
+          `Attempting import of ${childMetaPath} failed!`,
+          LogType.error
+        );
 
         continue; // Error? Continue.
       }

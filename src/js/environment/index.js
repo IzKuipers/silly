@@ -17,11 +17,13 @@ export class Environment extends KernelModule {
   }
 
   checkEnvironment() {
-    if (!this.registry.getValue(RegistryHives.local, "Environment")) this.registry.setValue(RegistryHives.local, "Environment", {});
+    if (!this.registry.getValue(RegistryHives.local, "Environment"))
+      this.registry.setValue(RegistryHives.local, "Environment", {});
   }
 
   setProperty(key, value) {
-    const isValid = key && value && this.VALID_TYPES.includes(typeof value) && typeof key === "string";
+    const isValid =
+      key && value && this.VALID_TYPES.includes(typeof value) && typeof key === "string";
 
     if (!isValid) return false;
 

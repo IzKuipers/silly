@@ -18,7 +18,10 @@ export async function loadApp(data = {}) {
   }
 
   // Make note of the load process
-  Log(`loadApp`, `${data.id}: ${data.metadata.name} by ${data.metadata.author} (v${data.metadata.version})`);
+  Log(
+    `loadApp`,
+    `${data.id}: ${data.metadata.name} by ${data.metadata.author} (v${data.metadata.version})`
+  );
 
   try {
     // Import the AppProcess
