@@ -2,6 +2,8 @@
 
 ![Inepta](./screenshot.png)
 
+> Warning! Commenting of code is happening, it's just taking a while because it's 10 thousand lines as of now. Yeah. Patience. Please.
+
 A rather silly project to work on after ArcOS: Inepta is another attempt at creating an OS in the browser, this time making use of vanilla JS. I created this project to demonstrate what is possible with just plain old Javascript.
 
 It runs under Electron, allowing me to use your device's filesystem to store files, along with a lot of other NodeJS module based stuff.
