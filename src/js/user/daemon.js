@@ -18,6 +18,7 @@ export class UserDaemon extends Process {
     this.fs = this.handler._kernel.getModule("fs");
     this.registry = this.handler._kernel.getModule("registry");
     this.userlogic = this.handler._kernel.getModule("userlogic");
+    this.user = this.userlogic.getUserByName(username);
     this.main = document.querySelector("#main");
   }
 
@@ -25,7 +26,7 @@ export class UserDaemon extends Process {
     this.registry.setValue(RegistryHives.local, "UserDaemon.lastLoginName", this.username);
     this.registry.setValue(RegistryHives.local, "UserDaemon.lastLoginTime", new Date().getTime());
 
-    this.preferencesPath = `./Users/${this.username}/preferences.json`;
+    this.preferencesPath = `./Users/${this.user.uuid}/preferences.json`;
 
     await this.loadPreferences();
     await this.checkUserFolders();
@@ -39,14 +40,15 @@ export class UserDaemon extends Process {
     });
 
     this.environment.setProperty("whoami", this.username);
+    this.environment.setProperty("useruuid", this.user.uuid);
     this.environment.setProperty("preferences", this.preferencesPath);
-    this.environment.setProperty("userprofile", `./Users/${this.username}`);
+    this.environment.setProperty("userprofile", `./Users/${this.user.uuid}`);
   }
 
   async checkUserFolders() {
-    await this.fs.createDirectory(`./Users/${this.username}/Documents`);
-    await this.fs.createDirectory(`./Users/${this.username}/Pictures`);
-    await this.fs.createDirectory(`./Users/${this.username}/Apps`);
+    await this.fs.createDirectory(`./Users/${this.user.uuid}/Documents`);
+    await this.fs.createDirectory(`./Users/${this.user.uuid}/Pictures`);
+    await this.fs.createDirectory(`./Users/${this.user.uuid}/Apps`);
   }
 
   async loadPreferences() {

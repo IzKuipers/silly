@@ -235,7 +235,7 @@ export default class LoginAppProcess extends AppProcess {
   async isValid(username, password) {
     if (this._disposed) return;
 
-    const user = this.userlogic.getUser(username);
+    const user = this.userlogic.getUserByName(username);
 
     if (!user) return false;
 

@@ -2,6 +2,7 @@ import { KernelModule } from "../kernel/module/index.js";
 import { RegistryHives } from "../registry/store.js";
 import { DefaultUserData, DefaultUserPreferences } from "./store.js";
 
+const { randomUUID } = require("crypto");
 const { argon2i, hash, verify } = require("argon2");
 const { join } = require("path");
 
@@ -35,32 +36,44 @@ export class UserLogic extends KernelModule {
 
     const store = this.registry.getValue(RegistryHives.users, "store");
 
-    if (store[username]) return false;
+    const uuid = randomUUID();
 
-    store[username] = DefaultUserData;
+    if (this.getUserByName(username)) return false;
 
-    store[username].admin = admin;
-    store[username].userFolder = `./Users/${username}`;
-    store[username].username = username;
-    store[username].password = await this.hashPassword(password);
+    store[uuid] = DefaultUserData;
+
+    store[uuid].admin = admin;
+    store[uuid].userFolder = `./Users/${uuid}`;
+    store[uuid].username = username;
+    store[uuid].password = await this.hashPassword(password);
 
     this.registry.setValue(RegistryHives.users, "store", store);
 
-    return await this.initializeUser(username);
+    return await this.initializeUser(uuid);
   }
 
-  getUser(username) {
+  getUserByName(username) {
     username &&= username.toLowerCase();
 
     const store = this.registry.getValue(RegistryHives.users, `store`);
 
-    return store[username];
+    const user = Object.entries(store)
+      .filter(([_, user]) => user.username === username)
+      .map(([uuid, user]) => ({ uuid, ...user }));
+
+    return user[0];
   }
 
-  async initializeUser(username) {
-    username &&= username.toLowerCase();
+  getUser(uuid) {
+    const store = this.registry.getValue(RegistryHives.users, `store`);
 
-    const user = this.getUser(username);
+    return store[uuid];
+  }
+
+  async initializeUser(uuid) {
+    uuid &&= uuid.toLowerCase();
+
+    const user = this.getUser(uuid);
 
     if (!user) return false;
 
