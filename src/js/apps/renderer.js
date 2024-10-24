@@ -169,6 +169,7 @@ export class AppRenderer extends Process {
           )}</pre></details>`,
         ];
 
+        // Show the error message. The options here should be self explanatory.
         MessageBox({
           title: `${data.metadata.name} - Application Error`,
           message: lines.join("<br><br>"),
@@ -182,16 +183,19 @@ export class AppRenderer extends Process {
         });
       }
 
-      await Sleep(0);
-      await this.handler.kill(process._pid);
+      await Sleep(0); // Wait for the next frame
+      await this.handler.kill(process._pid); // Kill the process
     }
   }
 
+  // _windowClasses: adds basically anything regarding size, state and position to the window classes and style attribute.
   _windowClasses(window, data) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
+    // Is it a core window? then no classes necessary.
     if (data.core) window.classList.add("core");
     else {
+      // WIDTH & HEIGHT
       window.style.maxWidth = `${data.maxSize.w}px`;
       window.style.maxHeight = `${data.maxSize.h}px`;
       window.style.minWidth = `${data.minSize.w}px`;
@@ -199,33 +203,44 @@ export class AppRenderer extends Process {
       window.style.width = `${data.size.w}px`;
       window.style.height = `${data.size.h}px`;
 
+      // Window centering
       if (data.position.centered) {
+        // Predefined X, OR (bodyWidth - windowWidth) / 2
         const x = data.position.x || (document.body.offsetWidth - data.size.w) / 2;
+        // Predefined Y, OR (bodyHeight - windowHeight) / 2
         const y = data.position.y || (document.body.offsetHeight - data.size.h) / 2;
 
-        window.style.top = `${y}px`;
-        window.style.left = `${x}px`;
-        window.style.transform = `translate3d(0px, 0px, 0px)`;
+        window.style.top = `${y}px`; // Set the Y position
+        window.style.left = `${x}px`; // Set the X position
+        window.style.transform = `translate3d(0px, 0px, 0px)`; // Predefine the transform for Neodrag
       } else if (`${data.position.x}` && `${data.position.y}`) {
-        window.style.top = `${data.position.y}px`;
-        window.style.left = `${data.position.x}px`;
+        window.style.top = `${data.position.y}px`; // Set the X position
+        window.style.left = `${data.position.x}px`; // Set the Y position
       } else {
+        // No valid positional information? Crash.
         throw new Error(`Attempted to create a window without valid position`);
       }
 
+      // Resizable makes the window, well, resizable.
       if (data.state.resizable) window.classList.add("resizable");
     }
   }
 
+  // Function for centering a window after its initial rendering procedure
   centerWindow(pid) {
-    this.disposedCheck();
+    this.disposedCheck(); // Are we disposed?
 
+    // Get the window
     const window = this.target.querySelector(`div.window[data-pid="${pid}"]`);
 
+    // No window? No center.
     if (!window) return;
+
+    // Calculate the X and Y positions
     const x = (document.body.offsetWidth - window.offsetWidth) / 2;
     const y = (document.body.offsetHeight - window.offsetHeight) / 2;
 
+    // Set the X and Y positions
     window.style.top = `${y}px`;
     window.style.left = `${x}px`;
   }

@@ -35,7 +35,8 @@ app.on("ready", async () => {
 
   remote.enable(window.webContents);
 
-  if (parsed.LIVE_MODE == "1" || process.argv.includes("live")) window.webContents.userAgent += " LIVEMODE";
+  if (parsed.LIVE_MODE == "1" || process.argv.includes("live"))
+    window.webContents.userAgent += " LIVEMODE";
 
   window.removeMenu();
   window.loadFile("src/index.html");
