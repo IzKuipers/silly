@@ -108,6 +108,9 @@ export class FileSystem extends KernelModule {
 
   // Reads the contents of a directory, returning both files and subdirectories with metadata.
   readDirectory(pathStr) {
+    // If the user tries to break out of the filesystem bounds, don't let them.
+    if (pathStr.includes("..")) throw new Error(`Directory ${pathStr} does not exist.`);
+
     const fullPath = this.traverse(pathStr); // Traverse the path to ensure it's a valid directory.
     const dirEntries = fs.readdirSync(fullPath, { withFileTypes: true }); // Read directory entries with file type info.
 

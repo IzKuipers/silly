@@ -12,6 +12,8 @@ export default class CabinetProcess extends AppProcess {
   contents;
   historyIndex = Store(-1);
   history = Store([]);
+  addressBar;
+  goButton;
 
   constructor(handler, pid, parentPid, app, path) {
     super(handler, pid, parentPid, app);
@@ -21,10 +23,11 @@ export default class CabinetProcess extends AppProcess {
   }
 
   render() {
-    this.navigate(this.path);
     this.updateLocations();
     this.updateFavourites();
     this.navigationControls();
+    this.setupAddressBar();
+    this.navigate(this.path);
 
     this.historyIndex.subscribe((v) => {
       const backButton = this.getElement("#backButton", true);
@@ -75,6 +78,7 @@ export default class CabinetProcess extends AppProcess {
     this.populateDirectory();
 
     this.windowTitle.set(this.path);
+    this.addressBar.value = this.path;
   }
 
   updateStatusbar() {
@@ -263,5 +267,33 @@ export default class CabinetProcess extends AppProcess {
     this.historyIndex.set(index);
 
     this.goHere(this.history.get()[index]);
+  }
+
+  setupAddressBar() {
+    this.addressBar = this.getElement("#addressBar", true);
+    this.goButton = this.getElement("#goButton", true);
+
+    this.addressBar.addEventListener(
+      "keydown",
+      this.safe((e) => {
+        if (e.key === "Enter") {
+          this.navigate(this.addressBar.value);
+        }
+      })
+    );
+
+    this.addressBar.addEventListener(
+      "input",
+      this.safe(() => {
+        this.goButton.disabled = !this.addressBar.value;
+      })
+    );
+
+    this.goButton.addEventListener(
+      "click",
+      this.safe(() => {
+        this.navigate(this.addressBar.value);
+      })
+    );
   }
 }
