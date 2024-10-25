@@ -54,7 +54,7 @@ export default class LoginAppProcess extends AppProcess {
       if (!this.registry.getValue(RegistryHives.local, "initialSetup.completed")) {
         this.displayStatus(`Welcome to Inepta`);
         await loadApp(InitialSetupApp);
-        await spawnApp("initialSetup", this._pid);
+        await spawnApp("initialSetup", this._pid, this.userId);
       }
 
       return;
@@ -135,7 +135,7 @@ export default class LoginAppProcess extends AppProcess {
 
         this.closeWindow();
         setTimeout(() => {
-          spawnApp("loginApp");
+          spawnApp("loginApp", this.parentPid, this.userId);
         }, 100);
       })
     );
@@ -205,11 +205,6 @@ export default class LoginAppProcess extends AppProcess {
     this.displayStatus(`Welcome, ${username}! Logging you in...`);
     await Sleep(800);
 
-    this.displayStatus(`Spawning UserDaemon`);
-    await Sleep(100);
-
-    await this.startDaemon(username);
-
     this.displayStatus(`Resetting app storage`);
     await Sleep(100);
 
@@ -230,6 +225,11 @@ export default class LoginAppProcess extends AppProcess {
     await Sleep(100);
 
     await this.state.loadState(this.state.store.desktop);
+
+    this.displayStatus(`Spawning UserDaemon`);
+    await Sleep(600);
+
+    await this.startDaemon(username);
   }
 
   async isValid(username, password) {
@@ -247,9 +247,11 @@ export default class LoginAppProcess extends AppProcess {
   }
 
   async startDaemon(username) {
-    if (this._disposed) return;
+    const user = this.userlogic.getUserByName(username);
 
-    await this.handler.spawn(UserDaemon, this.handler._kernel.initPid, username);
+    if (!user) return;
+
+    await this.handler.spawn(UserDaemon, this.handler._kernel.initPid, user.uuid, username);
   }
 
   displayStatus(status) {
@@ -291,7 +293,7 @@ export default class LoginAppProcess extends AppProcess {
 
     await Sleep(100);
 
-    spawnApp("loginApp");
+    spawnApp("loginApp", this.parentPid, this.userId);
   }
 
   async shutdown() {

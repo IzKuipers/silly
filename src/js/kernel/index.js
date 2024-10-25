@@ -66,10 +66,10 @@ export class IneptaKernel {
 
     this.params = new URLSearchParams();
 
-    this.init = await this.stack.spawn(InitProcess);
+    this.init = await this.stack.spawn(InitProcess, undefined, "SYSTEM");
     this.initPid = this.init._pid;
 
-    this.state = await this.stack.spawn(StateHandler, this.initPid);
+    this.state = await this.stack.spawn(StateHandler, this.initPid, "SYSTEM");
 
     await this.stack.startRenderer("appRenderer", this.initPid);
 

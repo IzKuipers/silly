@@ -1,4 +1,3 @@
-import { loadBuiltinApps } from "./apps/builtin.js";
 import { loadApp } from "./apps/load.js";
 import { spawnApp } from "./apps/spawn.js";
 import { LogStore } from "./logging.js";
@@ -15,9 +14,6 @@ export default async function render() {
   if (!stateLoader)
     // Nope; stop.
     throw new StateError("Desktop render invocation outside StateLoader!");
-
-  // Load all built-in applications
-  await loadBuiltinApps();
 
   // Subscribing to the user preferences...
   UserData.subscribe((v) => {

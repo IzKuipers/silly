@@ -4,6 +4,7 @@ import { RegistryHives } from "../registry/store.js";
 import { getAccentColorVariations } from "../ui/color.js";
 import { UserData } from "./data.js";
 import { DefaultUserPreferences } from "./store.js";
+import { loadBuiltinApps } from "../apps/builtin.js";
 
 export class UserDaemon extends Process {
   preferencesPath = "";
@@ -43,6 +44,9 @@ export class UserDaemon extends Process {
     this.environment.setProperty("useruuid", this.user.uuid);
     this.environment.setProperty("preferences", this.preferencesPath);
     this.environment.setProperty("userprofile", `./Users/${this.user.uuid}`);
+
+    // Load all built-in applications
+    await loadBuiltinApps(this.user.uuid);
   }
 
   async checkUserFolders() {

@@ -4,7 +4,7 @@ import { spawnApp } from "./spawn.js";
 import { builtInApps } from "./store.js";
 
 // Function to load all first-party applications
-export async function loadBuiltinApps() {
+export async function loadBuiltinApps(uuid) {
   Log("loadBuiltinApps", `Loading ${builtInApps.length} apps.`);
 
   // For every app of the built-in apps...
@@ -14,7 +14,7 @@ export async function loadBuiltinApps() {
     // Can it be run immediately?
     if (app.core || app.autoRun) {
       // Run it immediately.
-      await spawnApp(app.id);
+      await spawnApp(app.id, undefined, uuid);
     }
   }
 }

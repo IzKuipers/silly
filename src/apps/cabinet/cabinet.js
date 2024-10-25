@@ -162,7 +162,7 @@ export default class CabinetProcess extends AppProcess {
     size.innerText = file.size;
 
     item.addEventListener("click", () => {
-      spawnApp("napkin", undefined, this.fs.join(this.path, file.name));
+      spawnApp("napkin", undefined, this.userId, this.fs.join(this.path, file.name));
     });
 
     return item;

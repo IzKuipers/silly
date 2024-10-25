@@ -245,7 +245,7 @@ export class AppProcess extends Process {
     if (!child) return false;
 
     // Spawn the child
-    return await spawnAppExternal(child, this._pid, ...args);
+    return await spawnAppExternal(child, this._pid, this.userId, ...args);
   }
 
   // Wrapper function for quickly assigning a right-click (context) menu to an element

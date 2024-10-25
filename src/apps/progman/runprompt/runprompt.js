@@ -42,7 +42,7 @@ export default class ProgManRunPromptProcess extends AppProcess {
   async go(id) {
     const shellPid = this.environment.getProperty("SHELLPID");
 
-    await spawnApp(id, shellPid);
+    await spawnApp(id, shellPid, this.userId);
     this.closeWindow();
   }
 }

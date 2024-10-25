@@ -73,7 +73,7 @@ export default class DebugToolProcess extends AppProcess {
 
         if (!value) return;
 
-        spawnApp(value, this._pid);
+        spawnApp(value, this._pid, this.userId);
       })
     );
   }

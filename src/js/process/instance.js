@@ -1,4 +1,5 @@
 import { KERNEL } from "../../env.js";
+import { Log } from "../logging.js";
 import { ProcessDispatch } from "./dispatch.js";
 
 export class Process {
@@ -9,6 +10,7 @@ export class Process {
   dispatch;
   parentPid = undefined;
   name = "";
+  userId = "";
 
   constructor(handler, pid, parentPid = undefined) {
     this._pid = pid;
@@ -26,6 +28,12 @@ export class Process {
     this.dispatch.subscribe("kill-self", () => {
       this.killSelf();
     });
+  }
+
+  setUser(userId) {
+    Log(`Process::'${this._pid}'.setUser`, `Now operating as ${userId}`);
+
+    this.userId = userId;
   }
 
   async killSelf() {

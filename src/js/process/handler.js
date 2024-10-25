@@ -25,7 +25,7 @@ export class ProcessHandler extends KernelModule {
     Log("ProcessHandler.startRenderer", "Starting renderer");
 
     try {
-      this.renderer = await this.spawn(AppRenderer, initPid, renderTarget);
+      this.renderer = await this.spawn(AppRenderer, initPid, "SYSTEM", renderTarget);
     } catch (e) {
       console.log(e);
     }
@@ -35,7 +35,7 @@ export class ProcessHandler extends KernelModule {
    * @param {import("./instance.js").Process} process
    * @param {any[]} args
    */
-  async spawn(process, parentPid = undefined, ...args) {
+  async spawn(process, parentPid = undefined, userId, ...args) {
     if (CRASHING) return;
 
     const pid = this.getPid();
@@ -49,6 +49,7 @@ export class ProcessHandler extends KernelModule {
       if (result === false) return;
     }
 
+    proc.userId = userId;
     proc.name = proc.constructor.name;
 
     const store = this.store.get();

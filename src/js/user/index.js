@@ -65,6 +65,15 @@ export class UserLogic extends KernelModule {
   }
 
   getUser(uuid) {
+    if (uuid.toLowerCase() === "system") {
+      return {
+        username: "System",
+        uuid: "SYSTEM",
+        admin: true,
+        userFolder: ".",
+      };
+    }
+
     const store = this.registry.getValue(RegistryHives.users, `store`);
 
     return store[uuid];

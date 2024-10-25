@@ -10,9 +10,13 @@ div.window.progMan div.toolbar {
   height: 50px;
 }
 
-div.window.progMan div#content {
+div.window.progMan div.content {
   height: calc(100% - 50px - 25px);
   overflow-x: auto;
+}
+
+div.window.progMan div.content-inner {
+  min-width: 900px;
 }
 
 div.window.progMan div.status-bar {
@@ -65,8 +69,14 @@ div.window.progMan div.row.selected {
 
 div.window.progMan div.row div.segment.name {
   width: fit-content;
+  min-width: 200px;
 
   margin-right: auto;
+}
+
+div.window.progMan div.row div.segment.pid {
+  width: 60px;
+  min-width: 60px;
 }
 
 div.window.progMan div.row.header {

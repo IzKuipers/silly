@@ -4,7 +4,7 @@ import { MessageIcons } from "../images/msgbox.js";
 import { AppLoadError } from "./error.js";
 import { AppStore } from "./store.js";
 
-export async function spawnApp(id, parent = undefined, ...args) {
+export async function spawnApp(id, parent = undefined, userId, ...args) {
   if (!KERNEL.stack) throw new AppLoadError(`Tried to spawn an app without a handler`);
 
   const stored = AppStore.get()[id];
@@ -31,10 +31,10 @@ export async function spawnApp(id, parent = undefined, ...args) {
 
   app.data = JSON.parse(JSON.stringify(app.data));
 
-  return (await KERNEL.stack.spawn(app.process, parent, app, ...args)) === "success";
+  return (await KERNEL.stack.spawn(app.process, parent, userId, app, ...args)) === "success";
 }
 
-export async function spawnAppExternal(metadata, parent = undefined, ...args) {
+export async function spawnAppExternal(metadata, parent = undefined, userId, ...args) {
   const meta = { ...metadata };
   const stack = KERNEL.getModule("stack");
   const rendererPid = RendererPid.get();
@@ -42,5 +42,5 @@ export async function spawnAppExternal(metadata, parent = undefined, ...args) {
 
   if (!parent && rendererPid) parent = rendererPid;
 
-  return await stack.spawn(process, parent, { process, data: meta }, ...args);
+  return await stack.spawn(process, parent, userId, { process, data: meta }, ...args);
 }

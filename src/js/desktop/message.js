@@ -9,5 +9,5 @@ export function MessageBox({ title, message, icon, buttons }, parentPid = undefi
     return;
   }
 
-  spawnApp(`msgBox`, parentPid, { title, message, icon, buttons });
+  spawnApp(`msgBox`, parentPid, "SYSTEM", { title, message, icon, buttons });
 }

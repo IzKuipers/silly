@@ -13,6 +13,7 @@ export default class ProgManProcess extends AppProcess {
     super(handler, pid, parentPid, app);
 
     this.powerLogic = this.kernel.getModule("powerlogic");
+    this.userLogic = this.kernel.getModule("userlogic");
   }
 
   render() {
@@ -72,14 +73,15 @@ export default class ProgManProcess extends AppProcess {
 
     row.className = "row header";
 
-    const { nameSegment, titleSegment, pidSegment, idSegment } = this.segments();
+    const { nameSegment, titleSegment, pidSegment, idSegment, userSegment } = this.segments();
 
     nameSegment.innerText = "Name";
     titleSegment.innerText = "Title";
     pidSegment.innerText = "PID";
+    userSegment.innerText = "User";
     idSegment.innerText = "ID";
 
-    row.append(nameSegment, titleSegment, pidSegment, idSegment);
+    row.append(nameSegment, titleSegment, pidSegment, userSegment, idSegment);
     this.content.append(row);
   }
 
@@ -101,7 +103,11 @@ export default class ProgManProcess extends AppProcess {
 
     row.className = "row";
 
-    const { nameSegment, titleSegment, pidSegment, idSegment } = this.segments();
+    const { nameSegment, titleSegment, pidSegment, idSegment, userSegment } = this.segments();
+
+    const user = this.userLogic.getUser(process.userId);
+
+    userSegment.innerText = user.username;
 
     try {
       nameSegment.innerText = process.name;
@@ -122,7 +128,7 @@ export default class ProgManProcess extends AppProcess {
 
     pidSegment.innerText = process._pid;
 
-    row.append(nameSegment, titleSegment, pidSegment, idSegment);
+    row.append(nameSegment, titleSegment, pidSegment, userSegment, idSegment);
 
     const subProcesses = this.handler.getSubProcesses(process._pid);
     const indent = document.createElement("div");
@@ -143,14 +149,16 @@ export default class ProgManProcess extends AppProcess {
     const nameSegment = document.createElement("div");
     const titleSegment = document.createElement("div");
     const pidSegment = document.createElement("div");
+    const userSegment = document.createElement("div");
     const idSegment = document.createElement("div");
 
     nameSegment.className = "segment name";
     titleSegment.className = "segment title";
     pidSegment.className = "segment pid";
+    userSegment.className = "segment user";
     idSegment.className = "segment id";
 
-    return { nameSegment, titleSegment, pidSegment, idSegment };
+    return { nameSegment, titleSegment, pidSegment, userSegment, idSegment };
   }
 
   toolbarActions() {
