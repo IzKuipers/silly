@@ -31,6 +31,7 @@ div.window.regEditApp div.panes > #directoryView {
   width: 250px;
   height: 100%;
   overflow-y: auto;
+  overflow-x: auto;
   border-right: var(--border);
   padding: 5px;
 }
@@ -55,6 +56,8 @@ div.window.regEditApp div.panes > #directoryView div.indent {
   margin-left: 13px;
   overflow: hidden;
   border-left: var(--border);
+  min-width: fit-content;
+  margin-right: 5px;
 }
 
 div.window.regEditApp div.panes > #directoryView button.expander {
@@ -68,6 +71,9 @@ div.window.regEditApp div.panes > #directoryView button.expander {
   display: flex;
   align-items: center;
   gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 div.window.regEditApp div.panes > #directoryView button.expander.selected {
   background-color: var(--accent-darker);
